@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Painel | Reparo de Celular</title>
+
+    <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔧</text></svg>">
+
+</head>
+
+
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo-area">
+            <div class="logo-icon">🔧</div>
+
+            <h2>
+                Reparo de<br>
+                Celular
+            </h2>
+        </div>
+
+        <nav>
+
+            <button class="menu active" data-page="inicio">
+                🏠 Início
+            </button>
+
+            <button class="menu" data-page="servicos">
+                📱 Serviços
+            </button>
+
+            <button class="menu" data-page="precos">
+                💰 Preços
+            </button>
+
+            <button class="menu" data-page="ordens">
+    📋 Ordens
+   </button>
+
+   <button class="menu" data-page="clientes">
+    👤 Clientes
+   </button>
+
+   <button class="menu" data-page="pecas">
+    🔩 Peças
+    </button>
+
+            <button class="menu" data-page="bot">
+                🤖 Bot
+            </button>
+
+            <button class="menu" data-page="whatsapp">
+                💬 WhatsApp
+            </button>
+
+            <button class="menu" data-page="config">
+                ⚙️ Configurações
+            </button>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1 id="tituloPagina">
+                    Painel de Controle
+                </h1>
+
+                <p id="descricaoPagina">
+                    Gerencie sua assistência técnica.
+                </p>
+
+            </div>
+
+            <div class="status">
+                <span></span>
+                Sistema online
+            </div>
+
+        </header>
+
+
+        <!-- CONTEÚDO -->
+
+        <div id="conteudo">
+
+            <!-- INÍCIO -->
+
+            <section id="pagina-inicio">
+
+                <section class="cards">
+
+                    <div class="card">
+
+                        <div class="card-icon">📱</div>
+
+                        <div>
+                            <p>Serviços</p>
+                            <h2 id="totalServicos">0</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">💰</div>
+
+                        <div>
+                            <p>Orçamentos</p>
+                            <h2>0</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">💬</div>
+
+                        <div>
+                            <p>Atendimentos</p>
+                            <h2>0</h2>
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">🤖</div>
+
+                        <div>
+                            <p>Bot</p>
+                            <h2>OFF</h2>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="welcome">
+
+                    <span class="tag">
+                        CONTROLE TOTAL
+                    </span>
+
+                    <h2>
+                        Bem-vindo ao seu painel 👋
+                    </h2>
+
+                    <p>
+                        Aqui você poderá controlar os serviços,
+                        preços, peças, atendimentos e o assistente
+                        automático do Reparo de Celular.
+                    </p>
+
+                </section>
+
+
+                <section class="quick-actions">
+
+                    <h2>Ações rápidas</h2>
+
+                    <div class="actions">
+
+                        <button data-page="servicos">
+                            <strong>📱</strong>
+
+                            <span>
+                                <b>Gerenciar serviços</b>
+                                <small>
+                                    Cadastrar e editar serviços
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button data-page="precos">
+                            <strong>💰</strong>
+
+                            <span>
+                                <b>Gerenciar preços</b>
+                                <small>
+                                    Alterar valores dos serviços
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button data-page="pecas">
+                            <strong>🔩</strong>
+
+                            <span>
+                                <b>Gerenciar peças</b>
+                                <small>
+                                    Controlar peças e estoque
+                                </small>
+                            </span>
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </section>
+
+
+            <!-- SERVIÇOS -->
+
+            <section id="pagina-servicos" class="pagina hidden">
+
+                <div class="pagina-header">
+
+                    <div>
+                        <h2>📱 Serviços</h2>
+
+                        <p>
+                            Cadastre e gerencie os serviços da assistência.
+                        </p>
+                    </div>
+
+                    <button
+                        id="novoServico"
+                        class="btn-primary"
+                    >
+                        + Novo serviço
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="formularioServico"
+                    class="form-card hidden"
+                >
+
+                    <div class="form-header">
+
+                        <h3>Novo serviço</h3>
+
+                        <button id="fecharFormulario">
+                            ✕
+                        </button>
+
+                    </div>
+
+
+                    <form id="servicoForm">
+
+                        <div class="form-grid">
+
+                            <div class="campo">
+
+                                <label>Marca</label>
+
+                                <select id="marca" required>
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    <option>Samsung</option>
+                                    <option>Apple</option>
+                                    <option>Motorola</option>
+                                    <option>Xiaomi</option>
+                                    <option>Realme</option>
+                                    <option>Outro</option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="campo">
+
+                                <label>Modelo</label>
+
+                                <input
+                                    id="modelo"
+                                    type="text"
+                                    placeholder="Ex.: Galaxy A03"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="campo">
+
+                                <label>Serviço</label>
+
+                                <input
+                                    id="tipoServico"
+                                    type="text"
+                                    placeholder="Ex.: Troca de tela"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="campo">
+
+                                <label>Preço (R$)</label>
+
+                                <input
+                                    id="preco"
+                                    type="number"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="180.00"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="campo">
+
+                                <label>Prazo estimado</label>
+
+                                <select id="prazo" required>
+
+                                    <option value="">
+                                        Selecione
+                                    </option>
+
+                                    <option>Até 2 horas</option>
+                                    <option>No mesmo dia</option>
+                                    <option>1 dia</option>
+                                    <option>2 dias</option>
+                                    <option>3 dias</option>
+                                    <option>Mais de 3 dias</option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="campo">
+
+                                <label>Status</label>
+
+                                <select id="status">
+
+                                    <option value="ativo">
+                                        🟢 Ativo
+                                    </option>
+
+                                    <option value="inativo">
+                                        🔴 Inativo
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                type="button"
+                                id="cancelarServico"
+                                class="btn-secondary"
+                            >
+                                Cancelar
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="btn-primary"
+                            >
+                                Salvar serviço
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <div class="lista-card">
+
+                    <div class="lista-header">
+
+                        <h3>
+                            Serviços cadastrados
+                        </h3>
+
+                        <span id="contadorServicos">
+                            0 serviços
+                        </span>
+
+                    </div>
+
+
+                    <div id="listaServicos">
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- OUTRAS PÁGINAS -->
+
+            <section id="pagina-precos" class="pagina hidden">
+
+    <div class="pagina-header">
+
+        <div>
+            <h2>💰 Preços</h2>
+
+            <p>
+                Monte e gerencie os preços dos seus serviços.
+            </p>
+        </div>
+
+        <button
+            id="novoPreco"
+            class="btn-primary"
+        >
+            + Novo preço
+        </button>
+
+    </div>
+
+
+    <!-- FORMULÁRIO -->
+
+    <div
+        id="formularioPreco"
+        class="form-card hidden"
+    >
+
+        <div class="form-header">
+
+            <h3>Novo preço</h3>
+
+            <button
+                type="button"
+                id="fecharFormularioPreco"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <form id="precoForm">
+
+            <div class="form-grid">
+
+
+                <!-- SERVIÇO -->
+
+                <div class="campo">
+
+                    <label>
+                        Serviço
+                    </label>
+
+                    <select
+                        id="servicoPreco"
+                        required
+                    >
+
+                        <option value="">
+                            Selecione um serviço
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PEÇA -->
+
+                <div class="campo">
+
+                    <label>
+                        Preço da peça (R$)
+                    </label>
+
+                    <input
+                        id="precoPeca"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="100.00"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- MÃO DE OBRA -->
+
+                <div class="campo">
+
+                    <label>
+                        Mão de obra (R$)
+                    </label>
+
+                    <input
+                        id="maoDeObra"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="50.00"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- FRETE -->
+
+                <div class="campo">
+
+                    <label>
+                        Frete (R$)
+                    </label>
+
+                    <input
+                        id="frete"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="10.00"
+                    >
+
+                </div>
+
+
+                <!-- MARGEM -->
+
+                <div class="campo">
+
+                    <label>
+                        Margem (%)
+                    </label>
+
+                    <input
+                        id="margem"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="20"
+                    >
+
+                </div>
+
+
+                <!-- PREÇO FINAL -->
+
+                <div class="campo">
+
+                    <label>
+                        Preço final (R$)
+                    </label>
+
+                    <input
+                        id="precoFinal"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- RESUMO -->
+
+            <div
+                id="resumoPreco"
+                style="
+                    margin-top: 20px;
+                    padding: 18px;
+                    border-radius: 12px;
+                    background: #f5f7fa;
+                "
+            >
+
+                <h3>
+                    💰 Resumo do orçamento
+                </h3>
+
+                <p>
+                    Custo da peça:
+                    <strong id="resumoPeca">
+                        R$ 0,00
+                    </strong>
+                </p>
+
+                <p>
+                    Mão de obra:
+                    <strong id="resumoMaoObra">
+                        R$ 0,00
+                    </strong>
+                </p>
+
+                <p>
+                    Frete:
+                    <strong id="resumoFrete">
+                        R$ 0,00
+                    </strong>
+                </p>
+
+                <p>
+                    Margem:
+                    <strong id="resumoMargem">
+                        0%
+                    </strong>
+                </p>
+
+                <hr>
+
+                <h2>
+                    Total:
+                    <strong id="resumoTotal">
+                        R$ 0,00
+                    </strong>
+                </h2>
+
+            </div>
+
+
+            <!-- BOTÕES -->
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    id="cancelarPreco"
+                    class="btn-secondary"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    Salvar preço
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- LISTA -->
+
+    <div class="lista-card">
+
+        <div class="lista-header">
+
+            <h3>
+                Preços cadastrados
+            </h3>
+
+            <span id="contadorPrecos">
+                0 preços
+            </span>
+
+        </div>
+
+
+        <div id="listaPrecos">
+
+            <div class="lista-vazia">
+
+                <div style="font-size: 40px;">
+                    💰
+                </div>
+
+                <h3>
+                    Nenhum preço cadastrado
+                </h3>
+
+                <p>
+                    Clique em "+ Novo preço"
+                    para cadastrar o primeiro.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!-- PÁGINA: ORDENS DE SERVIÇO                                    -->
+<!-- ============================================================ -->
+<section id="pagina-ordens" class="pagina hidden">
+
+    <div class="pagina-header">
+        <div>
+            <h2>📋 Ordens de Serviço</h2>
+            <p>Acompanhe o status de cada aparelho na assistência.</p>
+        </div>
+
+        <button id="novaOS" class="btn-primary">
+            + Nova OS
+        </button>
+    </div>
+
+
+    <!-- CARDS DE RESUMO POR STATUS -->
+    <div class="os-resumo" id="osResumo">
+        <div class="os-resumo-card" data-status="recebido">
+            <div class="os-resumo-icon">📥</div>
+            <div>
+                <p>Recebidos</p>
+                <h3 id="osCountRecebido">0</h3>
+            </div>
+        </div>
+
+        <div class="os-resumo-card" data-status="analise">
+            <div class="os-resumo-icon">🔍</div>
+            <div>
+                <p>Em análise</p>
+                <h3 id="osCountAnalise">0</h3>
+            </div>
+        </div>
+
+        <div class="os-resumo-card" data-status="aguardando_peca">
+            <div class="os-resumo-icon">📦</div>
+            <div>
+                <p>Aguardando peça</p>
+                <h3 id="osCountAguardando">0</h3>
+            </div>
+        </div>
+
+        <div class="os-resumo-card" data-status="reparo">
+            <div class="os-resumo-icon">🔧</div>
+            <div>
+                <p>Em reparo</p>
+                <h3 id="osCountReparo">0</h3>
+            </div>
+        </div>
+
+        <div class="os-resumo-card" data-status="pronto">
+            <div class="os-resumo-icon">✅</div>
+            <div>
+                <p>Prontos</p>
+                <h3 id="osCountPronto">0</h3>
+            </div>
+        </div>
+
+        <div class="os-resumo-card" data-status="entregue">
+            <div class="os-resumo-icon">📤</div>
+            <div>
+                <p>Entregues</p>
+                <h3 id="osCountEntregue">0</h3>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FORMULÁRIO DE NOVA OS -->
+    <div id="formularioOS" class="form-card hidden">
+
+        <div class="form-header">
+            <h3>Nova Ordem de Serviço</h3>
+            <button type="button" id="fecharFormularioOS">✕</button>
+        </div>
+
+        <form id="osForm">
+
+            <!-- CLIENTE -->
+            <h4 class="form-section-title">👤 Cliente</h4>
+            <div class="form-grid">
+
+                <div class="campo campo-full">
+                    <label>Cliente *</label>
+                    <div style="display:flex; gap:8px;">
+                        <select id="osCliente" required style="flex:1;">
+                            <option value="">Selecione um cliente</option>
+                        </select>
+                        <button type="button" id="osNovoCliente" class="btn-secondary" style="white-space:nowrap;">
+                            + Novo
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- APARELHO -->
+            <h4 class="form-section-title">📱 Aparelho</h4>
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label>Marca *</label>
+                    <input
+                        id="osMarca"
+                        type="text"
+                        placeholder="Ex.: Samsung"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Modelo *</label>
+                    <input
+                        id="osModelo"
+                        type="text"
+                        placeholder="Ex.: Galaxy A03"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>IMEI</label>
+                    <input
+                        id="osImei"
+                        type="text"
+                        placeholder="Opcional"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Serviço vinculado</label>
+                    <select id="osServico">
+                        <option value="">Nenhum</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <!-- PROBLEMA -->
+            <h4 class="form-section-title">🔍 Diagnóstico</h4>
+            <div class="form-grid">
+
+                <div class="campo campo-full">
+                    <label>Defeito relatado pelo cliente *</label>
+                    <textarea
+                        id="osDefeito"
+                        rows="2"
+                        placeholder="Ex.: Tela trincada após queda"
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="campo campo-full">
+                    <label>Diagnóstico técnico</label>
+                    <textarea
+                        id="osDiagnostico"
+                        rows="2"
+                        placeholder="Ex.: Necessário troca de display e aro"
+                    ></textarea>
+                </div>
+
+            </div>
+
+
+            <!-- VALORES -->
+            <h4 class="form-section-title">💰 Valores</h4>
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label>Valor do serviço (R$)</label>
+                    <input
+                        id="osValorServico"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                        value="0"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Valor das peças (R$)</label>
+                    <input
+                        id="osValorPecas"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                        value="0"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Desconto (R$)</label>
+                    <input
+                        id="osDesconto"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                        value="0"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Valor total (R$)</label>
+                    <input
+                        id="osValorTotal"
+                        type="number"
+                        readonly
+                        value="0.00"
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- STATUS E PRAZO -->
+            <h4 class="form-section-title">⚙️ Status</h4>
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label>Status atual *</label>
+                    <select id="osStatus" required>
+                        <option value="recebido">📥 Recebido</option>
+                        <option value="analise">🔍 Em análise</option>
+                        <option value="aguardando_peca">📦 Aguardando peça</option>
+                        <option value="reparo">🔧 Em reparo</option>
+                        <option value="pronto">✅ Pronto</option>
+                        <option value="entregue">📤 Entregue</option>
+                        <option value="cancelado">❌ Cancelado</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Previsão de entrega</label>
+                    <input
+                        id="osPrevisao"
+                        type="date"
+                    >
+                </div>
+
+                <div class="campo campo-full">
+                    <label>Observações internas</label>
+                    <textarea
+                        id="osObservacoes"
+                        rows="2"
+                        placeholder="Ex.: Cliente pediu urgência"
+                    ></textarea>
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+                <button type="button" id="cancelarOS" class="btn-secondary">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-primary">
+                    Salvar OS
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- FILTROS E LISTA -->
+    <div class="lista-card">
+
+        <div class="lista-header">
+            <h3>Ordens cadastradas</h3>
+            <span id="contadorOS">0 ordens</span>
+        </div>
+
+        <div class="os-filtros" id="osFiltros">
+            <input
+                id="osPesquisa"
+                type="search"
+                placeholder="🔎 Buscar por cliente, aparelho ou OS..."
+            >
+            <select id="osFiltroStatus">
+                <option value="todos">Todos os status</option>
+                <option value="recebido">📥 Recebido</option>
+                <option value="analise">🔍 Em análise</option>
+                <option value="aguardando_peca">📦 Aguardando peça</option>
+                <option value="reparo">🔧 Em reparo</option>
+                <option value="pronto">✅ Pronto</option>
+                <option value="entregue">📤 Entregue</option>
+                <option value="cancelado">❌ Cancelado</option>
+            </select>
+        </div>
+
+        <div id="listaOS"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================ -->
+<!-- PÁGINA: CLIENTES                                             -->
+<!-- ============================================================ -->
+<section id="pagina-clientes" class="pagina hidden">
+
+    <div class="pagina-header">
+        <div>
+            <h2>👤 Clientes</h2>
+            <p>Cadastro e histórico dos seus clientes.</p>
+        </div>
+
+        <button id="novoCliente" class="btn-primary">
+            + Novo cliente
+        </button>
+    </div>
+
+
+    <div id="formularioCliente" class="form-card hidden">
+
+        <div class="form-header">
+            <h3>Novo cliente</h3>
+            <button type="button" id="fecharFormularioCliente">✕</button>
+        </div>
+
+        <form id="clienteForm">
+
+            <div class="form-grid">
+
+                <div class="campo campo-full">
+                    <label>Nome completo *</label>
+                    <input
+                        id="cliNome"
+                        type="text"
+                        placeholder="Ex.: João Silva"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Telefone / WhatsApp</label>
+                    <input
+                        id="cliTelefone"
+                        type="text"
+                        placeholder="(11) 99999-9999"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>E-mail</label>
+                    <input
+                        id="cliEmail"
+                        type="email"
+                        placeholder="joao@email.com"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>CPF</label>
+                    <input
+                        id="cliCpf"
+                        type="text"
+                        placeholder="000.000.000-00"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Endereço</label>
+                    <input
+                        id="cliEndereco"
+                        type="text"
+                        placeholder="Rua, número, bairro"
+                    >
+                </div>
+
+                <div class="campo campo-full">
+                    <label>Observações</label>
+                    <textarea
+                        id="cliObservacoes"
+                        rows="2"
+                        placeholder="Anotações sobre o cliente"
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="cancelarCliente" class="btn-secondary">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-primary">
+                    Salvar cliente
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <div class="lista-card">
+
+        <div class="lista-header">
+            <h3>Clientes cadastrados</h3>
+            <span id="contadorClientes">0 clientes</span>
+        </div>
+
+        <div class="os-filtros">
+            <input
+                id="clientePesquisa"
+                type="search"
+                placeholder="🔎 Buscar cliente por nome, telefone ou e-mail..."
+            >
+        </div>
+
+        <div id="listaClientes"></div>
+
+    </div>
+
+</section>
+
+
+            <section id="pagina-pecas" class="pagina hidden">
+
+    <div class="pagina-header">
+        <div>
+            <h2>🔩 Peças e Estoque</h2>
+            <p>Controle o estoque de peças da assistência.</p>
+        </div>
+
+        <button id="novaPeca" class="btn-primary">
+            + Nova peça
+        </button>
+    </div>
+
+
+    <!-- CARDS DE RESUMO -->
+    <div class="pecas-resumo">
+
+        <div class="peca-resumo-card">
+            <div class="peca-resumo-icon">📦</div>
+            <div>
+                <p>Total de peças</p>
+                <h3 id="pecasTotalItens">0</h3>
+            </div>
+        </div>
+
+        <div class="peca-resumo-card alerta">
+            <div class="peca-resumo-icon">⚠️</div>
+            <div>
+                <p>Estoque baixo</p>
+                <h3 id="pecasEstoqueBaixo">0</h3>
+            </div>
+        </div>
+
+        <div class="peca-resumo-card">
+            <div class="peca-resumo-icon">💰</div>
+            <div>
+                <p>Valor em estoque</p>
+                <h3 id="pecasValorTotal">R$ 0,00</h3>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- FORMULÁRIO DE PEÇA -->
+    <div id="formularioPeca" class="form-card hidden">
+
+        <div class="form-header">
+            <h3>Nova peça</h3>
+            <button type="button" id="fecharFormularioPeca">✕</button>
+        </div>
+
+        <form id="pecaForm">
+
+            <div class="form-grid">
+
+                <div class="campo campo-full">
+                    <label>Nome da peça *</label>
+                    <input
+                        id="pecaNome"
+                        type="text"
+                        placeholder="Ex.: Display Samsung Galaxy A03"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Categoria</label>
+                    <select id="pecaCategoria">
+                        <option value="">Selecione</option>
+                        <option>Display / Tela</option>
+                        <option>Bateria</option>
+                        <option>Conector de carga</option>
+                        <option>Câmera</option>
+                        <option>Alto-falante</option>
+                        <option>Microfone</option>
+                        <option>Tampa traseira</option>
+                        <option>Aro / Chassi</option>
+                        <option>Placa</option>
+                        <option>Botão</option>
+                        <option>Flex</option>
+                        <option>Acessório</option>
+                        <option>Outros</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Marca</label>
+                    <input
+                        id="pecaMarca"
+                        type="text"
+                        placeholder="Ex.: Samsung"
+                    >
+                </div>
+
+                <div class="campo campo-full">
+                    <label>Modelos compatíveis</label>
+                    <input
+                        id="pecaModeloCompativel"
+                        type="text"
+                        placeholder="Ex.: Galaxy A03, A03s, A04"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Quantidade em estoque *</label>
+                    <input
+                        id="pecaQuantidade"
+                        type="number"
+                        min="0"
+                        value="0"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Estoque mínimo</label>
+                    <input
+                        id="pecaEstoqueMinimo"
+                        type="number"
+                        min="0"
+                        value="1"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Preço de custo (R$)</label>
+                    <input
+                        id="pecaPrecoCusto"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                        value="0"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Preço de venda (R$)</label>
+                    <input
+                        id="pecaPrecoVenda"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                        value="0"
+                    >
+                </div>
+
+                <div class="campo campo-full">
+                    <label>Fornecedor</label>
+                    <input
+                        id="pecaFornecedor"
+                        type="text"
+                        placeholder="Ex.: Distribuidora XYZ"
+                    >
+                </div>
+
+                <div class="campo campo-full">
+                    <label>Observações</label>
+                    <textarea
+                        id="pecaObservacoes"
+                        rows="2"
+                        placeholder="Anotações sobre a peça"
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="cancelarPeca" class="btn-secondary">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-primary">
+                    Salvar peça
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- FILTROS E LISTA -->
+    <div class="lista-card">
+
+        <div class="lista-header">
+            <h3>Peças cadastradas</h3>
+            <span id="contadorPecas">0 peças</span>
+        </div>
+
+        <div class="os-filtros">
+            <input
+                id="pecaPesquisa"
+                type="search"
+                placeholder="🔎 Buscar peça por nome, marca ou modelo..."
+            >
+            <select id="pecaFiltroCategoria">
+                <option value="todas">Todas as categorias</option>
+                <option>Display / Tela</option>
+                <option>Bateria</option>
+                <option>Conector de carga</option>
+                <option>Câmera</option>
+                <option>Alto-falante</option>
+                <option>Microfone</option>
+                <option>Tampa traseira</option>
+                <option>Aro / Chassi</option>
+                <option>Placa</option>
+                <option>Botão</option>
+                <option>Flex</option>
+                <option>Acessório</option>
+                <option>Outros</option>
+            </select>
+            <select id="pecaFiltroEstoque">
+                <option value="todas">Todo o estoque</option>
+                <option value="baixo">⚠️ Estoque baixo</option>
+                <option value="zerado">❌ Sem estoque</option>
+            </select>
+        </div>
+
+        <div id="listaPecas"></div>
+
+    </div>
+
+</section>
+
+
+            <section id="pagina-bot" class="pagina hidden">
+
+    <div class="pagina-header">
+        <div>
+            <h2>🤖 Assistente Bot</h2>
+            <p>Teste o robô que responde seus clientes automaticamente.</p>
+        </div>
+    </div>
+
+    <div class="bot-container">
+
+        <!-- CONFIGURAÇÕES DO BOT -->
+        <div class="form-card">
+
+            <div class="form-header">
+                <h3>⚙️ Configurações do Bot</h3>
+            </div>
+
+            <div class="form-grid" style="grid-template-columns: 1fr;">
+
+                <div class="campo">
+                    <label>Nome da assistência</label>
+                    <input
+                        id="botNome"
+                        type="text"
+                        value="Reparo de Celular"
+                        placeholder="Nome da sua assistência"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Mensagem de boas-vindas</label>
+                    <textarea
+                        id="botBoasVindas"
+                        rows="2"
+                        placeholder="Olá! Bem-vindo à nossa assistência técnica."
+                    >Olá! 👋 Bem-vindo à nossa assistência técnica. Como posso ajudar?</textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Mensagem quando não entender</label>
+                    <textarea
+                        id="botFallback"
+                        rows="2"
+                    >Desculpe, não entendi. 🤔 Você pode perguntar sobre: horário, endereço, orçamento, prazo ou garantia.</textarea>
+                </div>
+
+                <div class="campo">
+                    <label>Horário de funcionamento</label>
+                    <input
+                        id="botHorario"
+                        type="text"
+                        value="Segunda a Sexta, das 9h às 18h"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Endereço</label>
+                    <input
+                        id="botEndereco"
+                        type="text"
+                        value="Rua Exemplo, 123 - Centro"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>WhatsApp</label>
+                    <input
+                        id="botWhatsapp"
+                        type="text"
+                        value="(11) 99999-9999"
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button
+                    type="button"
+                    id="botSalvarConfig"
+                    class="btn-primary"
+                >
+                    💾 Salvar configurações
+                </button>
+            </div>
+
+        </div>
+
+        <!-- CHAT PREVIEW -->
+        <div class="chat-box">
+
+            <div class="chat-header">
+                <div class="chat-avatar">🤖</div>
+                <div>
+                    <h3 id="botTitulo">Assistente Virtual</h3>
+                    <p>● Online agora</p>
+                </div>
+            </div>
+
+            <div class="chat-mensagens" id="chatMensagens">
+                <!-- mensagens entram via JS -->
+            </div>
+
+            <div style="padding: 0 15px 10px; background: white;">
+                <div class="chat-sugestoes">
+                    <button data-sugestao="Qual o horário de funcionamento?">
+                        🕐 Horário
+                    </button>
+                    <button data-sugestao="Onde vocês ficam?">
+                        📍 Endereço
+                    </button>
+                    <button data-sugestao="Vocês dão garantia?">
+                        🛡️ Garantia
+                    </button>
+                    <button data-sugestao="Como faço um orçamento?">
+                        💰 Orçamento
+                    </button>
+                    <button data-sugestao="Qual o prazo de reparo?">
+                        ⏱️ Prazo
+                    </button>
+                </div>
+            </div>
+
+            <form class="chat-input-area" id="chatForm">
+                <input
+                    id="chatInput"
+                    type="text"
+                    placeholder="Digite sua mensagem..."
+                    autocomplete="off"
+                >
+                <button type="submit">➤</button>
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+            <section id="pagina-whatsapp" class="pagina hidden">
+    <div class="placeholder">
+        <div>💬</div>
+        <h2>WhatsApp</h2>
+        <p>Esta seção será configurada quando você conectar o bot ao WhatsApp Business.</p>
+    </div>
+</section>
+
+<section id="pagina-config" class="pagina hidden">
+
+    <div class="pagina-header">
+        <div>
+            <h2>⚙️ Configurações</h2>
+            <p>Dados da sua assistência técnica.</p>
+        </div>
+    </div>
+
+
+    <div class="form-card">
+
+        <div class="form-header">
+            <h3>🏢 Dados da Empresa</h3>
+        </div>
+
+        <form id="configForm">
+
+            <h4 class="form-section-title">📋 Identificação</h4>
+            <div class="form-grid">
+
+                <div class="campo campo-full">
+                    <label>Nome da assistência *</label>
+                    <input
+                        id="cfgNome"
+                        type="text"
+                        placeholder="Ex.: Reparo de Celular"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>CNPJ / CPF</label>
+                    <input
+                        id="cfgCnpj"
+                        type="text"
+                        placeholder="00.000.000/0000-00"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Inscrição Estadual</label>
+                    <input
+                        id="cfgIE"
+                        type="text"
+                        placeholder="Opcional"
+                    >
+                </div>
+
+            </div>
+
+
+            <h4 class="form-section-title">📞 Contato</h4>
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label>Telefone</label>
+                    <input
+                        id="cfgTelefone"
+                        type="text"
+                        placeholder="(11) 3333-4444"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>WhatsApp</label>
+                    <input
+                        id="cfgWhatsapp"
+                        type="text"
+                        placeholder="(11) 99999-9999"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>E-mail</label>
+                    <input
+                        id="cfgEmail"
+                        type="email"
+                        placeholder="contato@assistencia.com"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Site</label>
+                    <input
+                        id="cfgSite"
+                        type="text"
+                        placeholder="www.assistencia.com"
+                    >
+                </div>
+
+            </div>
+
+
+            <h4 class="form-section-title">📍 Endereço</h4>
+            <div class="form-grid">
+
+                <div class="campo campo-full">
+                    <label>Endereço completo</label>
+                    <input
+                        id="cfgEndereco"
+                        type="text"
+                        placeholder="Rua, número, complemento"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Bairro</label>
+                    <input
+                        id="cfgBairro"
+                        type="text"
+                        placeholder="Centro"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>CEP</label>
+                    <input
+                        id="cfgCep"
+                        type="text"
+                        placeholder="00000-000"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Cidade</label>
+                    <input
+                        id="cfgCidade"
+                        type="text"
+                        placeholder="São Paulo"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Estado</label>
+                    <input
+                        id="cfgEstado"
+                        type="text"
+                        placeholder="SP"
+                        maxlength="2"
+                    >
+                </div>
+
+            </div>
+
+
+            <h4 class="form-section-title">🎨 Personalização</h4>
+            <div class="form-grid">
+
+                <div class="campo campo-full">
+                    <label>Slogan / Frase de destaque</label>
+                    <input
+                        id="cfgSlogan"
+                        type="text"
+                        placeholder="Ex.: Consertamos com qualidade e garantia"
+                    >
+                </div>
+
+                <div class="campo campo-full">
+                    <label>Texto de garantia (aparece no comprovante)</label>
+                    <textarea
+                        id="cfgGarantia"
+                        rows="2"
+                        placeholder="Ex.: Garantia de 90 dias sobre os serviços executados."
+                    ></textarea>
+                </div>
+
+                <div class="campo campo-full">
+                    <label>Termos e condições (aparece no comprovante)</label>
+                    <textarea
+                        id="cfgTermos"
+                        rows="3"
+                        placeholder="Ex.: O cliente declara estar ciente de que o aparelho foi entregue para análise técnica..."
+                    ></textarea>
+                </div>
+
+            </div>
+
+
+            <div class="form-actions">
+                <button type="button" id="cfgCancelar" class="btn-secondary">
+                    Restaurar padrão
+                </button>
+                <button type="submit" class="btn-primary">
+                    💾 Salvar configurações
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- CARD DE PREVIEW -->
+    <div class="lista-card">
+        <div class="lista-header">
+            <h3>👁️ Pré-visualização</h3>
+            <span>Como aparecerá no comprovante</span>
+        </div>
+
+        <div id="cfgPreview" class="cfg-preview">
+            <!-- preenchido via JS -->
+        </div>
+    </div>
+
+</section>
+
+        </div>
+
+    </main>
+
+
+  <script src="protecao.js"></script>                        <!-- 👈 PRIMEIRO -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+<script src="clientes.js"></script>
+<script src="ordens.js"></script>
+<script src="pecas.js"></script>
+<script src="dashboard.js"></script>
+<script src="config.js"></script>
+<script src="bot.js"></script>
+
+
+
+</body>
+
+</html>
