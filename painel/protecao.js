@@ -1,79 +1,52 @@
 // ============================================================
-// PROTEÇÃO DO PAINEL — senha de acesso
+// VERIFICAÇÃO DE SESSÃO — protege o painel
 // ============================================================
 
-(function protegerPainel() {
+(async function verificarAcesso() {
 
-    // ⚠️ TROQUE A SENHA AQUI POR UMA FORTE
-    const SENHA_CORRETA = "Mandala1";
+    // Chaves do Supabase
+    const SUPABASE_URL = "https://ggdzzmekaxrovmuyvxyn.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_EyZOeqOCjgq_9RjBCUfa8w_121a85zK";
 
-    const CHAVE = "painel_autorizado";
-    const VALIDADE_HORAS = 24;
+    const supabaseTemp = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Verifica se já está autenticado
     try {
-        const salvo = localStorage.getItem(CHAVE);
-        if (salvo) {
-            const dados = JSON.parse(salvo);
-            if (dados.expira > Date.now()) {
-                return; // liberado
-            }
+
+        // Verifica se há sessão ativa
+        const { data, error } = await supabaseTemp.auth.getSession();
+
+        if (error || !data?.session) {
+            // Sem sessão → manda para login
+            window.location.href = "login.html";
+            return;
         }
-    } catch (e) {}
 
-    // Pede a senha
-    const tentativa = prompt("🔒 Acesso restrito\n\nDigite a senha do painel:");
+        // Verifica se o usuário está ativo
+        const { data: perfil, error: erroPerfil } = await supabaseTemp
+            .from("perfis")
+            .select("ativo, role, nome")
+            .eq("id", data.session.user.id)
+            .single();
 
-    if (tentativa === SENHA_CORRETA) {
+        if (erroPerfil || !perfil || !perfil.ativo) {
+            await supabaseTemp.auth.signOut();
+            window.location.href = "login.html";
+            return;
+        }
 
-        const expira = Date.now() + (VALIDADE_HORAS * 60 * 60 * 1000);
+        // Guarda info do usuário para uso no painel
+        window.usuarioLogado = {
+            id: data.session.user.id,
+            email: data.session.user.email,
+            nome: perfil.nome,
+            role: perfil.role
+        };
 
-        try {
-            localStorage.setItem(CHAVE, JSON.stringify({ expira }));
-        } catch (e) {}
+        console.log("✅ Usuário autenticado:", window.usuarioLogado.email);
 
-        console.log("✅ Painel liberado por " + VALIDADE_HORAS + "h.");
-
-    } else {
-
-        document.documentElement.innerHTML = `
-            <head>
-                <title>Acesso negado</title>
-                <style>
-                    * { margin: 0; padding: 0; box-sizing: border-box; }
-                    body {
-                        min-height: 100vh;
-                        display: grid;
-                        place-items: center;
-                        background: #050a12;
-                        color: #f4f8ff;
-                        font-family: Arial, sans-serif;
-                        text-align: center;
-                        padding: 20px;
-                    }
-                    h1 { font-size: 32px; margin-bottom: 12px; }
-                    p { color: #8ba0bf; margin-bottom: 24px; font-size: 15px; }
-                    button {
-                        background: #198cff;
-                        color: #fff;
-                        border: 0;
-                        padding: 14px 26px;
-                        border-radius: 10px;
-                        font-weight: 700;
-                        font-size: 15px;
-                        cursor: pointer;
-                        transition: .2s;
-                    }
-                    button:hover { background: #0a6fe0; }
-                </style>
-            </head>
-            <body>
-                <div>
-                    <h1>🔒 Acesso negado</h1>
-                    <p>Este painel é de uso interno.</p>
-                    <button onclick="location.reload()">Tentar novamente</button>
-                </div>
-            </body>
-        `;
+    } catch (erro) {
+        console.error("Erro na verificação:", erro);
+        window.location.href = "login.html";
     }
+
 })();
