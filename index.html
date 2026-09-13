@@ -71,11 +71,8 @@
 
         </nav>
 
-        <div class="logout-area">
-    <button type="button" class="btn-logout" onclick="fazerLogout()">
-        🚪 Sair do Painel
-    </button>
-</div>
+        
+
 
     </aside>
 
@@ -1718,6 +1715,54 @@
 
     </div>
 
+   <!-- CARD DE BACKUP -->
+<div class="lista-card" style="margin-bottom: 25px;">
+    <div class="lista-header">
+        <h3>💾 Backup de Dados</h3>
+        <span>Exporte uma cópia de segurança</span>
+    </div>
+
+    <p style="color: #718096; font-size: 14px; margin-bottom: 20px;">
+        Salve uma cópia de todos os dados (serviços, preços, clientes, ordens, peças e configurações) em um arquivo. Guarde em local seguro.
+    </p>
+
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button
+            type="button"
+            id="btnExportarBackup"
+            class="btn-primary"
+        >
+            📥 Exportar backup (JSON)
+        </button>
+
+        <button
+            type="button"
+            id="btnExportarCSV"
+            class="btn-secondary"
+        >
+            📊 Exportar CSV (planilha)
+        </button>
+
+        <button
+            type="button"
+            id="btnImportarBackup"
+            class="btn-secondary"
+        >
+            📤 Importar backup
+        </button>
+    </div>
+
+    <input
+        type="file"
+        id="inputImportarBackup"
+        accept=".json"
+        style="display: none;"
+    >
+
+    <div id="backupStatus" style="margin-top: 15px; font-size: 13px;"></div>
+</div>
+
+
 
     <!-- CARD DE PREVIEW -->
     <div class="lista-card">
@@ -1738,14 +1783,15 @@
     </main>
 
 
-  <script src="/painel/protecao.js"></script>       ← PRIMEIRO (verifica login)
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/painel/protecao.js"></script>
 <script src="/painel/script.js"></script>
 <script src="/painel/clientes.js"></script>
 <script src="/painel/ordens.js"></script>
 <script src="/painel/pecas.js"></script>
 <script src="/painel/dashboard.js"></script>
 <script src="/painel/config.js"></script>
+<script src="/painel/backup.js"></script>  
 <script src="/painel/bot.js"></script>
 
 
