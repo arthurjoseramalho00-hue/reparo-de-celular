@@ -30,6 +30,9 @@
 
         <nav>
 
+         
+</button>
+
             <button class="menu active" data-page="inicio">
                 🏠 Início
             </button>
@@ -67,6 +70,12 @@
             </button>
 
         </nav>
+
+        <div class="logout-area">
+    <button type="button" class="btn-logout" onclick="fazerLogout()">
+        🚪 Sair do Painel
+    </button>
+</div>
 
     </aside>
 
@@ -1729,8 +1738,8 @@
     </main>
 
 
-  <script src="/painel/protecao.js"></script>                        <!-- 👈 PRIMEIRO -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/painel/protecao.js"></script>
 <script src="/painel/script.js"></script>
 <script src="/painel/clientes.js"></script>
 <script src="/painel/ordens.js"></script>
@@ -1738,7 +1747,6 @@
 <script src="/painel/dashboard.js"></script>
 <script src="/painel/config.js"></script>
 <script src="/painel/bot.js"></script>
-
 
 
 </body>
