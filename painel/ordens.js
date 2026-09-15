@@ -911,3 +911,13 @@ async function enviarOSWhatsApp(id) {
 
 
 console.log("📲 Módulo WhatsApp OS carregado.");
+
+// ============================================================
+// CONTADOR DE OS
+// ============================================================
+
+function atualizarContadorOS() {
+    if (!contadorOS) return;
+    const total = todasOS.length;
+    contadorOS.textContent = total === 1 ? "1 ordem" : `${total} ordens`;
+}
