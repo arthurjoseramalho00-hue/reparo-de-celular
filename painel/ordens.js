@@ -389,29 +389,40 @@ function renderizarOS() {
 
             <div>
                 <div class="os-valor">${valor}</div>
-                <div class="os-acoes">
-                    <button
-                        type="button"
-                        onclick="editarOS(${os.id})"
-                        style="background:#edf5ff; color:#1677ff;"
-                    >
-                        ✏️
-                    </button>
-                    <button
-                        type="button"
-                        onclick="imprimirOS(${os.id})"
-                        style="background:#f0fdf4; color:#16a34a;"
-                    >
-                        🖨️
-                    </button>
-                    <button
-                        type="button"
-                        onclick="excluirOS(${os.id})"
-                        style="background:#fff0f0; color:#d64545;"
-                    >
-                        🗑️
-                    </button>
-                </div>
+<div class="os-acoes">
+    <button
+        type="button"
+        onclick="editarOS(${os.id})"
+        title="Editar OS"
+        style="background:#edf5ff; color:#1677ff;"
+    >
+        ✏️
+    </button>
+    <button
+        type="button"
+        onclick="imprimirOS(${os.id})"
+        title="Imprimir comprovante"
+        style="background:#f0fdf4; color:#16a34a;"
+    >
+        🖨️
+    </button>
+    <button
+        type="button"
+        onclick="enviarOSWhatsApp(${os.id})"
+        title="Enviar por WhatsApp"
+        style="background:#e7f9ee; color:#25d366;"
+    >
+        📲
+    </button>
+    <button
+        type="button"
+        onclick="excluirOS(${os.id})"
+        title="Excluir OS"
+        style="background:#fff0f0; color:#d64545;"
+    >
+        🗑️
+    </button>
+</div>
             </div>
         `;
 
@@ -774,5 +785,129 @@ function abrirJanelaImpressao(d) {
 }
 
 // ============================================================
-// FIM DO MÓDULO ORDENS
+// ENVIAR OS POR WHATSAPP
 // ============================================================
+
+async function enviarOSWhatsApp(id) {
+
+    const os = todasOS.find(o => Number(o.id) === Number(id));
+
+    if (!os) {
+        alert("OS não encontrada.");
+        return;
+    }
+
+    // Pega o cliente vinculado
+    const cliente = todosClientes.find(c => Number(c.id) === Number(os.cliente_id));
+
+    if (!cliente) {
+        alert("Esta OS não tem cliente vinculado.\n\nEdite a OS e selecione um cliente.");
+        return;
+    }
+
+    // Número do cliente (só dígitos)
+    let numeroCliente = (cliente.telefone || "").replace(/\D/g, "");
+
+    if (!numeroCliente) {
+        const digitar = prompt(
+            `O cliente ${cliente.nome} não tem telefone cadastrado.\n\n` +
+            `Digite o número do WhatsApp (com DDD):\n` +
+            `Ex: 87999999999`,
+            ""
+        );
+
+        if (!digitar) return;
+
+        numeroCliente = digitar.replace(/\D/g, "");
+    }
+
+    // Adiciona 55 (Brasil) se não tiver
+    if (!numeroCliente.startsWith("55")) {
+        numeroCliente = "55" + numeroCliente;
+    }
+
+    // Valida tamanho
+    if (numeroCliente.length < 12 || numeroCliente.length > 13) {
+        const confirmar = confirm(
+            `O número "${numeroCliente}" parece estar incorreto.\n\n` +
+            `Deseja continuar mesmo assim?`
+        );
+        if (!confirmar) return;
+    }
+
+    // Busca configurações da empresa
+    let nomeEmpresa = "Reparo de Celular";
+    let telefoneEmpresa = "";
+
+    try {
+        const { data } = await supabaseClient
+            .from("configuracoes")
+            .select("chave, valor");
+
+        (data || []).forEach(function (item) {
+            if (item.chave === "empresa_nome") nomeEmpresa = item.valor || nomeEmpresa;
+            if (item.chave === "empresa_whatsapp") telefoneEmpresa = item.valor || "";
+        });
+    } catch (e) {
+        console.warn("Não foi possível carregar config:", e);
+    }
+
+    // Formata valor
+    const valor = Number(os.valor_total || 0).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+
+    // Status amigável
+    const statusLabel = {
+        recebido: "📥 Recebido",
+        analise: "🔍 Em análise",
+        aguardando_peca: "📦 Aguardando peça",
+        reparo: "🔧 Em reparo",
+        pronto: "✅ Pronto para retirada",
+        entregue: "📤 Entregue",
+        cancelado: "❌ Cancelado"
+    }[os.status] || os.status;
+
+    // Previsão
+    const previsao = os.previsao_entrega
+        ? new Date(os.previsao_entrega + "T12:00:00").toLocaleDateString("pt-BR")
+        : "-";
+
+    // Monta mensagem
+    const primeiroNome = cliente.nome.split(" ")[0] || cliente.nome;
+
+    let mensagem = `Olá ${primeiroNome}! 👋\n\n`;
+
+    if (os.status === "pronto") {
+        mensagem += `Boa notícia! Seu aparelho está *PRONTO* para retirada ✅\n\n`;
+    } else if (os.status === "entregue") {
+        mensagem += `Obrigado pela preferência! 🙏\n\n`;
+    } else {
+        mensagem += `Atualização da sua ordem de serviço:\n\n`;
+    }
+
+    mensagem += `📋 *OS ${os.numero_os || "#" + os.id}*\n`;
+    mensagem += `📱 ${os.aparelho_marca || ""} ${os.aparelho_modelo || ""}\n`;
+    mensagem += `🔧 ${os.defeito_relatado || "-"}\n`;
+    mensagem += `⚙️ Status: ${statusLabel}\n`;
+    mensagem += `💰 Valor: ${valor}\n`;
+
+    if (os.status !== "entregue" && previsao !== "-") {
+        mensagem += `📅 Previsão: ${previsao}\n`;
+    }
+
+    mensagem += `\n_${nomeEmpresa}_`;
+
+    if (telefoneEmpresa) {
+        mensagem += `\n📞 ${telefoneEmpresa}`;
+    }
+
+    // Abre o WhatsApp
+    const url = `https://wa.me/${numeroCliente}?text=${encodeURIComponent(mensagem)}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+}
+
+
+console.log("📲 Módulo WhatsApp OS carregado.");
