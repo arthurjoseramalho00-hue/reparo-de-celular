@@ -1376,3 +1376,113 @@ nav {
 .campo-full {
     grid-column: 1 / -1;
 }
+
+
+
+/* ============================================================
+   MODAL DE PERIGO (exclusão em massa)
+   ============================================================ */
+
+.btn-danger {
+    background: #fff0f0;
+    color: #d64545;
+    padding: 13px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid rgba(214, 69, 69, .3);
+    font-family: inherit;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.btn-danger:hover {
+    background: #ffe0e0;
+    transform: translateY(-2px);
+}
+
+.btn-perigo {
+    background: #dc2626;
+    color: white;
+    padding: 13px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.btn-perigo:hover:not(:disabled) {
+    background: #b91c1c;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(220, 38, 38, .35);
+}
+
+.btn-perigo:disabled {
+    background: #f3a0a0;
+    cursor: not-allowed;
+    opacity: .7;
+}
+
+.modal-perigo {
+    max-width: 560px;
+}
+
+.modal-header-perigo {
+    background: #fef2f2;
+    border-bottom: 1px solid #fecaca;
+    border-radius: 20px 20px 0 0;
+}
+
+.modal-header-perigo h3 {
+    color: #b91c1c;
+}
+
+.aviso-perigo {
+    display: flex;
+    gap: 14px;
+    padding: 18px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    align-items: flex-start;
+}
+
+.aviso-perigo-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.aviso-perigo strong {
+    display: block;
+    color: #b91c1c;
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.aviso-perigo p {
+    color: #7f1d1d;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.aviso-perigo b {
+    color: #b91c1c;
+}
+
+.aviso-backup {
+    margin-top: 18px;
+    padding: 16px 18px;
+    background: #f0f7ff;
+    border-left: 4px solid #198cff;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #172033;
+}
+
+.aviso-backup b {
+    color: #198cff;
+}

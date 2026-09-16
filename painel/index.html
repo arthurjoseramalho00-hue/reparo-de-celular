@@ -242,6 +242,61 @@
             <button type="button" id="fecharModalImportacao" class="modal-fechar">✕</button>
         </div>
 
+    <!-- ============================================================ -->
+<!-- MODAL: CONFIRMAR EXCLUSÃO EM MASSA                          -->
+<!-- ============================================================ -->
+<div id="modalExclusao" class="modal-overlay hidden">
+    <div class="modal-conteudo modal-perigo">
+
+        <div class="modal-header modal-header-perigo">
+            <h3>⚠️ Excluir TODOS os serviços</h3>
+            <button type="button" id="fecharModalExclusao" class="modal-fechar">✕</button>
+        </div>
+
+        <div class="modal-corpo">
+
+            <div class="aviso-perigo">
+                <div class="aviso-perigo-icon">🚨</div>
+                <div>
+                    <strong>ATENÇÃO: Ação irreversível!</strong>
+                    <p>Esta ação vai <b>APAGAR PERMANENTEMENTE todos os serviços</b> cadastrados. Não tem como desfazer.</p>
+                </div>
+            </div>
+
+            <div class="aviso-backup">
+                <p>💡 <b>Recomendamos fazer um backup antes.</b></p>
+                <button type="button" id="btnBackupAntesExcluir" class="btn-secondary" style="margin-top: 10px;">
+                    💾 Baixar backup agora
+                </button>
+            </div>
+
+            <div class="campo" style="margin-top: 25px;">
+                <label>Para confirmar, digite <b style="color: #dc2626;">EXCLUIR</b> abaixo:</label>
+                <input
+                    type="text"
+                    id="confirmarExclusao"
+                    placeholder="Digite EXCLUIR em maiúsculas"
+                    autocomplete="off"
+                    style="font-family: monospace; text-transform: uppercase;"
+                >
+            </div>
+
+            <div id="statusExclusao" style="margin-top: 15px; font-size: 14px;"></div>
+
+            <div class="form-actions" style="margin-top: 25px;">
+                <button type="button" id="btnCancelarExclusao" class="btn-secondary">
+                    Cancelar
+                </button>
+                <button type="button" id="btnConfirmarExclusao" class="btn-perigo" disabled>
+                    🗑️ Excluir tudo
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
         <div class="modal-corpo">
 
             <div class="modal-info">
@@ -310,6 +365,11 @@ Apple, iPhone 11, Troca de tela, 380, 1 dia</pre>
      <button id="importarServicos" class="btn-secondary" style="margin-left: 10px;">
     📥 Importar em massa
     </button>
+
+    <button id="excluirTodosServicos" class="btn-danger" style="margin-left: 10px;">
+    🗑️ Excluir todos
+</button>
+
                 </div>
 
 
@@ -1880,7 +1940,8 @@ Apple, iPhone 11, Troca de tela, 380, 1 dia</pre>
 <script src="/painel/dashboard.js"></script>
 <script src="/painel/config.js"></script>
 <script src="/painel/backup.js"></script>
-<script src="/painel/importar.js"></script>   ← NOVO
+<script src="/painel/importar.js"></script>  
+<script src="/painel/excluir-servicos.js"></script>  
 <script src="/painel/bot.js"></script>
 
 
