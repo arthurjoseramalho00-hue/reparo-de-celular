@@ -5,22 +5,49 @@
 const CONSULTA_URL = "https://ggdzzmekaxrovmuyvxyn.supabase.co";
 const CONSULTA_KEY = "sb_publishable_EyZOeqOCjgq_9RjBCUfa8w_121a85zK";
 
-const consultaMarca = document.getElementById("consultaMarca");
-const consultaModelo = document.getElementById("consultaModelo");
-const consultaServico = document.getElementById("consultaServico");
-const consultaResultado = document.getElementById("consultaResultado");
+let consultaMarca = null;
+let consultaModelo = null;
+let consultaServico = null;
+let consultaResultado = null;
 
 let servicosCache = [];
 let precosCache = [];
 let garantiaEmpresa = "90 dias";
 
 
+async function esperarSupabase() {
+    let tentativas = 0;
+    while (typeof window.supabase === "undefined" || !window.supabase.createClient) {
+        if (tentativas > 50) {
+            console.error("❌ Supabase não carregou em 5 segundos.");
+            return false;
+        }
+        await new Promise(resolve => setTimeout(resolve, 100));
+        tentativas++;
+    }
+    return true;
+}
+
+
 async function iniciarConsulta() {
 
-    if (!consultaMarca) return;
+    consultaMarca = document.getElementById("consultaMarca");
+    consultaModelo = document.getElementById("consultaModelo");
+    consultaServico = document.getElementById("consultaServico");
+    consultaResultado = document.getElementById("consultaResultado");
+
+    if (!consultaMarca || !consultaResultado) {
+        console.warn("⚠️ Seção de consulta não encontrada.");
+        return;
+    }
+
+    const pronto = await esperarSupabase();
+    if (!pronto) {
+        consultaMarca.innerHTML = `<option value="">Erro ao carregar</option>`;
+        return;
+    }
 
     try {
-
         const sb = window.supabase.createClient(CONSULTA_URL, CONSULTA_KEY);
 
         const [resServicos, resPrecos, resConfig] = await Promise.all([
@@ -51,6 +78,8 @@ async function iniciarConsulta() {
             consultaMarca.appendChild(opt);
         });
 
+        configurarEventos();
+
         console.log("✅ Consulta de preços carregada. " + servicosCache.length + " serviços.");
 
     } catch (erro) {
@@ -60,103 +89,103 @@ async function iniciarConsulta() {
 }
 
 
-if (consultaMarca) {
-    consultaMarca.addEventListener("change", function () {
+function configurarEventos() {
 
-        const marcaSelecionada = consultaMarca.value;
+    if (consultaMarca) {
+        consultaMarca.addEventListener("change", function () {
 
-        consultaModelo.innerHTML = `<option value="">Selecione o modelo</option>`;
-        consultaServico.innerHTML = `<option value="">Escolha o modelo primeiro</option>`;
-        consultaServico.disabled = true;
-        mostrarPlaceholder();
+            const marcaSelecionada = consultaMarca.value;
 
-        if (!marcaSelecionada) {
-            consultaModelo.disabled = true;
-            consultaModelo.innerHTML = `<option value="">Escolha a marca primeiro</option>`;
-            return;
-        }
-
-        const modelos = [...new Set(
-            servicosCache
-                .filter(s => s.marca === marcaSelecionada)
-                .map(s => s.modelo)
-                .filter(Boolean)
-        )].sort();
-
-        consultaModelo.disabled = false;
-
-        modelos.forEach(function (modelo) {
-            const opt = document.createElement("option");
-            opt.value = modelo;
-            opt.textContent = modelo;
-            consultaModelo.appendChild(opt);
-        });
-    });
-}
-
-
-if (consultaModelo) {
-    consultaModelo.addEventListener("change", function () {
-
-        const marcaSelecionada = consultaMarca.value;
-        const modeloSelecionado = consultaModelo.value;
-
-        consultaServico.innerHTML = `<option value="">Selecione o serviço</option>`;
-        mostrarPlaceholder();
-
-        if (!modeloSelecionado) {
-            consultaServico.disabled = true;
+            consultaModelo.innerHTML = `<option value="">Selecione o modelo</option>`;
             consultaServico.innerHTML = `<option value="">Escolha o modelo primeiro</option>`;
-            return;
-        }
+            consultaServico.disabled = true;
+            mostrarPlaceholder();
 
-        const servicos = servicosCache.filter(
-            s => s.marca === marcaSelecionada && s.modelo === modeloSelecionado
-        );
+            if (!marcaSelecionada) {
+                consultaModelo.disabled = true;
+                consultaModelo.innerHTML = `<option value="">Escolha a marca primeiro</option>`;
+                return;
+            }
 
-        consultaServico.disabled = false;
+            const modelos = [...new Set(
+                servicosCache
+                    .filter(s => s.marca === marcaSelecionada)
+                    .map(s => s.modelo)
+                    .filter(Boolean)
+            )].sort();
 
-        servicos.forEach(function (s) {
-            const opt = document.createElement("option");
-            opt.value = s.id;
-            opt.textContent = s.tipo_servico;
-            consultaServico.appendChild(opt);
+            consultaModelo.disabled = false;
+
+            modelos.forEach(function (modelo) {
+                const opt = document.createElement("option");
+                opt.value = modelo;
+                opt.textContent = modelo;
+                consultaModelo.appendChild(opt);
+            });
         });
-    });
-}
+    }
 
+    if (consultaModelo) {
+        consultaModelo.addEventListener("change", function () {
 
-if (consultaServico) {
-    consultaServico.addEventListener("change", function () {
+            const marcaSelecionada = consultaMarca.value;
+            const modeloSelecionado = consultaModelo.value;
 
-        const servicoId = consultaServico.value;
-
-        if (!servicoId) {
+            consultaServico.innerHTML = `<option value="">Selecione o serviço</option>`;
             mostrarPlaceholder();
-            return;
-        }
 
-        const servico = servicosCache.find(s => Number(s.id) === Number(servicoId));
+            if (!modeloSelecionado) {
+                consultaServico.disabled = true;
+                consultaServico.innerHTML = `<option value="">Escolha o modelo primeiro</option>`;
+                return;
+            }
 
-        if (!servico) {
-            mostrarPlaceholder();
-            return;
-        }
+            const servicos = servicosCache.filter(
+                s => s.marca === marcaSelecionada && s.modelo === modeloSelecionado
+            );
 
-        const preco = precosCache.find(p => Number(p.servico_id) === Number(servicoId));
+            consultaServico.disabled = false;
 
-        let valorFinal;
+            servicos.forEach(function (s) {
+                const opt = document.createElement("option");
+                opt.value = s.id;
+                opt.textContent = s.tipo_servico;
+                consultaServico.appendChild(opt);
+            });
+        });
+    }
 
-        if (preco && Number(preco.preco_final) > 0) {
-            valorFinal = Number(preco.preco_final);
-        } else if (servico.preco && Number(servico.preco) > 0) {
-            valorFinal = Number(servico.preco);
-        } else {
-            valorFinal = null;
-        }
+    if (consultaServico) {
+        consultaServico.addEventListener("change", function () {
 
-        mostrarResultado(servico, valorFinal);
-    });
+            const servicoId = consultaServico.value;
+
+            if (!servicoId) {
+                mostrarPlaceholder();
+                return;
+            }
+
+            const servico = servicosCache.find(s => Number(s.id) === Number(servicoId));
+
+            if (!servico) {
+                mostrarPlaceholder();
+                return;
+            }
+
+            const preco = precosCache.find(p => Number(p.servico_id) === Number(servicoId));
+
+            let valorFinal;
+            if (preco && Number(preco.preco_final) > 0) {
+                valorFinal = Number(preco.preco_final);
+            } else if (servico.preco && Number(servico.preco) > 0) {
+                valorFinal = Number(servico.preco);
+            } else {
+                valorFinal = null;
+            }
+
+            mostrarResultado(servico, valorFinal);
+        });
+    }
 }
 
 
@@ -192,7 +221,6 @@ function mostrarResultado(servico, valor) {
 
     consultaResultado.innerHTML = `
         <div class="preco-card">
-
             <div class="preco-card-aparelho">
                 <span class="preco-card-aparelho-icon">📱</span>
                 <strong>${escapar(servico.marca)} ${escapar(servico.modelo)}</strong>
@@ -238,7 +266,6 @@ function mostrarResultado(servico, valor) {
                     💬 Solicitar orçamento
                 </a>
             </div>
-
         </div>
     `;
 
