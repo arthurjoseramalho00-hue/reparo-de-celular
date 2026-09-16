@@ -1381,7 +1381,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
     border: 1px solid var(--line);
     border-radius: 24px;
     padding: 40px;
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
     box-shadow: 0 20px 50px rgba(0, 0, 0, .3);
 }
@@ -1389,8 +1389,9 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .consulta-form {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    gap: 14px;
     margin-bottom: 30px;
+    align-items: end;
 }
 
 .consulta-campo {
@@ -1407,7 +1408,9 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 }
 
 .consulta-campo select {
-    padding: 14px 16px;
+    width: 100%;
+    min-width: 0;
+    padding: 14px 36px 14px 14px;
     background: rgba(0, 0, 0, .4);
     border: 1px solid rgba(25, 140, 255, .25);
     border-radius: 12px;
@@ -1418,10 +1421,13 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
     transition: .2s;
     cursor: pointer;
     appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2355b4ff' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 16px center;
-    padding-right: 45px;
+    background-position: right 12px center;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .consulta-campo select:focus {
@@ -1683,4 +1689,22 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
     letter-spacing: .5px;
     font-weight: 800;
     margin-bottom: 4px;
+}
+
+/* Responsivo — tablet */
+@media (max-width: 1000px) {
+    .consulta-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Responsivo — celular */
+@media (max-width: 600px) {
+    .consulta-box {
+        padding: 25px 18px;
+    }
+
+    .consulta-form {
+        grid-template-columns: 1fr;
+    }
 }
