@@ -98,6 +98,8 @@ function parsearLinhas(texto) {
         const tipoServico = partes[2] || "";
         const precoTexto = (partes[3] || "").replace(",", ".").replace(/[^\d.]/g, "");
         const prazo = partes[4] || "A definir";
+        const qualidade = partes[6] || "";
+        const observacaoTecnica = partes[7] || "";
         const status = (partes[5] || "ativo").toLowerCase();
 
         const preco = parseFloat(precoTexto);
@@ -126,6 +128,8 @@ function parsearLinhas(texto) {
             marca,
             modelo,
             tipo_servico: tipoServico,
+            qualidade: qualidade || null,
+            observacao_tecnica: observacaoTecnica || null,
             preco,
             prazo,
             status: status === "inativo" ? "inativo" : "ativo"
@@ -236,11 +240,13 @@ if (btnImportarTudo) {
         try {
 
             // Monta array para o Supabase
-            const registros = dadosPreview.map(function (d) {
+const registros = dadosPreview.map(function (d) {
                 return {
                     marca: d.marca,
                     modelo: d.modelo,
                     tipo_servico: d.tipo_servico,
+                    qualidade: d.qualidade || null,
+                    observacao_tecnica: d.observacao_tecnica || null,
                     preco: d.preco,
                     prazo: d.prazo,
                     status: d.status

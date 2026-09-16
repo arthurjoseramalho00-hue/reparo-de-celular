@@ -1355,3 +1355,24 @@ nav {
         padding: 18px 20px;
     }
 }
+
+.campo textarea {
+    padding: 13px;
+    border: 1px solid #dce3ec;
+    border-radius: 9px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    resize: vertical;
+    min-height: 60px;
+    transition: .2s;
+}
+
+.campo textarea:focus {
+    border-color: #1677ff;
+    box-shadow: 0 0 0 3px rgba(22, 119, 255, .1);
+}
+
+.campo-full {
+    grid-column: 1 / -1;
+}

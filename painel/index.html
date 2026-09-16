@@ -439,6 +439,34 @@ Apple, iPhone 11, Troca de tela, 380, 1 dia</pre>
 
                             </div>
 
+                          <div class="campo">
+    <label>Qualidade da peça</label>
+    <input
+        id="qualidade"
+        type="text"
+        list="listaQualidades"
+        placeholder="Ex: Premium, Original, Comum..."
+    >
+    <datalist id="listaQualidades">
+        <option value="Comum">
+        <option value="Premium (Incell)">
+        <option value="OLED Original">
+        <option value="Original">
+        <option value="Especial">
+        <option value="Paralela">
+        <option value="Recondicionada">
+    </datalist>
+</div>
+
+<div class="campo campo-full">
+    <label>Observação técnica (aparece no site)</label>
+    <textarea
+        id="observacaoTecnica"
+        rows="2"
+        placeholder="Ex: Sem aviso de peça não genuína. Transferimos o chip da tela original."
+    ></textarea>
+</div>
+
                         </div>
 
 
@@ -1852,7 +1880,7 @@ Apple, iPhone 11, Troca de tela, 380, 1 dia</pre>
 <script src="/painel/dashboard.js"></script>
 <script src="/painel/config.js"></script>
 <script src="/painel/backup.js"></script>
-<script src="/painel/importar.js"></script>   
+<script src="/painel/importar.js"></script>   ← NOVO
 <script src="/painel/bot.js"></script>
 
 

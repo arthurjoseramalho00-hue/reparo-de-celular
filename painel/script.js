@@ -176,6 +176,11 @@ const campoTipoServico = document.getElementById("tipoServico");
 const campoPreco = document.getElementById("preco");
 const campoPrazo = document.getElementById("prazo");
 const campoStatus = document.getElementById("status");
+const campoQualidade =
+    document.getElementById("qualidade");
+
+const campoObservacaoTecnica =
+    document.getElementById("observacaoTecnica");
 
 
 // ============================================================
@@ -467,11 +472,12 @@ function renderizarServicos(servicos) {
                 </div>
 
                 <div class="servico-detalhes">
-                    <span>🔧 ${escaparHTML(servico.tipo_servico)}</span>
-                    <span>💰 ${preco}</span>
-                    <span>⏱️ ${escaparHTML(servico.prazo || "-")}</span>
-                </div>
-
+    <span>🔧 ${escaparHTML(servico.tipo_servico)}</span>
+    ${servico.qualidade ? `<span>⭐ ${escaparHTML(servico.qualidade)}</span>` : ""}
+    <span>💰 ${preco}</span>
+    <span>⏱️ ${escaparHTML(servico.prazo || "-")}</span>
+</div>
+                   
                 <div>
                     <span class="status-servico">
                         ${statusAtivo ? "🟢 Ativo" : "🔴 Inativo"}
@@ -524,6 +530,12 @@ if (formulario) {
         const preco = Number(campoPreco.value);
         const prazo = campoPrazo.value;
         const status = campoStatus.value;
+                   const qualidade =
+                campoQualidade ? campoQualidade.value.trim() : "";
+
+            const observacaoTecnica =
+                campoObservacaoTecnica ? campoObservacaoTecnica.value.trim() : "";
+
 
         if (!marca || !modelo || !tipoServico || isNaN(preco) || !prazo) {
             alert("Preencha todos os campos obrigatórios.");
@@ -531,13 +543,18 @@ if (formulario) {
         }
 
         const dados = {
-            marca,
-            modelo,
-            tipo_servico: tipoServico,
-            preco,
-            prazo,
-            status
-        };
+
+                marca,
+                modelo,
+                tipo_servico:
+                    tipoServico,
+                qualidade: qualidade || null,
+                observacao_tecnica: observacaoTecnica || null,
+                preco,
+                prazo,
+                status
+
+            };
 
         const idEditando = formulario.dataset.editandoId;
 
@@ -614,6 +631,15 @@ async function editarServico(id) {
         campoPreco.value = servico.preco || 0;
         campoPrazo.value = servico.prazo || "";
         campoStatus.value = String(servico.status || "ativo").toLowerCase();
+                if (campoQualidade) {
+            campoQualidade.value =
+                servico.qualidade || "";
+        }
+
+        if (campoObservacaoTecnica) {
+            campoObservacaoTecnica.value =
+                servico.observacao_tecnica || "";
+        }
 
         formulario.dataset.editandoId = id;
 
