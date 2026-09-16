@@ -210,6 +210,14 @@
                     </select>
                 </div>
 
+               <div class="consulta-campo">
+    <label for="consultaQualidade">4. Qualidade da peça</label>
+    <select id="consultaQualidade" disabled>
+        <option value="">Escolha a qualidade</option>
+    </select>
+</div>
+
+
             </div>
 
             <div id="consultaResultado" class="consulta-resultado">
@@ -308,7 +316,10 @@
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
 <script src="consulta.js"></script>
-
+SELECT marca, modelo, tipo_servico, qualidade, preco 
+FROM servicos 
+WHERE qualidade IS NOT NULL
+ORDER BY marca, modelo, qualidade;
 
 
 </body>

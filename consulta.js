@@ -1,5 +1,5 @@
 // ============================================================
-// CONSULTA DE PREÇOS INTERATIVA
+// CONSULTA DE PREÇOS INTERATIVA (v2 — com Qualidade)
 // ============================================================
 
 const CONSULTA_URL = "https://ggdzzmekaxrovmuyvxyn.supabase.co";
@@ -8,6 +8,7 @@ const CONSULTA_KEY = "sb_publishable_EyZOeqOCjgq_9RjBCUfa8w_121a85zK";
 let consultaMarca = null;
 let consultaModelo = null;
 let consultaServico = null;
+let consultaQualidade = null;
 let consultaResultado = null;
 
 let servicosCache = [];
@@ -16,14 +17,11 @@ let garantiaEmpresa = "90 dias";
 
 
 async function esperarSupabase() {
-    let tentativas = 0;
+    let t = 0;
     while (typeof window.supabase === "undefined" || !window.supabase.createClient) {
-        if (tentativas > 50) {
-            console.error("❌ Supabase não carregou em 5 segundos.");
-            return false;
-        }
-        await new Promise(resolve => setTimeout(resolve, 100));
-        tentativas++;
+        if (t > 50) return false;
+        await new Promise(r => setTimeout(r, 100));
+        t++;
     }
     return true;
 }
@@ -34,12 +32,10 @@ async function iniciarConsulta() {
     consultaMarca = document.getElementById("consultaMarca");
     consultaModelo = document.getElementById("consultaModelo");
     consultaServico = document.getElementById("consultaServico");
+    consultaQualidade = document.getElementById("consultaQualidade");
     consultaResultado = document.getElementById("consultaResultado");
 
-    if (!consultaMarca || !consultaResultado) {
-        console.warn("⚠️ Seção de consulta não encontrada.");
-        return;
-    }
+    if (!consultaMarca || !consultaResultado) return;
 
     const pronto = await esperarSupabase();
     if (!pronto) {
@@ -51,8 +47,8 @@ async function iniciarConsulta() {
         const sb = window.supabase.createClient(CONSULTA_URL, CONSULTA_KEY);
 
         const [resServicos, resPrecos, resConfig] = await Promise.all([
-            sb.from("servicos").select("id, marca, modelo, tipo_servico, status, prazo, preco").eq("status", "ativo"),
-            sb.from("precos").select("servico_id, preco_final, margem, mao_de_obra, preco_peca, frete"),
+            sb.from("servicos").select("id, marca, modelo, tipo_servico, qualidade, observacao_tecnica, status, prazo, preco").eq("status", "ativo"),
+            sb.from("precos").select("servico_id, preco_final"),
             sb.from("configuracoes").select("chave, valor").eq("chave", "empresa_garantia")
         ]);
 
@@ -68,22 +64,22 @@ async function iniciarConsulta() {
             return;
         }
 
-        const marcasUnicas = [...new Set(servicosCache.map(s => s.marca).filter(Boolean))].sort();
+        const marcas = [...new Set(servicosCache.map(s => s.marca).filter(Boolean))].sort();
 
         consultaMarca.innerHTML = `<option value="">Selecione a marca</option>`;
-        marcasUnicas.forEach(function (marca) {
-            const opt = document.createElement("option");
-            opt.value = marca;
-            opt.textContent = marca;
-            consultaMarca.appendChild(opt);
+        marcas.forEach(function (m) {
+            const o = document.createElement("option");
+            o.value = m;
+            o.textContent = m;
+            consultaMarca.appendChild(o);
         });
 
         configurarEventos();
 
-        console.log("✅ Consulta de preços carregada. " + servicosCache.length + " serviços.");
+        console.log("✅ Consulta carregada. " + servicosCache.length + " serviços.");
 
     } catch (erro) {
-        console.error("Erro ao carregar consulta:", erro);
+        console.error("Erro na consulta:", erro);
         consultaMarca.innerHTML = `<option value="">Erro ao carregar</option>`;
     }
 }
@@ -91,101 +87,133 @@ async function iniciarConsulta() {
 
 function configurarEventos() {
 
-    if (consultaMarca) {
-        consultaMarca.addEventListener("change", function () {
+    // MARCA → MODELOS
+    consultaMarca.addEventListener("change", function () {
 
-            const marcaSelecionada = consultaMarca.value;
+        const marca = consultaMarca.value;
 
-            consultaModelo.innerHTML = `<option value="">Selecione o modelo</option>`;
-            consultaServico.innerHTML = `<option value="">Escolha o modelo primeiro</option>`;
+        consultaModelo.innerHTML = `<option value="">Selecione o modelo</option>`;
+        consultaServico.innerHTML = `<option value="">Escolha o modelo primeiro</option>`;
+        consultaServico.disabled = true;
+        resetarQualidade();
+        mostrarPlaceholder();
+
+        if (!marca) {
+            consultaModelo.disabled = true;
+            consultaModelo.innerHTML = `<option value="">Escolha a marca primeiro</option>`;
+            return;
+        }
+
+        const modelos = [...new Set(
+            servicosCache.filter(s => s.marca === marca).map(s => s.modelo).filter(Boolean)
+        )].sort();
+
+        consultaModelo.disabled = false;
+        modelos.forEach(function (m) {
+            const o = document.createElement("option");
+            o.value = m;
+            o.textContent = m;
+            consultaModelo.appendChild(o);
+        });
+    });
+
+    // MODELO → SERVIÇOS
+    consultaModelo.addEventListener("change", function () {
+
+        const marca = consultaMarca.value;
+        const modelo = consultaModelo.value;
+
+        consultaServico.innerHTML = `<option value="">Selecione o serviço</option>`;
+        resetarQualidade();
+        mostrarPlaceholder();
+
+        if (!modelo) {
             consultaServico.disabled = true;
-            mostrarPlaceholder();
+            consultaServico.innerHTML = `<option value="">Escolha o modelo primeiro</option>`;
+            return;
+        }
 
-            if (!marcaSelecionada) {
-                consultaModelo.disabled = true;
-                consultaModelo.innerHTML = `<option value="">Escolha a marca primeiro</option>`;
-                return;
-            }
+        const servicos = servicosCache.filter(s => s.marca === marca && s.modelo === modelo);
 
-            const modelos = [...new Set(
-                servicosCache
-                    .filter(s => s.marca === marcaSelecionada)
-                    .map(s => s.modelo)
-                    .filter(Boolean)
-            )].sort();
+        // Remove duplicatas de tipo_servico
+        const tiposUnicos = [...new Set(servicos.map(s => s.tipo_servico))];
 
-            consultaModelo.disabled = false;
-
-            modelos.forEach(function (modelo) {
-                const opt = document.createElement("option");
-                opt.value = modelo;
-                opt.textContent = modelo;
-                consultaModelo.appendChild(opt);
-            });
+        consultaServico.disabled = false;
+        tiposUnicos.forEach(function (tipo) {
+            const o = document.createElement("option");
+            o.value = tipo;
+            o.textContent = tipo;
+            consultaServico.appendChild(o);
         });
-    }
+    });
 
-    if (consultaModelo) {
-        consultaModelo.addEventListener("change", function () {
+    // SERVIÇO → QUALIDADE ou RESULTADO
+    consultaServico.addEventListener("change", function () {
 
-            const marcaSelecionada = consultaMarca.value;
-            const modeloSelecionado = consultaModelo.value;
+        const tipoServico = consultaServico.value;
+        const marca = consultaMarca.value;
+        const modelo = consultaModelo.value;
 
-            consultaServico.innerHTML = `<option value="">Selecione o serviço</option>`;
+        if (!tipoServico) {
+            resetarQualidade();
             mostrarPlaceholder();
+            return;
+        }
 
-            if (!modeloSelecionado) {
-                consultaServico.disabled = true;
-                consultaServico.innerHTML = `<option value="">Escolha o modelo primeiro</option>`;
-                return;
-            }
+        // Filtra serviços deste modelo + tipo
+        const variacoes = servicosCache.filter(s =>
+            s.marca === marca &&
+            s.modelo === modelo &&
+            s.tipo_servico === tipoServico
+        );
 
-            const servicos = servicosCache.filter(
-                s => s.marca === marcaSelecionada && s.modelo === modeloSelecionado
-            );
+        // Se há mais de 1 variação de qualidade, mostra o 4º select
+        if (variacoes.length > 1) {
+            consultaQualidade.disabled = false;
+            consultaQualidade.innerHTML = `<option value="">Escolha a qualidade</option>`;
 
-            consultaServico.disabled = false;
-
-            servicos.forEach(function (s) {
-                const opt = document.createElement("option");
-                opt.value = s.id;
-                opt.textContent = s.tipo_servico;
-                consultaServico.appendChild(opt);
+            variacoes.forEach(function (v) {
+                const o = document.createElement("option");
+                o.value = v.id;
+                o.textContent = v.qualidade || "Padrão";
+                consultaQualidade.appendChild(o);
             });
-        });
-    }
 
-    if (consultaServico) {
-        consultaServico.addEventListener("change", function () {
+            mostrarPlaceholder();
+            return;
+        }
 
-            const servicoId = consultaServico.value;
+        // Se só tem 1, mostra direto
+        resetarQualidade();
+        if (variacoes.length === 1) {
+            mostrarResultado(variacoes[0]);
+        }
+    });
 
-            if (!servicoId) {
+    // QUALIDADE → RESULTADO
+    if (consultaQualidade) {
+        consultaQualidade.addEventListener("change", function () {
+
+            const id = consultaQualidade.value;
+
+            if (!id) {
                 mostrarPlaceholder();
                 return;
             }
 
-            const servico = servicosCache.find(s => Number(s.id) === Number(servicoId));
+            const servico = servicosCache.find(s => Number(s.id) === Number(id));
+            if (!servico) return;
 
-            if (!servico) {
-                mostrarPlaceholder();
-                return;
-            }
-
-            const preco = precosCache.find(p => Number(p.servico_id) === Number(servicoId));
-
-            let valorFinal;
-            if (preco && Number(preco.preco_final) > 0) {
-                valorFinal = Number(preco.preco_final);
-            } else if (servico.preco && Number(servico.preco) > 0) {
-                valorFinal = Number(servico.preco);
-            } else {
-                valorFinal = null;
-            }
-
-            mostrarResultado(servico, valorFinal);
+            mostrarResultado(servico);
         });
     }
+}
+
+
+function resetarQualidade() {
+    if (!consultaQualidade) return;
+    consultaQualidade.innerHTML = `<option value="">Escolha a qualidade</option>`;
+    consultaQualidade.disabled = true;
 }
 
 
@@ -200,24 +228,56 @@ function mostrarPlaceholder() {
 }
 
 
-function mostrarResultado(servico, valor) {
+function mostrarResultado(servico) {
+
+    const preco = precosCache.find(p => Number(p.servico_id) === Number(servico.id));
+
+    let valor = null;
+    if (preco && Number(preco.preco_final) > 0) {
+        valor = Number(preco.preco_final);
+    } else if (servico.preco && Number(servico.preco) > 0) {
+        valor = Number(servico.preco);
+    }
 
     const valorFormatado = valor !== null
         ? valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
         : "Sob consulta";
 
     const prazo = servico.prazo || "A definir";
+    const qualidade = servico.qualidade || null;
+    const obsTecnica = servico.observacao_tecnica || null;
 
-    const mensagem = `Olá! Quero um orçamento:\n\n` +
-        `📱 ${servico.marca} ${servico.modelo}\n` +
-        `🔧 ${servico.tipo_servico}\n` +
-        `💰 ${valorFormatado}\n\n` +
-        `Podemos agendar?`;
+    let msg = `Olá! Quero um orçamento:\n\n`;
+    msg += `📱 ${servico.marca} ${servico.modelo}\n`;
+    msg += `🔧 ${servico.tipo_servico}\n`;
+    if (qualidade) msg += `⭐ Qualidade: ${qualidade}\n`;
+    msg += `💰 ${valorFormatado}\n\n`;
+    msg += `Podemos agendar?`;
 
     const numeroWhats = (typeof WHATSAPP_NUMBER !== "undefined") ? WHATSAPP_NUMBER : "";
     const urlWhats = numeroWhats
-        ? `https://wa.me/${numeroWhats}?text=${encodeURIComponent(mensagem)}`
+        ? `https://wa.me/${numeroWhats}?text=${encodeURIComponent(msg)}`
         : "#";
+
+    const blocoObs = obsTecnica ? `
+        <div class="preco-card-obs">
+            <span>ℹ️</span>
+            <div>
+                <strong>Importante</strong>
+                ${escapar(obsTecnica)}
+            </div>
+        </div>
+    ` : "";
+
+    const blocoQualidade = qualidade ? `
+        <div class="preco-card-info-item" style="grid-column: 1 / -1;">
+            <span>⭐</span>
+            <div>
+                <strong>Qualidade da peça</strong>
+                ${escapar(qualidade)}
+            </div>
+        </div>
+    ` : "";
 
     consultaResultado.innerHTML = `
         <div class="preco-card">
@@ -250,19 +310,17 @@ function mostrarResultado(servico, valor) {
                         ${escapar(garantiaEmpresa)}
                     </div>
                 </div>
+                ${blocoQualidade}
             </div>
+
+            ${blocoObs}
 
             <div class="preco-card-aviso">
                 💡 O valor pode variar após avaliação presencial do aparelho.
             </div>
 
             <div class="preco-card-acoes">
-                <a
-                    href="${urlWhats}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn btn-primary"
-                >
+                <a href="${urlWhats}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                     💬 Solicitar orçamento
                 </a>
             </div>
@@ -275,14 +333,9 @@ function mostrarResultado(servico, valor) {
 }
 
 
-function escapar(valor) {
-    if (valor === null || valor === undefined) return "";
-    return String(valor)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+function escapar(v) {
+    if (v === null || v === undefined) return "";
+    return String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 
 
@@ -292,4 +345,4 @@ if (document.readyState === "loading") {
     iniciarConsulta();
 }
 
-console.log("🔍 Módulo de consulta de preços carregado.");
+console.log("🔍 Consulta v2 com qualidade carregada.");

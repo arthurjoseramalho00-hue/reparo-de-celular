@@ -1388,7 +1388,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 
 .consulta-form {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     margin-bottom: 30px;
 }
@@ -1650,4 +1650,37 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
     .preco-card-acoes .btn {
         min-width: 0;
     }
+}
+
+/* ============================================================
+   OBSERVAÇÃO TÉCNICA (ex: transferência de chip Apple)
+   ============================================================ */
+
+.preco-card-obs {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, rgba(37, 211, 102, .1), rgba(25, 140, 255, .05));
+    border: 1px solid rgba(37, 211, 102, .25);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+}
+
+.preco-card-obs > span {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.preco-card-obs strong {
+    display: block;
+    font-size: 11px;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    font-weight: 800;
+    margin-bottom: 4px;
 }
