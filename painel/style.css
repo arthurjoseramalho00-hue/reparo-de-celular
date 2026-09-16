@@ -1125,3 +1125,233 @@ nav {
     line-height: 1.6;
     text-align: left;
 }
+
+
+/* Botão de logout */
+.logout-area {
+    position: absolute;
+    bottom: 25px;
+    left: 18px;
+    right: 18px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+}
+
+.btn-logout {
+    width: 100%;
+    padding: 13px;
+    background: rgba(239, 68, 68, .1);
+    border: 1px solid rgba(239, 68, 68, .3);
+    color: #fca5a5;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-logout:hover {
+    background: rgba(239, 68, 68, .2);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Ajuste do sidebar para o botão não cobrir os menus */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar nav {
+    flex: 1;
+}    
+
+
+/* ============================================================
+   MODAL DE IMPORTAÇÃO
+   ============================================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: aparecerModal .2s ease;
+}
+
+.modal-overlay.hidden {
+    display: none !important;
+}
+
+@keyframes aparecerModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-conteudo {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+    animation: subirModal .25s ease;
+}
+
+@keyframes subirModal {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 28px;
+    border-bottom: 1px solid #eef2f7;
+    position: sticky;
+    top: 0;
+    background: white;
+    border-radius: 20px 20px 0 0;
+    z-index: 1;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    color: #172033;
+}
+
+.modal-fechar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #f0f3f8;
+    cursor: pointer;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.modal-fechar:hover {
+    background: #e0e5ee;
+}
+
+.modal-corpo {
+    padding: 25px 28px 30px;
+}
+
+.modal-info {
+    background: #f0f7ff;
+    border-left: 4px solid #198cff;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #172033;
+    margin-bottom: 18px;
+}
+
+.modal-exemplo {
+    background: #f9fafb;
+    border: 1px solid #e5eaf1;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 12px;
+    color: #4a5568;
+    margin-bottom: 20px;
+}
+
+.modal-exemplo pre {
+    margin-top: 8px;
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #2d3748;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.preview-tabela {
+    border: 1px solid #e5eaf1;
+    border-radius: 10px;
+    overflow: hidden;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.preview-tabela table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.preview-tabela th {
+    background: #f5f8fc;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 700;
+    color: #4a5568;
+    border-bottom: 1px solid #e5eaf1;
+    position: sticky;
+    top: 0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.preview-tabela td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f3f8;
+    color: #172033;
+}
+
+.preview-tabela tr:last-child td {
+    border-bottom: none;
+}
+
+.preview-tabela tr.linha-erro td {
+    background: #fff5f5;
+    color: #c53030;
+}
+
+.preview-resumo {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    font-size: 13px;
+}
+
+.preview-resumo-item {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.preview-resumo-item.ok {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.preview-resumo-item.erro {
+    background: #fff5f5;
+    color: #c53030;
+}
+
+@media (max-width: 600px) {
+    .modal-conteudo {
+        max-height: 95vh;
+    }
+
+    .modal-header,
+    .modal-corpo {
+        padding: 18px 20px;
+    }
+}

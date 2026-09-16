@@ -9,7 +9,8 @@
 
     <link rel="stylesheet" href="/painel/style.css">
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔧</text></svg>">
+  <link rel="icon" href="/painel/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="/painel/logo.png">
 
 </head>
 
@@ -230,6 +231,67 @@
 
             <!-- SERVIÇOS -->
 
+         <!-- ============================================================ -->
+<!-- MODAL DE IMPORTAÇÃO EM MASSA                                 -->
+<!-- ============================================================ -->
+<div id="modalImportacao" class="modal-overlay hidden">
+    <div class="modal-conteudo">
+
+        <div class="modal-header">
+            <h3>📥 Importar serviços em massa</h3>
+            <button type="button" id="fecharModalImportacao" class="modal-fechar">✕</button>
+        </div>
+
+        <div class="modal-corpo">
+
+            <div class="modal-info">
+                <p>
+                    <strong>Como usar:</strong> Cole os dados abaixo, uma linha por serviço, separados por vírgula (,) ou tabulação (Tab do Excel).
+                </p>
+                <p style="margin-top: 8px; color: #718096;">
+                    <strong>Ordem:</strong> Marca, Modelo, Serviço, Preço, Prazo
+                </p>
+            </div>
+
+            <div class="modal-exemplo">
+                <strong>Exemplo:</strong>
+                <pre>Samsung, Galaxy A03, Troca de tela, 180, No mesmo dia
+Samsung, Galaxy A03, Troca de bateria, 120, Até 2 horas
+Apple, iPhone 11, Troca de tela, 380, 1 dia</pre>
+            </div>
+
+            <div class="campo">
+                <label>Cole os dados aqui:</label>
+                <textarea
+                    id="importarTexto"
+                    rows="10"
+                    placeholder="Cole os dados da planilha aqui..."
+                    style="width: 100%; font-family: monospace; font-size: 13px;"
+                ></textarea>
+            </div>
+
+            <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <button type="button" id="btnPreviewImportacao" class="btn-secondary">
+                    👁️ Pré-visualizar
+                </button>
+                <button type="button" id="btnImportarTudo" class="btn-primary" disabled>
+                    📥 Importar tudo
+                </button>
+                <button type="button" id="btnLimparImportacao" class="btn-secondary">
+                    🗑️ Limpar
+                </button>
+            </div>
+
+            <div id="previewImportacao" style="margin-top: 20px;"></div>
+
+            <div id="statusImportacao" style="margin-top: 15px; font-size: 14px;"></div>
+
+        </div>
+
+    </div>
+</div>
+
+
             <section id="pagina-servicos" class="pagina hidden">
 
                 <div class="pagina-header">
@@ -242,13 +304,12 @@
                         </p>
                     </div>
 
-                    <button
-                        id="novoServico"
-                        class="btn-primary"
-                    >
-                        + Novo serviço
-                    </button>
-
+                   <button id="novoServico" class="btn-primary">
+       + Novo serviço
+    </button>
+     <button id="importarServicos" class="btn-secondary" style="margin-left: 10px;">
+    📥 Importar em massa
+    </button>
                 </div>
 
 
@@ -1782,8 +1843,7 @@
 
     </main>
 
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/painel/seguranca.js"></script>
 <script src="/painel/script.js"></script>
 <script src="/painel/clientes.js"></script>
@@ -1791,7 +1851,8 @@
 <script src="/painel/pecas.js"></script>
 <script src="/painel/dashboard.js"></script>
 <script src="/painel/config.js"></script>
-<script src="/painel/backup.js"></script>  
+<script src="/painel/backup.js"></script>
+<script src="/painel/importar.js"></script>   ← NOVO
 <script src="/painel/bot.js"></script>
 
 
