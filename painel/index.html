@@ -55,6 +55,9 @@
             <button class="menu" data-page="whatsapp">
                 💬 WhatsApp
             </button>
+            <button class="menu" data-page="financeiro">
+                💰 Financeiro
+            </button>
             <button class="menu" data-page="config">
                 ⚙️ Configurações
             </button>
@@ -916,6 +919,289 @@
             </section>
 
 
+           <!-- ==================================================== -->
+<!-- PÁGINA: FINANCEIRO                                   -->
+<!-- ==================================================== -->
+<section id="pagina-financeiro" class="pagina hidden">
+
+    <div class="pagina-header">
+        <div>
+            <h2>💰 Financeiro</h2>
+            <p>Controle de entradas, saídas e lucro do negócio.</p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button id="novaDespesa" class="btn-danger">📤 Nova despesa</button>
+            <button id="novaReceita" class="btn-primary">📥 Nova receita</button>
+        </div>
+    </div>
+
+    <!-- FILTRO DE PERÍODO -->
+    <div class="fin-filtro">
+        <label>Período:</label>
+        <select id="finPeriodo">
+            <option value="hoje">Hoje</option>
+            <option value="semana">Esta semana</option>
+            <option value="mes" selected>Este mês</option>
+            <option value="mes_passado">Mês passado</option>
+            <option value="ano">Este ano</option>
+            <option value="todos">Todo o período</option>
+        </select>
+
+        <button type="button" id="finAtualizar" class="btn-secondary" style="padding: 10px 16px;">
+            🔄 Atualizar
+        </button>
+
+        <button type="button" id="finExportarCSV" class="btn-secondary" style="padding: 10px 16px;">
+            📥 Exportar CSV
+        </button>
+    </div>
+
+    <!-- CARDS DE RESUMO -->
+    <div class="fin-cards">
+
+        <div class="fin-card receita">
+            <div class="fin-card-icon">📥</div>
+            <div class="fin-card-info">
+                <p>Entradas</p>
+                <h3 id="finTotalEntradas">R$ 0,00</h3>
+                <small id="finCountEntradas">0 registros</small>
+            </div>
+        </div>
+
+        <div class="fin-card despesa">
+            <div class="fin-card-icon">📤</div>
+            <div class="fin-card-info">
+                <p>Saídas</p>
+                <h3 id="finTotalSaidas">R$ 0,00</h3>
+                <small id="finCountSaidas">0 registros</small>
+            </div>
+        </div>
+
+        <div class="fin-card lucro">
+            <div class="fin-card-icon">💎</div>
+            <div class="fin-card-info">
+                <p>Lucro líquido</p>
+                <h3 id="finLucro">R$ 0,00</h3>
+                <small id="finMargem">Margem: 0%</small>
+            </div>
+        </div>
+
+        <div class="fin-card pendente">
+            <div class="fin-card-icon">⚠️</div>
+            <div class="fin-card-info">
+                <p>A receber</p>
+                <h3 id="finAReceber">R$ 0,00</h3>
+                <small>Ordens não pagas</small>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- GRÁFICO SIMPLES (últimos 6 meses) -->
+    <div class="lista-card" style="margin-bottom: 25px;">
+        <div class="lista-header">
+            <h3>📈 Evolução dos últimos 6 meses</h3>
+        </div>
+        <div id="finGrafico" class="fin-grafico"></div>
+    </div>
+
+    <!-- ABAS: MOVIMENTAÇÕES -->
+    <div class="fin-tabs">
+        <button class="fin-tab active" data-tab="movimentacoes">📋 Movimentações</button>
+        <button class="fin-tab" data-tab="despesas">📤 Despesas</button>
+        <button class="fin-tab" data-tab="receitas">📥 Receitas</button>
+        <button class="fin-tab" data-tab="a_receber">⏳ A receber</button>
+    </div>
+
+    <!-- TABELA: MOVIMENTAÇÕES -->
+    <div class="lista-card">
+        <div id="finListaMovimentacoes">
+            <div class="lista-vazia">
+                <div style="font-size: 40px;">💰</div>
+                <h3>Carregando...</h3>
+                <p>Aguarde enquanto buscamos os dados.</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ==================================================== -->
+<!-- MODAL: NOVA DESPESA                                  -->
+<!-- ==================================================== -->
+<div id="modalDespesa" class="modal-overlay hidden">
+    <div class="modal-conteudo">
+        <div class="modal-header">
+            <h3>📤 Nova despesa</h3>
+            <button type="button" id="fecharModalDespesa" class="modal-fechar">✕</button>
+        </div>
+
+        <div class="modal-corpo">
+            <form id="despesaForm">
+                <div class="form-grid">
+
+                    <div class="campo campo-full">
+                        <label>Descrição *</label>
+                        <input id="despDescricao" type="text" placeholder="Ex: Compra de peças - fornecedor XYZ" required>
+                    </div>
+
+                    <div class="campo">
+                        <label>Categoria</label>
+                        <select id="despCategoria">
+                            <option value="">Selecione</option>
+                            <option>Peças / Estoque</option>
+                            <option>Fornecedor</option>
+                            <option>Aluguel</option>
+                            <option>Energia</option>
+                            <option>Água</option>
+                            <option>Internet</option>
+                            <option>Telefone</option>
+                            <option>Salários</option>
+                            <option>Impostos</option>
+                            <option>Marketing</option>
+                            <option>Transporte</option>
+                            <option>Equipamentos</option>
+                            <option>Outros</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label>Valor (R$) *</label>
+                        <input id="despValor" type="number" min="0" step="0.01" placeholder="0.00" required>
+                    </div>
+
+                    <div class="campo">
+                        <label>Data de vencimento</label>
+                        <input id="despVencimento" type="date">
+                    </div>
+
+                    <div class="campo">
+                        <label>Data de pagamento</label>
+                        <input id="despPagamento" type="date">
+                    </div>
+
+                    <div class="campo">
+                        <label>Status</label>
+                        <select id="despStatus">
+                            <option value="pendente">⏳ Pendente</option>
+                            <option value="pago">✅ Pago</option>
+                            <option value="atrasado">🔴 Atrasado</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label>Forma de pagamento</label>
+                        <select id="despForma">
+                            <option value="">Selecione</option>
+                            <option>Dinheiro</option>
+                            <option>Pix</option>
+                            <option>Cartão de débito</option>
+                            <option>Cartão de crédito</option>
+                            <option>Boleto</option>
+                            <option>Transferência</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label>Fornecedor</label>
+                        <input id="despFornecedor" type="text" placeholder="Opcional">
+                    </div>
+
+                    <div class="campo campo-full">
+                        <label>Observações</label>
+                        <textarea id="despObservacoes" rows="2" placeholder="Notas adicionais"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancelarDespesa" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar despesa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================================================== -->
+<!-- MODAL: NOVA RECEITA                                  -->
+<!-- ==================================================== -->
+<div id="modalReceita" class="modal-overlay hidden">
+    <div class="modal-conteudo">
+        <div class="modal-header">
+            <h3>📥 Nova receita</h3>
+            <button type="button" id="fecharModalReceita" class="modal-fechar">✕</button>
+        </div>
+
+        <div class="modal-corpo">
+            <form id="receitaForm">
+                <div class="form-grid">
+
+                    <div class="campo campo-full">
+                        <label>Descrição *</label>
+                        <input id="recDescricao" type="text" placeholder="Ex: Venda de capinha" required>
+                    </div>
+
+                    <div class="campo">
+                        <label>Categoria</label>
+                        <select id="recCategoria">
+                            <option value="">Selecione</option>
+                            <option>Venda de peça</option>
+                            <option>Venda de acessório</option>
+                            <option>Serviço extra</option>
+                            <option>Garantia (não conta)</option>
+                            <option>Outros</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label>Valor (R$) *</label>
+                        <input id="recValor" type="number" min="0" step="0.01" placeholder="0.00" required>
+                    </div>
+
+                    <div class="campo">
+                        <label>Data *</label>
+                        <input id="recData" type="date" required>
+                    </div>
+
+                    <div class="campo">
+                        <label>Status</label>
+                        <select id="recStatus">
+                            <option value="recebido">✅ Recebido</option>
+                            <option value="pendente">⏳ Pendente</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label>Forma de pagamento</label>
+                        <select id="recForma">
+                            <option value="">Selecione</option>
+                            <option>Dinheiro</option>
+                            <option>Pix</option>
+                            <option>Cartão de débito</option>
+                            <option>Cartão de crédito</option>
+                            <option>Transferência</option>
+                        </select>
+                    </div>
+
+                    <div class="campo campo-full">
+                        <label>Observações</label>
+                        <textarea id="recObservacoes" rows="2" placeholder="Notas adicionais"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="cancelarReceita" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar receita</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
             <!-- ==================================================== -->
             <!-- PÁGINA: CONFIGURAÇÕES                                -->
             <!-- ==================================================== -->
@@ -1171,6 +1457,7 @@ Apple, iPhone 11, Troca de tela, 380, 1 dia, ativo, Especial, Sem aviso de peça
     <script src="/painel/backup.js"></script>
     <script src="/painel/importar.js"></script>
     <script src="/painel/excluir-servicos.js"></script>
+    <script src="/painel/financeiro.js"></script>
     <script src="/painel/bot.js"></script>
 
 </body>

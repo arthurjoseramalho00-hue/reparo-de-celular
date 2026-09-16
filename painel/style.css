@@ -1486,3 +1486,296 @@ nav {
 .aviso-backup b {
     color: #198cff;
 }
+
+/* ============================================================
+   MÓDULO FINANCEIRO
+   ============================================================ */
+
+.fin-filtro {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    background: white;
+    padding: 18px 22px;
+    border-radius: 12px;
+    box-shadow: var(--sombra);
+}
+
+.fin-filtro label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #4a5568;
+}
+
+.fin-filtro select {
+    padding: 10px 14px;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 9px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+
+.fin-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.fin-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: var(--sombra);
+    border-left: 4px solid #cbd5e1;
+    transition: .2s;
+}
+
+.fin-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sombra-hover);
+}
+
+.fin-card.receita { border-left-color: #16a34a; }
+.fin-card.despesa { border-left-color: #dc2626; }
+.fin-card.lucro { border-left-color: #198cff; }
+.fin-card.pendente { border-left-color: #f59e0b; }
+
+.fin-card-icon {
+    font-size: 30px;
+    flex-shrink: 0;
+}
+
+.fin-card-info p {
+    font-size: 11px;
+    color: var(--cinza-texto);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.fin-card-info h3 {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.fin-card.receita .fin-card-info h3 { color: #16a34a; }
+.fin-card.despesa .fin-card-info h3 { color: #dc2626; }
+.fin-card.lucro .fin-card-info h3 { color: #198cff; }
+.fin-card.pendente .fin-card-info h3 { color: #f59e0b; }
+
+.fin-card-info small {
+    font-size: 11px;
+    color: #a0aec0;
+    display: block;
+    margin-top: 4px;
+}
+
+/* Gráfico de barras */
+.fin-grafico {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 200px;
+    padding: 20px 10px 0;
+    gap: 20px;
+    border-top: 1px solid #eef2f7;
+    margin-top: 15px;
+}
+
+.fin-grafico-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.fin-grafico-barras {
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+.fin-grafico-barra {
+    width: 20px;
+    border-radius: 6px 6px 0 0;
+    min-height: 4px;
+    transition: .3s;
+    position: relative;
+}
+
+.fin-grafico-barra.entrada { background: linear-gradient(180deg, #4ae483, #16a34a); }
+.fin-grafico-barra.saida { background: linear-gradient(180deg, #fca5a5, #dc2626); }
+
+.fin-grafico-barra:hover::after {
+    content: attr(data-valor);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #172033;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.fin-grafico-label {
+    font-size: 11px;
+    color: #718096;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Abas */
+.fin-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e5eaf1;
+    overflow-x: auto;
+}
+
+.fin-tab {
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 700;
+    color: #718096;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    font-family: inherit;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+.fin-tab:hover {
+    color: #198cff;
+}
+
+.fin-tab.active {
+    color: #198cff;
+    border-bottom-color: #198cff;
+}
+
+/* Item de movimentação */
+.fin-item {
+    display: grid;
+    grid-template-columns: 40px 1fr auto auto;
+    gap: 14px;
+    align-items: center;
+    padding: 15px 18px;
+    border-bottom: 1px solid #f0f3f8;
+    transition: .2s;
+}
+
+.fin-item:last-child {
+    border-bottom: none;
+}
+
+.fin-item:hover {
+    background: #f8fbff;
+}
+
+.fin-item-icon {
+    font-size: 22px;
+    text-align: center;
+}
+
+.fin-item-desc strong {
+    display: block;
+    font-size: 14px;
+    color: #172033;
+    margin-bottom: 3px;
+}
+
+.fin-item-desc small {
+    color: #718096;
+    font-size: 12px;
+}
+
+.fin-item-valor {
+    font-size: 16px;
+    font-weight: 800;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.fin-item-valor.receita { color: #16a34a; }
+.fin-item-valor.despesa { color: #dc2626; }
+
+.fin-item-acoes {
+    display: flex;
+    gap: 6px;
+}
+
+.fin-item-acoes button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: .2s;
+}
+
+.fin-item-acoes button:hover {
+    transform: translateY(-2px);
+}
+
+.btn-edit-fin {
+    background: #edf5ff;
+    color: #1677ff;
+}
+
+.btn-del-fin {
+    background: #fff0f0;
+    color: #d64545;
+}
+
+/* Status badge */
+.fin-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.fin-status.pago { background: #d1fae5; color: #065f46; }
+.fin-status.pendente { background: #fef3c7; color: #92400e; }
+.fin-status.atrasado { background: #fee2e2; color: #991b1b; }
+.fin-status.recebido { background: #dbeafe; color: #1e40af; }
+
+/* Responsivo */
+@media (max-width: 1100px) {
+    .fin-cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 700px) {
+    .fin-cards { grid-template-columns: 1fr; }
+    .fin-item { grid-template-columns: 30px 1fr auto; }
+    .fin-item-acoes { grid-column: 2 / -1; margin-top: 8px; }
+}

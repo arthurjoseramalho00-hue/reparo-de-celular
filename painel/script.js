@@ -94,6 +94,10 @@ function abrirPagina(nome) {
     if (tituloPagina && nomesPaginas[nome]) {
         tituloPagina.textContent = nomesPaginas[nome].titulo;
     }
+   
+        if (nome === "financeiro" && typeof iniciarFinanceiro === "function") {
+        iniciarFinanceiro();
+    }  
 
     if (descricaoPagina && nomesPaginas[nome]) {
         descricaoPagina.textContent = nomesPaginas[nome].descricao;
