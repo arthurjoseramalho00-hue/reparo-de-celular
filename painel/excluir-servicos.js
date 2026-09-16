@@ -1,203 +1,221 @@
 // ============================================================
 // EXCLUSÃO EM MASSA DE SERVIÇOS
 // ============================================================
+// Todas as funções ficam em window. para funcionar com onclick
+// ============================================================
 
-const btnExcluirTodos = document.getElementById("excluirTodosServicos");
-const modalExclusao = document.getElementById("modalExclusao");
-const fecharModalExclusao = document.getElementById("fecharModalExclusao");
-const btnCancelarExclusao = document.getElementById("btnCancelarExclusao");
-const btnConfirmarExclusao = document.getElementById("btnConfirmarExclusao");
-const confirmarExclusaoInput = document.getElementById("confirmarExclusao");
-const statusExclusao = document.getElementById("statusExclusao");
-const btnBackupAntesExcluir = document.getElementById("btnBackupAntesExcluir");
+console.log("🗑️ Módulo de exclusão em massa carregado.");
 
 
 // ============================================================
 // ABRIR MODAL
 // ============================================================
 
-if (btnExcluirTodos) {
-    btnExcluirTodos.addEventListener("click", function () {
+window.abrirModalExclusao = function () {
 
-        // Verifica se tem serviços
-        if (!todosServicos || todosServicos.length === 0) {
-            alert("Não há serviços cadastrados para excluir.");
-            return;
-        }
+    console.log("🔓 abrirModalExclusao chamado");
 
-        // Reset
-        confirmarExclusaoInput.value = "";
-        btnConfirmarExclusao.disabled = true;
-        statusExclusao.innerHTML = "";
+    const modal = document.getElementById("modalExclusao");
 
-        // Atualiza o botão com a contagem
-        btnConfirmarExclusao.textContent = `🗑️ Excluir ${todosServicos.length} serviços`;
+    if (!modal) {
+        console.error("❌ Modal não encontrado!");
+        alert("Erro: modal de exclusão não encontrado.");
+        return;
+    }
 
-        modalExclusao.classList.remove("hidden");
-        setTimeout(function () {
-            confirmarExclusaoInput.focus();
-        }, 100);
-    });
-}
+    // Verifica se tem serviços
+    const servicos = (typeof todosServicos !== "undefined" && Array.isArray(todosServicos))
+        ? todosServicos
+        : [];
+
+    if (servicos.length === 0) {
+        alert("Não há serviços cadastrados para excluir.");
+        return;
+    }
+
+    // Reset
+    const input = document.getElementById("confirmarExclusao");
+    const btnConfirmar = document.getElementById("btnConfirmarExclusao");
+    const status = document.getElementById("statusExclusao");
+
+    if (input) input.value = "";
+    if (btnConfirmar) {
+        btnConfirmar.disabled = true;
+        btnConfirmar.textContent = `🗑️ Excluir ${servicos.length} serviços`;
+    }
+    if (status) status.innerHTML = "";
+
+    modal.classList.remove("hidden");
+
+    setTimeout(function () {
+        if (input) input.focus();
+    }, 100);
+};
 
 
 // ============================================================
 // FECHAR MODAL
 // ============================================================
 
-function fecharModalExclusaoFunc() {
-    modalExclusao.classList.add("hidden");
-    confirmarExclusaoInput.value = "";
-    btnConfirmarExclusao.disabled = true;
-    statusExclusao.innerHTML = "";
-}
+window.fecharModalExclusao = function () {
 
-if (fecharModalExclusao) {
-    fecharModalExclusao.addEventListener("click", fecharModalExclusaoFunc);
-}
+    const modal = document.getElementById("modalExclusao");
+    if (!modal) return;
 
-if (btnCancelarExclusao) {
-    btnCancelarExclusao.addEventListener("click", fecharModalExclusaoFunc);
-}
+    modal.classList.add("hidden");
 
-// Fechar clicando fora
-if (modalExclusao) {
-    modalExclusao.addEventListener("click", function (e) {
-        if (e.target === modalExclusao) {
-            fecharModalExclusaoFunc();
-        }
-    });
-}
+    const input = document.getElementById("confirmarExclusao");
+    const btnConfirmar = document.getElementById("btnConfirmarExclusao");
+    const status = document.getElementById("statusExclusao");
+
+    if (input) input.value = "";
+    if (btnConfirmar) btnConfirmar.disabled = true;
+    if (status) status.innerHTML = "";
+};
 
 
 // ============================================================
 // VALIDAR DIGITAÇÃO
 // ============================================================
 
-if (confirmarExclusaoInput) {
-    confirmarExclusaoInput.addEventListener("input", function () {
-        const texto = confirmarExclusaoInput.value.trim().toUpperCase();
+window.validarExclusao = function () {
 
-        if (texto === "EXCLUIR") {
-            btnConfirmarExclusao.disabled = false;
-        } else {
-            btnConfirmarExclusao.disabled = true;
-        }
-    });
-}
+    const input = document.getElementById("confirmarExclusao");
+    const btnConfirmar = document.getElementById("btnConfirmarExclusao");
+
+    if (!input || !btnConfirmar) return;
+
+    const texto = input.value.trim().toUpperCase();
+
+    btnConfirmar.disabled = (texto !== "EXCLUIR");
+};
 
 
 // ============================================================
-// BAIXAR BACKUP ANTES DE EXCLUIR
+// BACKUP ANTES DE EXCLUIR
 // ============================================================
 
-if (btnBackupAntesExcluir) {
-    btnBackupAntesExcluir.addEventListener("click", async function () {
+window.baixarBackupAntesExcluir = async function () {
 
-        btnBackupAntesExcluir.disabled = true;
-        btnBackupAntesExcluir.textContent = "⏳ Gerando backup...";
+    const btn = document.getElementById("btnBackupAntesExcluir");
+    if (!btn) return;
 
-        try {
-            const { data, error } = await supabaseClient
-                .from("servicos")
-                .select("*");
+    btn.disabled = true;
+    btn.textContent = "⏳ Gerando backup...";
 
-            if (error) throw error;
+    try {
+        const { data, error } = await supabaseClient
+            .from("servicos")
+            .select("*");
 
-            const backup = {
-                versao: "1.0",
-                tipo: "backup-antes-exclusao",
-                exportado_em: new Date().toISOString(),
-                total_servicos: (data || []).length,
-                servicos: data || []
-            };
+        if (error) throw error;
 
-            const agora = new Date();
-            const data_str = agora.toISOString().slice(0, 10);
-            const hora_str = agora.toTimeString().slice(0, 8).replace(/:/g, "-");
-            const nomeArquivo = `servicos-backup-${data_str}_${hora_str}.json`;
+        const backup = {
+            versao: "1.0",
+            tipo: "backup-antes-exclusao",
+            exportado_em: new Date().toISOString(),
+            total_servicos: (data || []).length,
+            servicos: data || []
+        };
 
-            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = nomeArquivo;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+        const agora = new Date();
+        const dataStr = agora.toISOString().slice(0, 10);
+        const horaStr = agora.toTimeString().slice(0, 8).replace(/:/g, "-");
+        const nomeArquivo = `servicos-backup-${dataStr}_${horaStr}.json`;
 
-            btnBackupAntesExcluir.textContent = "✅ Backup baixado";
+        const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = nomeArquivo;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
 
-            setTimeout(function () {
-                btnBackupAntesExcluir.disabled = false;
-                btnBackupAntesExcluir.textContent = "💾 Baixar backup agora";
-            }, 3000);
+        btn.textContent = "✅ Backup baixado";
 
-        } catch (erro) {
-            console.error("Erro no backup:", erro);
-            btnBackupAntesExcluir.textContent = "❌ Erro no backup";
-            setTimeout(function () {
-                btnBackupAntesExcluir.disabled = false;
-                btnBackupAntesExcluir.textContent = "💾 Baixar backup agora";
-            }, 3000);
-        }
-    });
-}
+        setTimeout(function () {
+            btn.disabled = false;
+            btn.textContent = "💾 Baixar backup agora";
+        }, 3000);
+
+    } catch (erro) {
+        console.error("Erro no backup:", erro);
+        btn.textContent = "❌ Erro no backup";
+        setTimeout(function () {
+            btn.disabled = false;
+            btn.textContent = "💾 Baixar backup agora";
+        }, 3000);
+    }
+};
 
 
 // ============================================================
 // CONFIRMAR EXCLUSÃO
 // ============================================================
 
-if (btnConfirmarExclusao) {
-    btnConfirmarExclusao.addEventListener("click", async function () {
+window.confirmarExclusao = async function () {
 
-        const texto = confirmarExclusaoInput.value.trim().toUpperCase();
+    const input = document.getElementById("confirmarExclusao");
+    const btnConfirmar = document.getElementById("btnConfirmarExclusao");
+    const status = document.getElementById("statusExclusao");
 
-        if (texto !== "EXCLUIR") {
-            statusExclusao.innerHTML = `<span style="color: #dc2626;">⚠️ Digite EXCLUIR em maiúsculas para confirmar.</span>`;
-            return;
+    if (!input || !btnConfirmar) return;
+
+    const texto = input.value.trim().toUpperCase();
+
+    if (texto !== "EXCLUIR") {
+        if (status) {
+            status.innerHTML = `<span style="color: #dc2626;">⚠️ Digite EXCLUIR em maiúsculas para confirmar.</span>`;
         }
+        return;
+    }
 
-        btnConfirmarExclusao.disabled = true;
-        btnConfirmarExclusao.textContent = "⏳ Excluindo...";
-        statusExclusao.innerHTML = `<span style="color: #dc2626;">Excluindo ${todosServicos.length} serviços...</span>`;
+    const total = (typeof todosServicos !== "undefined" && Array.isArray(todosServicos))
+        ? todosServicos.length
+        : 0;
 
-        try {
-            const total = todosServicos.length;
+    btnConfirmar.disabled = true;
+    btnConfirmar.textContent = "⏳ Excluindo...";
 
-            // Exclui TODOS os serviços (neq com valor que nunca existe)
-            const { error } = await supabaseClient
-                .from("servicos")
-                .delete()
-                .neq("id", 0);
+    if (status) {
+        status.innerHTML = `<span style="color: #dc2626;">Excluindo ${total} serviços...</span>`;
+    }
 
-            if (error) throw error;
+    try {
+        const { error } = await supabaseClient
+            .from("servicos")
+            .delete()
+            .neq("id", 0);
 
-            statusExclusao.innerHTML = `<span style="color: #16a34a;">✅ ${total} serviços excluídos com sucesso!</span>`;
-            btnConfirmarExclusao.textContent = "✅ Excluído";
+        if (error) throw error;
 
-            // Recarrega a lista
-            setTimeout(async function () {
-                fecharModalExclusaoFunc();
-                if (typeof carregarServicos === "function") {
-                    await carregarServicos();
-                }
-                if (typeof carregarServicosParaPrecos === "function") {
-                    await carregarServicosParaPrecos();
-                }
-                alert(`✅ ${total} serviços foram excluídos.`);
-            }, 1500);
-
-        } catch (erro) {
-            console.error("Erro ao excluir serviços:", erro);
-            statusExclusao.innerHTML = `<span style="color: #dc2626;">❌ Erro: ${erro.message || "Falha ao excluir"}</span>`;
-            btnConfirmarExclusao.disabled = false;
-            btnConfirmarExclusao.textContent = "🗑️ Tentar novamente";
+        if (status) {
+            status.innerHTML = `<span style="color: #16a34a;">✅ ${total} serviços excluídos com sucesso!</span>`;
         }
-    });
-}
+        btnConfirmar.textContent = "✅ Excluído";
+
+        setTimeout(async function () {
+            window.fecharModalExclusao();
+            if (typeof carregarServicos === "function") {
+                await carregarServicos();
+            }
+            if (typeof carregarServicosParaPrecos === "function") {
+                await carregarServicosParaPrecos();
+            }
+            alert(`✅ ${total} serviços foram excluídos.`);
+        }, 1500);
+
+    } catch (erro) {
+        console.error("Erro ao excluir serviços:", erro);
+        if (status) {
+            status.innerHTML = `<span style="color: #dc2626;">❌ Erro: ${erro.message || "Falha ao excluir"}</span>`;
+        }
+        btnConfirmar.disabled = false;
+        btnConfirmar.textContent = "🗑️ Tentar novamente";
+    }
+};
 
 
-console.log("🗑️ Módulo de exclusão em massa carregado.");
+console.log("✅ Funções globais registradas: abrirModalExclusao, fecharModalExclusao, validarExclusao, confirmarExclusao, baixarBackupAntesExcluir");

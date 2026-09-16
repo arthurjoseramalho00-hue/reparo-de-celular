@@ -251,6 +251,7 @@
         <div class="modal-header modal-header-perigo">
             <h3>⚠️ Excluir TODOS os serviços</h3>
             <button type="button" id="fecharModalExclusao" class="modal-fechar">✕</button>
+            <button type="button" id="fecharModalExclusao" class="modal-fechar" onclick="fecharModalExclusao()">✕</button>
         </div>
 
         <div class="modal-corpo">
@@ -265,28 +266,33 @@
 
             <div class="aviso-backup">
                 <p>💡 <b>Recomendamos fazer um backup antes.</b></p>
-                <button type="button" id="btnBackupAntesExcluir" class="btn-secondary" style="margin-top: 10px;">
-                    💾 Baixar backup agora
-                </button>
-            </div>
+                <button type="button" id="btnBackupAntesExcluir" class="btn-secondary" style="margin-top: 10px;" onclick="baixarBackupAntesExcluir()">
+    💾 Baixar backup agora
+</button>
 
             <div class="campo" style="margin-top: 25px;">
                 <label>Para confirmar, digite <b style="color: #dc2626;">EXCLUIR</b> abaixo:</label>
                 <input
-                    type="text"
-                    id="confirmarExclusao"
-                    placeholder="Digite EXCLUIR em maiúsculas"
-                    autocomplete="off"
-                    style="font-family: monospace; text-transform: uppercase;"
-                >
+    type="text"
+    id="confirmarExclusao"
+    placeholder="Digite EXCLUIR em maiúsculas"
+    autocomplete="off"
+    style="font-family: monospace; text-transform: uppercase;"
+    oninput="validarExclusao()"
+>
+
+         <button type="button" id="btnConfirmarExclusao" class="btn-perigo" disabled onclick="confirmarExclusao()">
+    🗑️ Excluir tudo
+</button>
+
             </div>
 
             <div id="statusExclusao" style="margin-top: 15px; font-size: 14px;"></div>
 
             <div class="form-actions" style="margin-top: 25px;">
-                <button type="button" id="btnCancelarExclusao" class="btn-secondary">
-                    Cancelar
-                </button>
+               <button type="button" id="btnCancelarExclusao" class="btn-secondary" onclick="fecharModalExclusao()">
+    Cancelar
+</button>
                 <button type="button" id="btnConfirmarExclusao" class="btn-perigo" disabled>
                     🗑️ Excluir tudo
                 </button>
@@ -366,7 +372,12 @@ Apple, iPhone 11, Troca de tela, 380, 1 dia</pre>
     📥 Importar em massa
     </button>
 
-    <button id="excluirTodosServicos" class="btn-danger" style="margin-left: 10px;">
+    <button
+    id="excluirTodosServicos"
+    class="btn-danger"
+    style="margin-left: 10px;"
+    onclick="abrirModalExclusao()"
+>
     🗑️ Excluir todos
 </button>
 
