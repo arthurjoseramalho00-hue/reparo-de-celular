@@ -7,166 +7,73 @@
     <title>Painel | Reparo de Celular</title>
 
     <link rel="icon" href="/painel/logo.png" type="image/png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="/painel/style.css">
 </head>
 
 <body>
 
-    <!-- ============================================================ -->
-    <!-- SIDEBAR                                                       -->
-    <!-- ============================================================ -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-
         <div class="logo-area">
             <div class="logo-icon">🔧</div>
-            <h2>
-                Reparo de<br>
-                Celular
-            </h2>
+            <h2>Reparo de<br>Celular</h2>
         </div>
 
         <nav>
-            <button class="menu active" data-page="inicio">
-                🏠 Início
-            </button>
-            <button class="menu" data-page="servicos">
-                📱 Serviços
-            </button>
-            <button class="menu" data-page="precos">
-                💰 Preços
-            </button>
-            <button class="menu" data-page="ordens">
-                📋 Ordens
-            </button>
-            <button class="menu" data-page="clientes">
-                👤 Clientes
-            </button>
-            <button class="menu" data-page="pecas">
-                🔩 Peças
-            </button>
-            <button class="menu" data-page="bot">
-                🤖 Bot
-            </button>
-            <button class="menu" data-page="whatsapp">
-                💬 WhatsApp
-            </button>
-            <button class="menu" data-page="financeiro">
-                💰 Financeiro
-            </button>
-            <button class="menu" data-page="config">
-                ⚙️ Configurações
-            </button>
+            <button class="menu active" data-page="inicio">🏠 Início</button>
+            <button class="menu" data-page="servicos">📱 Serviços</button>
+            <button class="menu" data-page="precos">💰 Preços</button>
+            <button class="menu" data-page="ordens">📋 Ordens</button>
+            <button class="menu" data-page="clientes">👤 Clientes</button>
+            <button class="menu" data-page="pecas">🔩 Peças</button>
+            <button class="menu" data-page="bot">🤖 Bot</button>
+            <button class="menu" data-page="whatsapp">💬 WhatsApp</button>
+            <button class="menu" data-page="financeiro">💵 Financeiro</button>
+            <button class="menu" data-page="config">⚙️ Configurações</button>
         </nav>
-
     </aside>
 
-
-    <!-- ============================================================ -->
-    <!-- MAIN                                                          -->
-    <!-- ============================================================ -->
+    <!-- MAIN -->
     <main class="main">
-
-        <!-- TOPBAR -->
         <header class="topbar">
             <div>
                 <h1 id="tituloPagina">Painel de Controle</h1>
                 <p id="descricaoPagina">Gerencie sua assistência técnica.</p>
             </div>
-
-            <div class="status">
-                <span></span>
-                Sistema online
-            </div>
+            <div class="status"><span></span> Sistema online</div>
         </header>
 
-
-        <!-- CONTEÚDO -->
         <div id="conteudo">
 
-            <!-- ==================================================== -->
-            <!-- PÁGINA: INÍCIO                                       -->
-            <!-- ==================================================== -->
+            <!-- INÍCIO -->
             <section id="pagina-inicio">
-
                 <section class="cards">
-                    <div class="card">
-                        <div class="card-icon">📱</div>
-                        <div>
-                            <p>Serviços cadastrados</p>
-                            <h2 id="totalServicos">0</h2>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">📋</div>
-                        <div>
-                            <p>Ordens abertas</p>
-                            <h2 id="dashOSAbertas">0</h2>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">💰</div>
-                        <div>
-                            <p>Faturamento do mês</p>
-                            <h2 id="dashFaturamento">R$ 0,00</h2>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">👤</div>
-                        <div>
-                            <p>Clientes</p>
-                            <h2 id="dashClientes">0</h2>
-                        </div>
-                    </div>
+                    <div class="card"><div class="card-icon">📱</div><div><p>Serviços cadastrados</p><h2 id="totalServicos">0</h2></div></div>
+                    <div class="card"><div class="card-icon">📋</div><div><p>Ordens abertas</p><h2 id="dashOSAbertas">0</h2></div></div>
+                    <div class="card"><div class="card-icon">💰</div><div><p>Faturamento do mês</p><h2 id="dashFaturamento">R$ 0,00</h2></div></div>
+                    <div class="card"><div class="card-icon">👤</div><div><p>Clientes</p><h2 id="dashClientes">0</h2></div></div>
                 </section>
 
                 <section class="cards">
-                    <div class="card">
-                        <div class="card-icon">✅</div>
-                        <div>
-                            <p>Entregues no mês</p>
-                            <h2 id="dashEntregues">0</h2>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">🔧</div>
-                        <div>
-                            <p>Em reparo</p>
-                            <h2 id="dashEmReparo">0</h2>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">📦</div>
-                        <div>
-                            <p>Peças em estoque</p>
-                            <h2 id="dashPecas">0</h2>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">⚠️</div>
-                        <div>
-                            <p>Estoque baixo</p>
-                            <h2 id="dashEstoqueBaixo">0</h2>
-                        </div>
-                    </div>
+                    <div class="card"><div class="card-icon">✅</div><div><p>Entregues no mês</p><h2 id="dashEntregues">0</h2></div></div>
+                    <div class="card"><div class="card-icon">🔧</div><div><p>Em reparo</p><h2 id="dashEmReparo">0</h2></div></div>
+                    <div class="card"><div class="card-icon">📦</div><div><p>Peças em estoque</p><h2 id="dashPecas">0</h2></div></div>
+                    <div class="card"><div class="card-icon">⚠️</div><div><p>Estoque baixo</p><h2 id="dashEstoqueBaixo">0</h2></div></div>
                 </section>
 
                 <section class="welcome">
                     <span class="tag">CONTROLE TOTAL</span>
                     <h2>Bem-vindo ao seu painel 👋</h2>
-                    <p>Aqui você controla os serviços, preços, peças, ordens de serviço e o assistente automático do Reparo de Celular.</p>
+                    <p>Aqui você controla os serviços, preços, peças, ordens de serviço e o assistente automático.</p>
                 </section>
 
                 <section class="lista-card" style="margin-bottom: 25px;">
                     <div class="lista-header">
                         <h3>📋 Ordens recentes</h3>
-                        <button type="button" class="btn-secondary" data-page="ordens" style="padding: 8px 14px; font-size: 13px;">
-                            Ver todas
-                        </button>
+                        <button type="button" class="btn-secondary" data-page="ordens" style="padding: 8px 14px; font-size: 13px;">Ver todas</button>
                     </div>
                     <div id="dashOrdensRecentes"></div>
                 </section>
@@ -174,70 +81,37 @@
                 <section class="quick-actions">
                     <h2>Ações rápidas</h2>
                     <div class="actions">
-                        <button data-page="ordens">
-                            <strong>📋</strong>
-                            <span><b>Nova Ordem de Serviço</b><small>Registrar aparelho</small></span>
-                        </button>
-                        <button data-page="servicos">
-                            <strong>📱</strong>
-                            <span><b>Gerenciar serviços</b><small>Cadastrar e editar</small></span>
-                        </button>
-                        <button data-page="precos">
-                            <strong>💰</strong>
-                            <span><b>Gerenciar preços</b><small>Alterar valores</small></span>
-                        </button>
-                        <button data-page="pecas">
-                            <strong>🔩</strong>
-                            <span><b>Gerenciar peças</b><small>Controlar estoque</small></span>
-                        </button>
-                        <button data-page="clientes">
-                            <strong>👤</strong>
-                            <span><b>Clientes</b><small>Cadastro e histórico</small></span>
-                        </button>
-                        <button data-page="bot">
-                            <strong>🤖</strong>
-                            <span><b>Assistente Bot</b><small>Respostas automáticas</small></span>
-                        </button>
+                        <button data-page="ordens"><strong>📋</strong><span><b>Nova OS</b><small>Registrar aparelho</small></span></button>
+                        <button data-page="servicos"><strong>📱</strong><span><b>Gerenciar serviços</b><small>Cadastrar e editar</small></span></button>
+                        <button data-page="precos"><strong>💰</strong><span><b>Gerenciar preços</b><small>Alterar valores</small></span></button>
+                        <button data-page="pecas"><strong>🔩</strong><span><b>Gerenciar peças</b><small>Controlar estoque</small></span></button>
+                        <button data-page="clientes"><strong>👤</strong><span><b>Clientes</b><small>Cadastro e histórico</small></span></button>
+                        <button data-page="bot"><strong>🤖</strong><span><b>Assistente Bot</b><small>Respostas automáticas</small></span></button>
                     </div>
                 </section>
             </section>
 
-
-            <!-- ==================================================== -->
-            <!-- PÁGINA: SERVIÇOS                                     -->
-            <!-- ==================================================== -->
+            <!-- SERVIÇOS -->
             <section id="pagina-servicos" class="pagina hidden">
-
                 <div class="pagina-header">
                     <div>
                         <h2>📱 Serviços</h2>
                         <p>Cadastre e gerencie os serviços da assistência.</p>
                     </div>
-
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button id="novoServico" class="btn-primary">
-                            + Novo serviço
-                        </button>
-                        <button id="importarServicos" class="btn-secondary">
-                            📥 Importar em massa
-                        </button>
-                        <button id="excluirTodosServicos" class="btn-danger" onclick="abrirModalExclusao()">
-                            🗑️ Excluir todos
-                        </button>
+                        <button id="novoServico" class="btn-primary">+ Novo serviço</button>
+                        <button id="importarServicos" class="btn-secondary">📥 Importar em massa</button>
+                        <button id="excluirTodosServicos" class="btn-danger" onclick="abrirModalExclusao()">🗑️ Excluir todos</button>
                     </div>
                 </div>
 
                 <div id="formularioServico" class="form-card hidden">
-
                     <div class="form-header">
                         <h3>Novo serviço</h3>
                         <button type="button" id="fecharFormulario">✕</button>
                     </div>
-
                     <form id="servicoForm">
-
                         <div class="form-grid">
-
                             <div class="campo">
                                 <label>Marca</label>
                                 <select id="marca" required>
@@ -250,25 +124,11 @@
                                     <option>Outro</option>
                                 </select>
                             </div>
-
-                            <div class="campo">
-                                <label>Modelo</label>
-                                <input id="modelo" type="text" placeholder="Ex.: Galaxy A03" required>
-                            </div>
-
-                            <div class="campo">
-                                <label>Serviço</label>
-                                <input id="tipoServico" type="text" placeholder="Ex.: Troca de tela" required>
-                            </div>
-
+                            <div class="campo"><label>Modelo</label><input id="modelo" type="text" placeholder="Ex.: Galaxy A03" required></div>
+                            <div class="campo"><label>Serviço</label><input id="tipoServico" type="text" placeholder="Ex.: Troca de tela" required></div>
                             <div class="campo">
                                 <label>Qualidade da peça</label>
-                                <input
-                                    id="qualidade"
-                                    type="text"
-                                    list="listaQualidades"
-                                    placeholder="Ex: Premium, Original, Comum..."
-                                >
+                                <input id="qualidade" type="text" list="listaQualidades" placeholder="Ex: Premium, Original...">
                                 <datalist id="listaQualidades">
                                     <option value="Comum">
                                     <option value="Premium (Incell)">
@@ -279,12 +139,7 @@
                                     <option value="Recondicionada">
                                 </datalist>
                             </div>
-
-                            <div class="campo">
-                                <label>Preço (R$)</label>
-                                <input id="preco" type="number" min="0" step="0.01" placeholder="180.00" required>
-                            </div>
-
+                            <div class="campo"><label>Preço (R$)</label><input id="preco" type="number" min="0" step="0.01" placeholder="180.00" required></div>
                             <div class="campo">
                                 <label>Prazo estimado</label>
                                 <select id="prazo" required>
@@ -297,7 +152,6 @@
                                     <option>Mais de 3 dias</option>
                                 </select>
                             </div>
-
                             <div class="campo">
                                 <label>Status</label>
                                 <select id="status">
@@ -305,29 +159,16 @@
                                     <option value="inativo">🔴 Inativo</option>
                                 </select>
                             </div>
-
                             <div class="campo campo-full">
                                 <label>Observação técnica (aparece no site)</label>
-                                <textarea
-                                    id="observacaoTecnica"
-                                    rows="2"
-                                    placeholder="Ex: Sem aviso de peça não genuína. Transferimos o chip da tela original."
-                                ></textarea>
+                                <textarea id="observacaoTecnica" rows="2" placeholder="Ex: Sem aviso de peça não genuína..."></textarea>
                             </div>
-
                         </div>
-
                         <div class="form-actions">
-                            <button type="button" id="cancelarServico" class="btn-secondary">
-                                Cancelar
-                            </button>
-                            <button type="submit" class="btn-primary">
-                                Salvar serviço
-                            </button>
+                            <button type="button" id="cancelarServico" class="btn-secondary">Cancelar</button>
+                            <button type="submit" class="btn-primary">Salvar serviço</button>
                         </div>
-
                     </form>
-
                 </div>
 
                 <div class="lista-card">
@@ -337,65 +178,33 @@
                     </div>
                     <div id="listaServicos"></div>
                 </div>
-
             </section>
 
-
-            <!-- ==================================================== -->
-            <!-- PÁGINA: PREÇOS                                       -->
-            <!-- ==================================================== -->
+            <!-- PREÇOS -->
             <section id="pagina-precos" class="pagina hidden">
-
                 <div class="pagina-header">
-                    <div>
-                        <h2>💰 Preços</h2>
-                        <p>Monte e gerencie os preços dos seus serviços.</p>
-                    </div>
+                    <div><h2>💰 Preços</h2><p>Monte e gerencie os preços dos seus serviços.</p></div>
                     <button id="novoPreco" class="btn-primary">+ Novo preço</button>
                 </div>
 
                 <div id="formularioPreco" class="form-card hidden">
-
                     <div class="form-header">
                         <h3>Novo preço</h3>
                         <button type="button" id="fecharFormularioPreco">✕</button>
                     </div>
-
                     <form id="precoForm">
                         <div class="form-grid">
-
                             <div class="campo">
                                 <label>Serviço</label>
                                 <select id="servicoPreco" required>
                                     <option value="">Selecione um serviço</option>
                                 </select>
                             </div>
-
-                            <div class="campo">
-                                <label>Preço da peça (R$)</label>
-                                <input id="precoPeca" type="number" min="0" step="0.01" placeholder="100.00" required>
-                            </div>
-
-                            <div class="campo">
-                                <label>Mão de obra (R$)</label>
-                                <input id="maoDeObra" type="number" min="0" step="0.01" placeholder="50.00" required>
-                            </div>
-
-                            <div class="campo">
-                                <label>Frete (R$)</label>
-                                <input id="frete" type="number" min="0" step="0.01" placeholder="10.00">
-                            </div>
-
-                            <div class="campo">
-                                <label>Margem (%)</label>
-                                <input id="margem" type="number" min="0" step="0.01" placeholder="20">
-                            </div>
-
-                            <div class="campo">
-                                <label>Preço final (R$)</label>
-                                <input id="precoFinal" type="number" min="0" step="0.01" readonly>
-                            </div>
-
+                            <div class="campo"><label>Preço da peça (R$)</label><input id="precoPeca" type="number" min="0" step="0.01" placeholder="100.00" required></div>
+                            <div class="campo"><label>Mão de obra (R$)</label><input id="maoDeObra" type="number" min="0" step="0.01" placeholder="50.00" required></div>
+                            <div class="campo"><label>Frete (R$)</label><input id="frete" type="number" min="0" step="0.01" placeholder="10.00"></div>
+                            <div class="campo"><label>Margem (%)</label><input id="margem" type="number" min="0" step="0.01" placeholder="20"></div>
+                            <div class="campo"><label>Preço final (R$)</label><input id="precoFinal" type="number" min="0" step="0.01" readonly></div>
                         </div>
 
                         <div id="resumoPreco" style="margin-top: 20px; padding: 18px; border-radius: 12px; background: #f5f7fa;">
@@ -413,7 +222,6 @@
                             <button type="submit" class="btn-primary">Salvar preço</button>
                         </div>
                     </form>
-
                 </div>
 
                 <div class="lista-card">
@@ -429,48 +237,22 @@
                         </div>
                     </div>
                 </div>
-
             </section>
 
-
-            <!-- ==================================================== -->
-            <!-- PÁGINA: ORDENS DE SERVIÇO                            -->
-            <!-- ==================================================== -->
+            <!-- ORDENS -->
             <section id="pagina-ordens" class="pagina hidden">
-
                 <div class="pagina-header">
-                    <div>
-                        <h2>📋 Ordens de Serviço</h2>
-                        <p>Acompanhe o status de cada aparelho na assistência.</p>
-                    </div>
+                    <div><h2>📋 Ordens de Serviço</h2><p>Acompanhe o status de cada aparelho.</p></div>
                     <button id="novaOS" class="btn-primary">+ Nova OS</button>
                 </div>
 
                 <div class="os-resumo" id="osResumo">
-                    <div class="os-resumo-card" data-status="recebido">
-                        <div class="os-resumo-icon">📥</div>
-                        <div><p>Recebidos</p><h3 id="osCountRecebido">0</h3></div>
-                    </div>
-                    <div class="os-resumo-card" data-status="analise">
-                        <div class="os-resumo-icon">🔍</div>
-                        <div><p>Em análise</p><h3 id="osCountAnalise">0</h3></div>
-                    </div>
-                    <div class="os-resumo-card" data-status="aguardando_peca">
-                        <div class="os-resumo-icon">📦</div>
-                        <div><p>Aguardando peça</p><h3 id="osCountAguardando">0</h3></div>
-                    </div>
-                    <div class="os-resumo-card" data-status="reparo">
-                        <div class="os-resumo-icon">🔧</div>
-                        <div><p>Em reparo</p><h3 id="osCountReparo">0</h3></div>
-                    </div>
-                    <div class="os-resumo-card" data-status="pronto">
-                        <div class="os-resumo-icon">✅</div>
-                        <div><p>Prontos</p><h3 id="osCountPronto">0</h3></div>
-                    </div>
-                    <div class="os-resumo-card" data-status="entregue">
-                        <div class="os-resumo-icon">📤</div>
-                        <div><p>Entregues</p><h3 id="osCountEntregue">0</h3></div>
-                    </div>
+                    <div class="os-resumo-card" data-status="recebido"><div class="os-resumo-icon">📥</div><div><p>Recebidos</p><h3 id="osCountRecebido">0</h3></div></div>
+                    <div class="os-resumo-card" data-status="analise"><div class="os-resumo-icon">🔍</div><div><p>Em análise</p><h3 id="osCountAnalise">0</h3></div></div>
+                    <div class="os-resumo-card" data-status="aguardando_peca"><div class="os-resumo-icon">📦</div><div><p>Aguardando peça</p><h3 id="osCountAguardando">0</h3></div></div>
+                    <div class="os-resumo-card" data-status="reparo"><div class="os-resumo-icon">🔧</div><div><p>Em reparo</p><h3 id="osCountReparo">0</h3></div></div>
+                    <div class="os-resumo-card" data-status="pronto"><div class="os-resumo-icon">✅</div><div><p>Prontos</p><h3 id="osCountPronto">0</h3></div></div>
+                    <div class="os-resumo-card" data-status="entregue"><div class="os-resumo-icon">📤</div><div><p>Entregues</p><h3 id="osCountEntregue">0</h3></div></div>
                 </div>
 
                 <div id="formularioOS" class="form-card hidden">
@@ -478,9 +260,7 @@
                         <h3>Nova Ordem de Serviço</h3>
                         <button type="button" id="fecharFormularioOS">✕</button>
                     </div>
-
                     <form id="osForm">
-
                         <h4 class="form-section-title">👤 Cliente</h4>
                         <div class="form-grid">
                             <div class="campo campo-full">
@@ -496,56 +276,27 @@
 
                         <h4 class="form-section-title">📱 Aparelho</h4>
                         <div class="form-grid">
-                            <div class="campo">
-                                <label>Marca *</label>
-                                <input id="osMarca" type="text" placeholder="Ex.: Samsung" required>
-                            </div>
-                            <div class="campo">
-                                <label>Modelo *</label>
-                                <input id="osModelo" type="text" placeholder="Ex.: Galaxy A03" required>
-                            </div>
-                            <div class="campo">
-                                <label>IMEI</label>
-                                <input id="osImei" type="text" placeholder="Opcional">
-                            </div>
+                            <div class="campo"><label>Marca *</label><input id="osMarca" type="text" placeholder="Ex.: Samsung" required></div>
+                            <div class="campo"><label>Modelo *</label><input id="osModelo" type="text" placeholder="Ex.: Galaxy A03" required></div>
+                            <div class="campo"><label>IMEI</label><input id="osImei" type="text" placeholder="Opcional"></div>
                             <div class="campo">
                                 <label>Serviço vinculado</label>
-                                <select id="osServico">
-                                    <option value="">Nenhum</option>
-                                </select>
+                                <select id="osServico"><option value="">Nenhum</option></select>
                             </div>
                         </div>
 
                         <h4 class="form-section-title">🔍 Diagnóstico</h4>
                         <div class="form-grid">
-                            <div class="campo campo-full">
-                                <label>Defeito relatado pelo cliente *</label>
-                                <textarea id="osDefeito" rows="2" placeholder="Ex.: Tela trincada após queda" required></textarea>
-                            </div>
-                            <div class="campo campo-full">
-                                <label>Diagnóstico técnico</label>
-                                <textarea id="osDiagnostico" rows="2" placeholder="Ex.: Necessário troca de display e aro"></textarea>
-                            </div>
+                            <div class="campo campo-full"><label>Defeito relatado *</label><textarea id="osDefeito" rows="2" placeholder="Ex.: Tela trincada após queda" required></textarea></div>
+                            <div class="campo campo-full"><label>Diagnóstico técnico</label><textarea id="osDiagnostico" rows="2"></textarea></div>
                         </div>
 
                         <h4 class="form-section-title">💰 Valores</h4>
                         <div class="form-grid">
-                            <div class="campo">
-                                <label>Valor do serviço (R$)</label>
-                                <input id="osValorServico" type="number" min="0" step="0.01" placeholder="0.00" value="0">
-                            </div>
-                            <div class="campo">
-                                <label>Valor das peças (R$)</label>
-                                <input id="osValorPecas" type="number" min="0" step="0.01" placeholder="0.00" value="0">
-                            </div>
-                            <div class="campo">
-                                <label>Desconto (R$)</label>
-                                <input id="osDesconto" type="number" min="0" step="0.01" placeholder="0.00" value="0">
-                            </div>
-                            <div class="campo">
-                                <label>Valor total (R$)</label>
-                                <input id="osValorTotal" type="number" readonly value="0.00">
-                            </div>
+                            <div class="campo"><label>Valor do serviço (R$)</label><input id="osValorServico" type="number" min="0" step="0.01" value="0"></div>
+                            <div class="campo"><label>Valor das peças (R$)</label><input id="osValorPecas" type="number" min="0" step="0.01" value="0"></div>
+                            <div class="campo"><label>Desconto (R$)</label><input id="osDesconto" type="number" min="0" step="0.01" value="0"></div>
+                            <div class="campo"><label>Valor total (R$)</label><input id="osValorTotal" type="number" readonly value="0.00"></div>
                         </div>
 
                         <h4 class="form-section-title">⚙️ Status</h4>
@@ -562,14 +313,8 @@
                                     <option value="cancelado">❌ Cancelado</option>
                                 </select>
                             </div>
-                            <div class="campo">
-                                <label>Previsão de entrega</label>
-                                <input id="osPrevisao" type="date">
-                            </div>
-                            <div class="campo campo-full">
-                                <label>Observações internas</label>
-                                <textarea id="osObservacoes" rows="2" placeholder="Ex.: Cliente pediu urgência"></textarea>
-                            </div>
+                            <div class="campo"><label>Previsão de entrega</label><input id="osPrevisao" type="date"></div>
+                            <div class="campo campo-full"><label>Observações internas</label><textarea id="osObservacoes" rows="2"></textarea></div>
                         </div>
 
                         <div class="form-actions">
@@ -599,20 +344,12 @@
                     </div>
                     <div id="listaOS"></div>
                 </div>
-
             </section>
 
-
-            <!-- ==================================================== -->
-            <!-- PÁGINA: CLIENTES                                     -->
-            <!-- ==================================================== -->
+            <!-- CLIENTES -->
             <section id="pagina-clientes" class="pagina hidden">
-
                 <div class="pagina-header">
-                    <div>
-                        <h2>👤 Clientes</h2>
-                        <p>Cadastro e histórico dos seus clientes.</p>
-                    </div>
+                    <div><h2>👤 Clientes</h2><p>Cadastro e histórico dos seus clientes.</p></div>
                     <button id="novoCliente" class="btn-primary">+ Novo cliente</button>
                 </div>
 
@@ -621,35 +358,15 @@
                         <h3>Novo cliente</h3>
                         <button type="button" id="fecharFormularioCliente">✕</button>
                     </div>
-
                     <form id="clienteForm">
                         <div class="form-grid">
-                            <div class="campo campo-full">
-                                <label>Nome completo *</label>
-                                <input id="cliNome" type="text" placeholder="Ex.: João Silva" required>
-                            </div>
-                            <div class="campo">
-                                <label>Telefone / WhatsApp</label>
-                                <input id="cliTelefone" type="text" placeholder="(87) 99999-9999">
-                            </div>
-                            <div class="campo">
-                                <label>E-mail</label>
-                                <input id="cliEmail" type="email" placeholder="joao@email.com">
-                            </div>
-                            <div class="campo">
-                                <label>CPF</label>
-                                <input id="cliCpf" type="text" placeholder="000.000.000-00">
-                            </div>
-                            <div class="campo">
-                                <label>Endereço</label>
-                                <input id="cliEndereco" type="text" placeholder="Rua, número, bairro">
-                            </div>
-                            <div class="campo campo-full">
-                                <label>Observações</label>
-                                <textarea id="cliObservacoes" rows="2" placeholder="Anotações sobre o cliente"></textarea>
-                            </div>
+                            <div class="campo campo-full"><label>Nome completo *</label><input id="cliNome" type="text" placeholder="Ex.: João Silva" required></div>
+                            <div class="campo"><label>Telefone / WhatsApp</label><input id="cliTelefone" type="text" placeholder="(87) 99999-9999"></div>
+                            <div class="campo"><label>E-mail</label><input id="cliEmail" type="email" placeholder="joao@email.com"></div>
+                            <div class="campo"><label>CPF</label><input id="cliCpf" type="text" placeholder="000.000.000-00"></div>
+                            <div class="campo"><label>Endereço</label><input id="cliEndereco" type="text" placeholder="Rua, número, bairro"></div>
+                            <div class="campo campo-full"><label>Observações</label><textarea id="cliObservacoes" rows="2"></textarea></div>
                         </div>
-
                         <div class="form-actions">
                             <button type="button" id="cancelarCliente" class="btn-secondary">Cancelar</button>
                             <button type="submit" class="btn-primary">Salvar cliente</button>
@@ -667,21 +384,17 @@
                     </div>
                     <div id="listaClientes"></div>
                 </div>
-
             </section>
 
-
-            <!-- ==================================================== -->
-            <!-- PÁGINA: PEÇAS                                        -->
-            <!-- ==================================================== -->
+            <!-- PEÇAS -->
             <section id="pagina-pecas" class="pagina hidden">
-
                 <div class="pagina-header">
-                    <div>
-                        <h2>🔩 Peças e Estoque</h2>
-                        <p>Controle o estoque de peças da assistência.</p>
+                    <div><h2>🔩 Peças e Estoque</h2><p>Controle o estoque de peças da assistência.</p></div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button id="novaPeca" class="btn-primary">+ Nova peça</button>
+                        <button id="importarPecas" class="btn-secondary">📥 Importar em massa</button>
+                        <button id="excluirTodasPecas" class="btn-danger" onclick="abrirModalExclusaoPecas()">🗑️ Excluir todas</button>
                     </div>
-                    <button id="novaPeca" class="btn-primary">+ Nova peça</button>
                 </div>
 
                 <div class="pecas-resumo">
@@ -704,15 +417,9 @@
                         <h3>Nova peça</h3>
                         <button type="button" id="fecharFormularioPeca">✕</button>
                     </div>
-
                     <form id="pecaForm">
                         <div class="form-grid">
-
-                            <div class="campo campo-full">
-                                <label>Nome da peça *</label>
-                                <input id="pecaNome" type="text" placeholder="Ex.: Display Samsung Galaxy A03" required>
-                            </div>
-
+                            <div class="campo campo-full"><label>Nome da peça *</label><input id="pecaNome" type="text" placeholder="Ex.: Display Samsung Galaxy A03" required></div>
                             <div class="campo">
                                 <label>Categoria</label>
                                 <select id="pecaCategoria">
@@ -732,49 +439,15 @@
                                     <option>Outros</option>
                                 </select>
                             </div>
-
-                            <div class="campo">
-                                <label>Marca</label>
-                                <input id="pecaMarca" type="text" placeholder="Ex.: Samsung">
-                            </div>
-
-                            <div class="campo campo-full">
-                                <label>Modelos compatíveis</label>
-                                <input id="pecaModeloCompativel" type="text" placeholder="Ex.: Galaxy A03, A03s, A04">
-                            </div>
-
-                            <div class="campo">
-                                <label>Quantidade em estoque *</label>
-                                <input id="pecaQuantidade" type="number" min="0" value="0" required>
-                            </div>
-
-                            <div class="campo">
-                                <label>Estoque mínimo</label>
-                                <input id="pecaEstoqueMinimo" type="number" min="0" value="1">
-                            </div>
-
-                            <div class="campo">
-                                <label>Preço de custo (R$)</label>
-                                <input id="pecaPrecoCusto" type="number" min="0" step="0.01" placeholder="0.00" value="0">
-                            </div>
-
-                            <div class="campo">
-                                <label>Preço de venda (R$)</label>
-                                <input id="pecaPrecoVenda" type="number" min="0" step="0.01" placeholder="0.00" value="0">
-                            </div>
-
-                            <div class="campo campo-full">
-                                <label>Fornecedor</label>
-                                <input id="pecaFornecedor" type="text" placeholder="Ex.: Distribuidora XYZ">
-                            </div>
-
-                            <div class="campo campo-full">
-                                <label>Observações</label>
-                                <textarea id="pecaObservacoes" rows="2" placeholder="Anotações sobre a peça"></textarea>
-                            </div>
-
+                            <div class="campo"><label>Marca</label><input id="pecaMarca" type="text" placeholder="Ex.: Samsung"></div>
+                            <div class="campo campo-full"><label>Modelos compatíveis</label><input id="pecaModeloCompativel" type="text" placeholder="Ex.: Galaxy A03, A03s, A04"></div>
+                            <div class="campo"><label>Quantidade em estoque *</label><input id="pecaQuantidade" type="number" min="0" value="0" required></div>
+                            <div class="campo"><label>Estoque mínimo</label><input id="pecaEstoqueMinimo" type="number" min="0" value="1"></div>
+                            <div class="campo"><label>Preço de custo (R$)</label><input id="pecaPrecoCusto" type="number" min="0" step="0.01" value="0"></div>
+                            <div class="campo"><label>Preço de venda (R$)</label><input id="pecaPrecoVenda" type="number" min="0" step="0.01" value="0"></div>
+                            <div class="campo campo-full"><label>Fornecedor</label><input id="pecaFornecedor" type="text" placeholder="Ex.: Distribuidora XYZ"></div>
+                            <div class="campo campo-full"><label>Observações</label><textarea id="pecaObservacoes" rows="2"></textarea></div>
                         </div>
-
                         <div class="form-actions">
                             <button type="button" id="cancelarPeca" class="btn-secondary">Cancelar</button>
                             <button type="submit" class="btn-primary">Salvar peça</button>
@@ -787,8 +460,9 @@
                         <h3>Peças cadastradas</h3>
                         <span id="contadorPecas">0 peças</span>
                     </div>
-                    <div class="os-filtros">
-                        <input id="pecaPesquisa" type="search" placeholder="🔎 Buscar peça...">
+
+                    <div class="pecas-filtros">
+                        <input id="pecaPesquisa" type="search" placeholder="🔎 Buscar peça por nome, marca ou modelo...">
                         <select id="pecaFiltroCategoria">
                             <option value="todas">Todas as categorias</option>
                             <option>Display / Tela</option>
@@ -811,65 +485,28 @@
                             <option value="zerado">❌ Sem estoque</option>
                         </select>
                     </div>
+
                     <div id="listaPecas"></div>
                 </div>
-
             </section>
 
-
-            <!-- ==================================================== -->
-            <!-- PÁGINA: BOT                                          -->
-            <!-- ==================================================== -->
+            <!-- BOT -->
             <section id="pagina-bot" class="pagina hidden">
-
                 <div class="pagina-header">
-                    <div>
-                        <h2>🤖 Assistente Bot</h2>
-                        <p>Teste o robô que responde seus clientes automaticamente.</p>
-                    </div>
+                    <div><h2>🤖 Assistente Bot</h2><p>Teste o robô que responde seus clientes.</p></div>
                 </div>
 
                 <div class="bot-container">
-
                     <div class="form-card">
-                        <div class="form-header">
-                            <h3>⚙️ Configurações do Bot</h3>
-                        </div>
-
+                        <div class="form-header"><h3>⚙️ Configurações do Bot</h3></div>
                         <div class="form-grid" style="grid-template-columns: 1fr;">
-
-                            <div class="campo">
-                                <label>Nome da assistência</label>
-                                <input id="botNome" type="text" value="Reparo de Celular">
-                            </div>
-
-                            <div class="campo">
-                                <label>Mensagem de boas-vindas</label>
-                                <textarea id="botBoasVindas" rows="2">Olá! 👋 Bem-vindo à nossa assistência técnica. Como posso ajudar?</textarea>
-                            </div>
-
-                            <div class="campo">
-                                <label>Mensagem quando não entender</label>
-                                <textarea id="botFallback" rows="2">Desculpe, não entendi. 🤔 Você pode perguntar sobre: horário, endereço, orçamento, prazo ou garantia.</textarea>
-                            </div>
-
-                            <div class="campo">
-                                <label>Horário de funcionamento</label>
-                                <input id="botHorario" type="text" value="Segunda a Sexta, das 9h às 18h">
-                            </div>
-
-                            <div class="campo">
-                                <label>Endereço</label>
-                                <input id="botEndereco" type="text" value="Rua Exemplo, 123 - Centro">
-                            </div>
-
-                            <div class="campo">
-                                <label>WhatsApp</label>
-                                <input id="botWhatsapp" type="text" value="(87) 99999-9999">
-                            </div>
-
+                            <div class="campo"><label>Nome da assistência</label><input id="botNome" type="text" value="Reparo de Celular"></div>
+                            <div class="campo"><label>Mensagem de boas-vindas</label><textarea id="botBoasVindas" rows="2">Olá! 👋 Bem-vindo à nossa assistência técnica. Como posso ajudar?</textarea></div>
+                            <div class="campo"><label>Mensagem quando não entender</label><textarea id="botFallback" rows="2">Desculpe, não entendi. 🤔 Você pode perguntar sobre: horário, endereço, orçamento, prazo ou garantia.</textarea></div>
+                            <div class="campo"><label>Horário de funcionamento</label><input id="botHorario" type="text" value="Segunda a Sexta, das 9h às 18h"></div>
+                            <div class="campo"><label>Endereço</label><input id="botEndereco" type="text" value="Rua Exemplo, 123 - Centro"></div>
+                            <div class="campo"><label>WhatsApp</label><input id="botWhatsapp" type="text" value="(87) 99999-9999"></div>
                         </div>
-
                         <div class="form-actions">
                             <button type="button" id="botSalvarConfig" class="btn-primary">💾 Salvar configurações</button>
                         </div>
@@ -883,9 +520,7 @@
                                 <p>● Online agora</p>
                             </div>
                         </div>
-
                         <div class="chat-mensagens" id="chatMensagens"></div>
-
                         <div style="padding: 0 15px 10px; background: white;">
                             <div class="chat-sugestoes">
                                 <button data-sugestao="Qual o horário de funcionamento?">🕐 Horário</button>
@@ -895,406 +530,115 @@
                                 <button data-sugestao="Qual o prazo de reparo?">⏱️ Prazo</button>
                             </div>
                         </div>
-
                         <form class="chat-input-area" id="chatForm">
                             <input id="chatInput" type="text" placeholder="Digite sua mensagem..." autocomplete="off">
                             <button type="submit">➤</button>
                         </form>
                     </div>
-
                 </div>
-
             </section>
 
-
-            <!-- ==================================================== -->
-            <!-- PÁGINA: WHATSAPP                                     -->
-            <!-- ==================================================== -->
+            <!-- WHATSAPP -->
             <section id="pagina-whatsapp" class="pagina hidden">
                 <div class="placeholder">
                     <div>💬</div>
                     <h2>WhatsApp</h2>
-                    <p>Esta seção será configurada quando você conectar o bot ao WhatsApp Business.</p>
+                    <p>Esta seção será configurada quando você conectar o bot.</p>
                 </div>
             </section>
 
-
-           <!-- ==================================================== -->
-<!-- PÁGINA: FINANCEIRO                                   -->
-<!-- ==================================================== -->
-<section id="pagina-financeiro" class="pagina hidden">
-
-    <div class="pagina-header">
-        <div>
-            <h2>💰 Financeiro</h2>
-            <p>Controle de entradas, saídas e lucro do negócio.</p>
-        </div>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button id="novaDespesa" class="btn-danger">📤 Nova despesa</button>
-            <button id="novaReceita" class="btn-primary">📥 Nova receita</button>
-        </div>
-    </div>
-
-    <!-- FILTRO DE PERÍODO -->
-    <div class="fin-filtro">
-        <label>Período:</label>
-        <select id="finPeriodo">
-            <option value="hoje">Hoje</option>
-            <option value="semana">Esta semana</option>
-            <option value="mes" selected>Este mês</option>
-            <option value="mes_passado">Mês passado</option>
-            <option value="ano">Este ano</option>
-            <option value="todos">Todo o período</option>
-        </select>
-
-        <button type="button" id="finAtualizar" class="btn-secondary" style="padding: 10px 16px;">
-            🔄 Atualizar
-        </button>
-
-        <button type="button" id="finExportarCSV" class="btn-secondary" style="padding: 10px 16px;">
-            📥 Exportar CSV
-        </button>
-    </div>
-
-    <!-- CARDS DE RESUMO -->
-    <div class="fin-cards">
-
-        <div class="fin-card receita">
-            <div class="fin-card-icon">📥</div>
-            <div class="fin-card-info">
-                <p>Entradas</p>
-                <h3 id="finTotalEntradas">R$ 0,00</h3>
-                <small id="finCountEntradas">0 registros</small>
-            </div>
-        </div>
-
-        <div class="fin-card despesa">
-            <div class="fin-card-icon">📤</div>
-            <div class="fin-card-info">
-                <p>Saídas</p>
-                <h3 id="finTotalSaidas">R$ 0,00</h3>
-                <small id="finCountSaidas">0 registros</small>
-            </div>
-        </div>
-
-        <div class="fin-card lucro">
-            <div class="fin-card-icon">💎</div>
-            <div class="fin-card-info">
-                <p>Lucro líquido</p>
-                <h3 id="finLucro">R$ 0,00</h3>
-                <small id="finMargem">Margem: 0%</small>
-            </div>
-        </div>
-
-        <div class="fin-card pendente">
-            <div class="fin-card-icon">⚠️</div>
-            <div class="fin-card-info">
-                <p>A receber</p>
-                <h3 id="finAReceber">R$ 0,00</h3>
-                <small>Ordens não pagas</small>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- GRÁFICO SIMPLES (últimos 6 meses) -->
-    <div class="lista-card" style="margin-bottom: 25px;">
-        <div class="lista-header">
-            <h3>📈 Evolução dos últimos 6 meses</h3>
-        </div>
-        <div id="finGrafico" class="fin-grafico"></div>
-    </div>
-
-    <!-- ABAS: MOVIMENTAÇÕES -->
-    <div class="fin-tabs">
-        <button class="fin-tab active" data-tab="movimentacoes">📋 Movimentações</button>
-        <button class="fin-tab" data-tab="despesas">📤 Despesas</button>
-        <button class="fin-tab" data-tab="receitas">📥 Receitas</button>
-        <button class="fin-tab" data-tab="a_receber">⏳ A receber</button>
-    </div>
-
-    <!-- TABELA: MOVIMENTAÇÕES -->
-    <div class="lista-card">
-        <div id="finListaMovimentacoes">
-            <div class="lista-vazia">
-                <div style="font-size: 40px;">💰</div>
-                <h3>Carregando...</h3>
-                <p>Aguarde enquanto buscamos os dados.</p>
-            </div>
-        </div>
-    </div>
-
-</section>
-
-
-<!-- ==================================================== -->
-<!-- MODAL: NOVA DESPESA                                  -->
-<!-- ==================================================== -->
-<div id="modalDespesa" class="modal-overlay hidden">
-    <div class="modal-conteudo">
-        <div class="modal-header">
-            <h3>📤 Nova despesa</h3>
-            <button type="button" id="fecharModalDespesa" class="modal-fechar">✕</button>
-        </div>
-
-        <div class="modal-corpo">
-            <form id="despesaForm">
-                <div class="form-grid">
-
-                    <div class="campo campo-full">
-                        <label>Descrição *</label>
-                        <input id="despDescricao" type="text" placeholder="Ex: Compra de peças - fornecedor XYZ" required>
-                    </div>
-
-                    <div class="campo">
-                        <label>Categoria</label>
-                        <select id="despCategoria">
-                            <option value="">Selecione</option>
-                            <option>Peças / Estoque</option>
-                            <option>Fornecedor</option>
-                            <option>Aluguel</option>
-                            <option>Energia</option>
-                            <option>Água</option>
-                            <option>Internet</option>
-                            <option>Telefone</option>
-                            <option>Salários</option>
-                            <option>Impostos</option>
-                            <option>Marketing</option>
-                            <option>Transporte</option>
-                            <option>Equipamentos</option>
-                            <option>Outros</option>
-                        </select>
-                    </div>
-
-                    <div class="campo">
-                        <label>Valor (R$) *</label>
-                        <input id="despValor" type="number" min="0" step="0.01" placeholder="0.00" required>
-                    </div>
-
-                    <div class="campo">
-                        <label>Data de vencimento</label>
-                        <input id="despVencimento" type="date">
-                    </div>
-
-                    <div class="campo">
-                        <label>Data de pagamento</label>
-                        <input id="despPagamento" type="date">
-                    </div>
-
-                    <div class="campo">
-                        <label>Status</label>
-                        <select id="despStatus">
-                            <option value="pendente">⏳ Pendente</option>
-                            <option value="pago">✅ Pago</option>
-                            <option value="atrasado">🔴 Atrasado</option>
-                        </select>
-                    </div>
-
-                    <div class="campo">
-                        <label>Forma de pagamento</label>
-                        <select id="despForma">
-                            <option value="">Selecione</option>
-                            <option>Dinheiro</option>
-                            <option>Pix</option>
-                            <option>Cartão de débito</option>
-                            <option>Cartão de crédito</option>
-                            <option>Boleto</option>
-                            <option>Transferência</option>
-                        </select>
-                    </div>
-
-                    <div class="campo">
-                        <label>Fornecedor</label>
-                        <input id="despFornecedor" type="text" placeholder="Opcional">
-                    </div>
-
-                    <div class="campo campo-full">
-                        <label>Observações</label>
-                        <textarea id="despObservacoes" rows="2" placeholder="Notas adicionais"></textarea>
-                    </div>
-
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" id="cancelarDespesa" class="btn-secondary">Cancelar</button>
-                    <button type="submit" class="btn-primary">Salvar despesa</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-<!-- ==================================================== -->
-<!-- MODAL: NOVA RECEITA                                  -->
-<!-- ==================================================== -->
-<div id="modalReceita" class="modal-overlay hidden">
-    <div class="modal-conteudo">
-        <div class="modal-header">
-            <h3>📥 Nova receita</h3>
-            <button type="button" id="fecharModalReceita" class="modal-fechar">✕</button>
-        </div>
-
-        <div class="modal-corpo">
-            <form id="receitaForm">
-                <div class="form-grid">
-
-                    <div class="campo campo-full">
-                        <label>Descrição *</label>
-                        <input id="recDescricao" type="text" placeholder="Ex: Venda de capinha" required>
-                    </div>
-
-                    <div class="campo">
-                        <label>Categoria</label>
-                        <select id="recCategoria">
-                            <option value="">Selecione</option>
-                            <option>Venda de peça</option>
-                            <option>Venda de acessório</option>
-                            <option>Serviço extra</option>
-                            <option>Garantia (não conta)</option>
-                            <option>Outros</option>
-                        </select>
-                    </div>
-
-                    <div class="campo">
-                        <label>Valor (R$) *</label>
-                        <input id="recValor" type="number" min="0" step="0.01" placeholder="0.00" required>
-                    </div>
-
-                    <div class="campo">
-                        <label>Data *</label>
-                        <input id="recData" type="date" required>
-                    </div>
-
-                    <div class="campo">
-                        <label>Status</label>
-                        <select id="recStatus">
-                            <option value="recebido">✅ Recebido</option>
-                            <option value="pendente">⏳ Pendente</option>
-                        </select>
-                    </div>
-
-                    <div class="campo">
-                        <label>Forma de pagamento</label>
-                        <select id="recForma">
-                            <option value="">Selecione</option>
-                            <option>Dinheiro</option>
-                            <option>Pix</option>
-                            <option>Cartão de débito</option>
-                            <option>Cartão de crédito</option>
-                            <option>Transferência</option>
-                        </select>
-                    </div>
-
-                    <div class="campo campo-full">
-                        <label>Observações</label>
-                        <textarea id="recObservacoes" rows="2" placeholder="Notas adicionais"></textarea>
-                    </div>
-
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" id="cancelarReceita" class="btn-secondary">Cancelar</button>
-                    <button type="submit" class="btn-primary">Salvar receita</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-            <!-- ==================================================== -->
-            <!-- PÁGINA: CONFIGURAÇÕES                                -->
-            <!-- ==================================================== -->
-            <section id="pagina-config" class="pagina hidden">
-
+            <!-- FINANCEIRO -->
+            <section id="pagina-financeiro" class="pagina hidden">
                 <div class="pagina-header">
-                    <div>
-                        <h2>⚙️ Configurações</h2>
-                        <p>Dados da sua assistência técnica.</p>
+                    <div><h2>💵 Financeiro</h2><p>Controle de entradas, saídas e lucro.</p></div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button id="novaDespesa" class="btn-danger">📤 Nova despesa</button>
+                        <button id="novaReceita" class="btn-primary">📥 Nova receita</button>
                     </div>
+                </div>
+
+                <div class="fin-filtro">
+                    <label>Período:</label>
+                    <select id="finPeriodo">
+                        <option value="hoje">Hoje</option>
+                        <option value="semana">Esta semana</option>
+                        <option value="mes" selected>Este mês</option>
+                        <option value="mes_passado">Mês passado</option>
+                        <option value="ano">Este ano</option>
+                        <option value="todos">Todo o período</option>
+                    </select>
+                    <button type="button" id="finAtualizar" class="btn-secondary" style="padding: 10px 16px;">🔄 Atualizar</button>
+                    <button type="button" id="finExportarCSV" class="btn-secondary" style="padding: 10px 16px;">📥 Exportar CSV</button>
+                </div>
+
+                <div class="fin-cards">
+                    <div class="fin-card receita"><div class="fin-card-icon">📥</div><div class="fin-card-info"><p>Entradas</p><h3 id="finTotalEntradas">R$ 0,00</h3><small id="finCountEntradas">0 registros</small></div></div>
+                    <div class="fin-card despesa"><div class="fin-card-icon">📤</div><div class="fin-card-info"><p>Saídas</p><h3 id="finTotalSaidas">R$ 0,00</h3><small id="finCountSaidas">0 registros</small></div></div>
+                    <div class="fin-card lucro"><div class="fin-card-icon">💎</div><div class="fin-card-info"><p>Lucro líquido</p><h3 id="finLucro">R$ 0,00</h3><small id="finMargem">Margem: 0%</small></div></div>
+                    <div class="fin-card pendente"><div class="fin-card-icon">⚠️</div><div class="fin-card-info"><p>A receber</p><h3 id="finAReceber">R$ 0,00</h3><small>Ordens não pagas</small></div></div>
+                </div>
+
+                <div class="lista-card" style="margin-bottom: 25px;">
+                    <div class="lista-header"><h3>📈 Evolução dos últimos 6 meses</h3></div>
+                    <div id="finGrafico" class="fin-grafico"></div>
+                </div>
+
+                <div class="fin-tabs">
+                    <button class="fin-tab active" data-tab="movimentacoes">📋 Movimentações</button>
+                    <button class="fin-tab" data-tab="despesas">📤 Despesas</button>
+                    <button class="fin-tab" data-tab="receitas">📥 Receitas</button>
+                    <button class="fin-tab" data-tab="a_receber">⏳ A receber</button>
+                </div>
+
+                <div class="lista-card">
+                    <div id="finListaMovimentacoes">
+                        <div class="lista-vazia">
+                            <div style="font-size: 40px;">💰</div>
+                            <h3>Carregando...</h3>
+                            <p>Aguarde enquanto buscamos os dados.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONFIGURAÇÕES -->
+            <section id="pagina-config" class="pagina hidden">
+                <div class="pagina-header">
+                    <div><h2>⚙️ Configurações</h2><p>Dados da sua assistência técnica.</p></div>
                 </div>
 
                 <div class="form-card">
-                    <div class="form-header">
-                        <h3>🏢 Dados da Empresa</h3>
-                    </div>
-
+                    <div class="form-header"><h3>🏢 Dados da Empresa</h3></div>
                     <form id="configForm">
-
                         <h4 class="form-section-title">📋 Identificação</h4>
                         <div class="form-grid">
-                            <div class="campo campo-full">
-                                <label>Nome da assistência *</label>
-                                <input id="cfgNome" type="text" placeholder="Ex.: Reparo de Celular">
-                            </div>
-                            <div class="campo">
-                                <label>CNPJ / CPF</label>
-                                <input id="cfgCnpj" type="text" placeholder="00.000.000/0000-00">
-                            </div>
-                            <div class="campo">
-                                <label>Inscrição Estadual</label>
-                                <input id="cfgIE" type="text" placeholder="Opcional">
-                            </div>
+                            <div class="campo campo-full"><label>Nome da assistência *</label><input id="cfgNome" type="text" placeholder="Ex.: Reparo de Celular"></div>
+                            <div class="campo"><label>CNPJ / CPF</label><input id="cfgCnpj" type="text" placeholder="00.000.000/0000-00"></div>
+                            <div class="campo"><label>Inscrição Estadual</label><input id="cfgIE" type="text" placeholder="Opcional"></div>
                         </div>
 
                         <h4 class="form-section-title">📞 Contato</h4>
                         <div class="form-grid">
-                            <div class="campo">
-                                <label>Telefone</label>
-                                <input id="cfgTelefone" type="text" placeholder="(87) 3333-4444">
-                            </div>
-                            <div class="campo">
-                                <label>WhatsApp</label>
-                                <input id="cfgWhatsapp" type="text" placeholder="(87) 99999-9999">
-                            </div>
-                            <div class="campo">
-                                <label>E-mail</label>
-                                <input id="cfgEmail" type="email" placeholder="contato@assistencia.com">
-                            </div>
-                            <div class="campo">
-                                <label>Site</label>
-                                <input id="cfgSite" type="text" placeholder="www.assistencia.com">
-                            </div>
+                            <div class="campo"><label>Telefone</label><input id="cfgTelefone" type="text" placeholder="(87) 3333-4444"></div>
+                            <div class="campo"><label>WhatsApp</label><input id="cfgWhatsapp" type="text" placeholder="(87) 99999-9999"></div>
+                            <div class="campo"><label>E-mail</label><input id="cfgEmail" type="email" placeholder="contato@assistencia.com"></div>
+                            <div class="campo"><label>Site</label><input id="cfgSite" type="text" placeholder="www.assistencia.com"></div>
                         </div>
 
                         <h4 class="form-section-title">📍 Endereço</h4>
                         <div class="form-grid">
-                            <div class="campo campo-full">
-                                <label>Endereço completo</label>
-                                <input id="cfgEndereco" type="text" placeholder="Rua, número, complemento">
-                            </div>
-                            <div class="campo">
-                                <label>Bairro</label>
-                                <input id="cfgBairro" type="text" placeholder="Centro">
-                            </div>
-                            <div class="campo">
-                                <label>CEP</label>
-                                <input id="cfgCep" type="text" placeholder="00000-000">
-                            </div>
-                            <div class="campo">
-                                <label>Cidade</label>
-                                <input id="cfgCidade" type="text" placeholder="Custódia">
-                            </div>
-                            <div class="campo">
-                                <label>Estado</label>
-                                <input id="cfgEstado" type="text" placeholder="PE" maxlength="2">
-                            </div>
+                            <div class="campo campo-full"><label>Endereço completo</label><input id="cfgEndereco" type="text" placeholder="Rua, número, complemento"></div>
+                            <div class="campo"><label>Bairro</label><input id="cfgBairro" type="text" placeholder="Centro"></div>
+                            <div class="campo"><label>CEP</label><input id="cfgCep" type="text" placeholder="00000-000"></div>
+                            <div class="campo"><label>Cidade</label><input id="cfgCidade" type="text" placeholder="Custódia"></div>
+                            <div class="campo"><label>Estado</label><input id="cfgEstado" type="text" placeholder="PE" maxlength="2"></div>
                         </div>
 
                         <h4 class="form-section-title">🎨 Personalização</h4>
                         <div class="form-grid">
-                            <div class="campo campo-full">
-                                <label>Slogan / Frase de destaque</label>
-                                <input id="cfgSlogan" type="text" placeholder="Ex.: Consertamos com qualidade e garantia">
-                            </div>
-                            <div class="campo campo-full">
-                                <label>Texto de garantia</label>
-                                <textarea id="cfgGarantia" rows="2" placeholder="Ex.: Garantia de 90 dias sobre os serviços executados."></textarea>
-                            </div>
-                            <div class="campo campo-full">
-                                <label>Termos e condições</label>
-                                <textarea id="cfgTermos" rows="3" placeholder="Ex.: O cliente declara estar ciente..."></textarea>
-                            </div>
+                            <div class="campo campo-full"><label>Slogan</label><input id="cfgSlogan" type="text" placeholder="Ex.: Consertamos com qualidade"></div>
+                            <div class="campo campo-full"><label>Texto de garantia</label><textarea id="cfgGarantia" rows="2"></textarea></div>
+                            <div class="campo campo-full"><label>Termos e condições</label><textarea id="cfgTermos" rows="3"></textarea></div>
                         </div>
 
                         <div class="form-actions">
@@ -1304,28 +648,23 @@
                     </form>
                 </div>
 
-                <!-- CARD DE BACKUP -->
                 <div class="lista-card" style="margin-bottom: 25px;">
                     <div class="lista-header">
                         <h3>💾 Backup de Dados</h3>
                         <span>Exporte uma cópia de segurança</span>
                     </div>
-
                     <p style="color: #718096; font-size: 14px; margin-bottom: 20px;">
                         Salve uma cópia de todos os dados em um arquivo. Guarde em local seguro.
                     </p>
-
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         <button type="button" id="btnExportarBackup" class="btn-primary">📥 Exportar backup (JSON)</button>
                         <button type="button" id="btnExportarCSV" class="btn-secondary">📊 Exportar CSV</button>
                         <button type="button" id="btnImportarBackup" class="btn-secondary">📤 Importar backup</button>
                     </div>
-
                     <input type="file" id="inputImportarBackup" accept=".json" style="display: none;">
                     <div id="backupStatus" style="margin-top: 15px; font-size: 13px;"></div>
                 </div>
 
-                <!-- PREVIEW -->
                 <div class="lista-card">
                     <div class="lista-header">
                         <h3>👁️ Pré-visualização</h3>
@@ -1333,72 +672,56 @@
                     </div>
                     <div id="cfgPreview" class="cfg-preview"></div>
                 </div>
-
             </section>
 
         </div>
-
     </main>
 
 
     <!-- ============================================================ -->
-    <!-- MODAL: IMPORTAÇÃO EM MASSA                                   -->
+    <!-- MODAIS                                                        -->
     <!-- ============================================================ -->
+
+    <!-- MODAL: IMPORTAÇÃO DE SERVIÇOS -->
     <div id="modalImportacao" class="modal-overlay hidden">
         <div class="modal-conteudo">
-
             <div class="modal-header">
                 <h3>📥 Importar serviços em massa</h3>
                 <button type="button" id="fecharModalImportacao" class="modal-fechar">✕</button>
             </div>
-
             <div class="modal-corpo">
-
                 <div class="modal-info">
-                    <p><strong>Como usar:</strong> Cole os dados abaixo, uma linha por serviço, separados por vírgula (,) ou tabulação (Tab do Excel).</p>
+                    <p><strong>Como usar:</strong> Cole os dados abaixo, uma linha por serviço, separados por vírgula (,) ou Tab do Excel.</p>
                     <p style="margin-top: 8px; color: #718096;"><strong>Ordem:</strong> Marca, Modelo, Serviço, Preço, Prazo, Status, Qualidade, Observação</p>
                 </div>
-
                 <div class="modal-exemplo">
                     <strong>Exemplo:</strong>
                     <pre>Samsung, Galaxy A03, Troca de tela, 180, No mesmo dia, ativo, Premium (Incell)
-Samsung, Galaxy A03, Troca de tela, 140, No mesmo dia, ativo, Comum
-Apple, iPhone 11, Troca de tela, 380, 1 dia, ativo, Especial, Sem aviso de peça não genuína</pre>
+Samsung, Galaxy A03, Troca de tela, 140, No mesmo dia, ativo, Comum</pre>
                 </div>
-
                 <div class="campo">
                     <label>Cole os dados aqui:</label>
-                    <textarea id="importarTexto" rows="10" placeholder="Cole os dados da planilha aqui..." style="width: 100%; font-family: monospace; font-size: 13px;"></textarea>
+                    <textarea id="importarTexto" rows="10" placeholder="Cole os dados..." style="width: 100%; font-family: monospace; font-size: 13px;"></textarea>
                 </div>
-
                 <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
                     <button type="button" id="btnPreviewImportacao" class="btn-secondary">👁️ Pré-visualizar</button>
                     <button type="button" id="btnImportarTudo" class="btn-primary" disabled>📥 Importar tudo</button>
                     <button type="button" id="btnLimparImportacao" class="btn-secondary">🗑️ Limpar</button>
                 </div>
-
                 <div id="previewImportacao" style="margin-top: 20px;"></div>
                 <div id="statusImportacao" style="margin-top: 15px; font-size: 14px;"></div>
-
             </div>
-
         </div>
     </div>
 
-
-    <!-- ============================================================ -->
-    <!-- MODAL: EXCLUSÃO EM MASSA                                     -->
-    <!-- ============================================================ -->
+    <!-- MODAL: EXCLUSÃO DE SERVIÇOS -->
     <div id="modalExclusao" class="modal-overlay hidden">
         <div class="modal-conteudo modal-perigo">
-
             <div class="modal-header modal-header-perigo">
                 <h3>⚠️ Excluir TODOS os serviços</h3>
                 <button type="button" id="fecharModalExclusao" class="modal-fechar" onclick="fecharModalExclusao()">✕</button>
             </div>
-
             <div class="modal-corpo">
-
                 <div class="aviso-perigo">
                     <div class="aviso-perigo-icon">🚨</div>
                     <div>
@@ -1406,46 +729,206 @@ Apple, iPhone 11, Troca de tela, 380, 1 dia, ativo, Especial, Sem aviso de peça
                         <p>Esta ação vai <b>APAGAR PERMANENTEMENTE todos os serviços</b> cadastrados.</p>
                     </div>
                 </div>
-
                 <div class="aviso-backup">
                     <p>💡 <b>Recomendamos fazer um backup antes.</b></p>
-                    <button type="button" id="btnBackupAntesExcluir" class="btn-secondary" style="margin-top: 10px;" onclick="baixarBackupAntesExcluir()">
-                        💾 Baixar backup agora
-                    </button>
+                    <button type="button" id="btnBackupAntesExcluir" class="btn-secondary" style="margin-top: 10px;" onclick="baixarBackupAntesExcluir()">💾 Baixar backup agora</button>
                 </div>
-
                 <div class="campo" style="margin-top: 25px;">
                     <label>Para confirmar, digite <b style="color: #dc2626;">EXCLUIR</b> abaixo:</label>
-                    <input
-                        type="text"
-                        id="confirmarExclusao"
-                        placeholder="Digite EXCLUIR em maiúsculas"
-                        autocomplete="off"
-                        style="font-family: monospace; text-transform: uppercase;"
-                        oninput="validarExclusao()"
-                    >
+                    <input type="text" id="confirmarExclusao" placeholder="Digite EXCLUIR em maiúsculas" autocomplete="off" style="font-family: monospace; text-transform: uppercase;" oninput="validarExclusao()">
                 </div>
-
                 <div id="statusExclusao" style="margin-top: 15px; font-size: 14px;"></div>
-
                 <div class="form-actions" style="margin-top: 25px;">
-                    <button type="button" id="btnCancelarExclusao" class="btn-secondary" onclick="fecharModalExclusao()">
-                        Cancelar
-                    </button>
-                    <button type="button" id="btnConfirmarExclusao" class="btn-perigo" disabled onclick="confirmarExclusao()">
-                        🗑️ Excluir tudo
-                    </button>
+                    <button type="button" id="btnCancelarExclusao" class="btn-secondary" onclick="fecharModalExclusao()">Cancelar</button>
+                    <button type="button" id="btnConfirmarExclusao" class="btn-perigo" disabled onclick="confirmarExclusao()">🗑️ Excluir tudo</button>
                 </div>
-
             </div>
+        </div>
+    </div>
 
+    <!-- MODAL: IMPORTAÇÃO DE PEÇAS -->
+    <div id="modalImportacaoPecas" class="modal-overlay hidden">
+        <div class="modal-conteudo">
+            <div class="modal-header">
+                <h3>📥 Importar peças em massa</h3>
+                <button type="button" id="fecharModalImportacaoPecas" class="modal-fechar">✕</button>
+            </div>
+            <div class="modal-corpo">
+                <div class="modal-info">
+                    <p><strong>Como usar:</strong> Cole os dados abaixo, uma linha por peça, separados por vírgula (,) ou Tab do Excel.</p>
+                    <p style="margin-top: 8px; color: #718096;"><strong>Ordem:</strong> Nome, Categoria, Marca, Modelos Compatíveis, Quantidade, Estoque Mínimo, Preço Custo, Preço Venda, Fornecedor, Observações</p>
+                </div>
+                <div class="modal-exemplo">
+                    <strong>Exemplo:</strong>
+                    <pre>Display Galaxy A03, Display / Tela, Samsung, Galaxy A03, 5, 2, 80, 180, Distribuidora XYZ, Peça original
+Bateria iPhone 11, Bateria, Apple, iPhone 11, 3, 1, 90, 250, Apple Store, Bateria original</pre>
+                </div>
+                <div class="campo">
+                    <label>Cole os dados aqui:</label>
+                    <textarea id="importarTextoPecas" rows="10" placeholder="Cole os dados..." style="width: 100%; font-family: monospace; font-size: 13px;"></textarea>
+                </div>
+                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button type="button" id="btnPreviewImportacaoPecas" class="btn-secondary">👁️ Pré-visualizar</button>
+                    <button type="button" id="btnImportarTudoPecas" class="btn-primary" disabled>📥 Importar tudo</button>
+                    <button type="button" id="btnLimparImportacaoPecas" class="btn-secondary">🗑️ Limpar</button>
+                </div>
+                <div id="previewImportacaoPecas" style="margin-top: 20px;"></div>
+                <div id="statusImportacaoPecas" style="margin-top: 15px; font-size: 14px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EXCLUSÃO DE PEÇAS -->
+    <div id="modalExclusaoPecas" class="modal-overlay hidden">
+        <div class="modal-conteudo modal-perigo">
+            <div class="modal-header modal-header-perigo">
+                <h3>⚠️ Excluir TODAS as peças</h3>
+                <button type="button" id="fecharModalExclusaoPecas" class="modal-fechar" onclick="fecharModalExclusaoPecas()">✕</button>
+            </div>
+            <div class="modal-corpo">
+                <div class="aviso-perigo">
+                    <div class="aviso-perigo-icon">🚨</div>
+                    <div>
+                        <strong>ATENÇÃO: Ação irreversível!</strong>
+                        <p>Esta ação vai <b>APAGAR PERMANENTEMENTE todas as peças</b> cadastradas.</p>
+                    </div>
+                </div>
+                <div class="aviso-backup">
+                    <p>💡 <b>Recomendamos fazer um backup antes.</b></p>
+                    <button type="button" id="btnBackupAntesExcluirPecas" class="btn-secondary" style="margin-top: 10px;" onclick="baixarBackupAntesExcluirPecas()">💾 Baixar backup agora</button>
+                </div>
+                <div class="campo" style="margin-top: 25px;">
+                    <label>Para confirmar, digite <b style="color: #dc2626;">EXCLUIR</b> abaixo:</label>
+                    <input type="text" id="confirmarExclusaoPecas" placeholder="Digite EXCLUIR em maiúsculas" autocomplete="off" style="font-family: monospace; text-transform: uppercase;" oninput="validarExclusaoPecas()">
+                </div>
+                <div id="statusExclusaoPecas" style="margin-top: 15px; font-size: 14px;"></div>
+                <div class="form-actions" style="margin-top: 25px;">
+                    <button type="button" id="btnCancelarExclusaoPecas" class="btn-secondary" onclick="fecharModalExclusaoPecas()">Cancelar</button>
+                    <button type="button" id="btnConfirmarExclusaoPecas" class="btn-perigo" disabled onclick="confirmarExclusaoPecas()">🗑️ Excluir todas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: NOVA DESPESA -->
+    <div id="modalDespesa" class="modal-overlay hidden">
+        <div class="modal-conteudo">
+            <div class="modal-header">
+                <h3>📤 Nova despesa</h3>
+                <button type="button" id="fecharModalDespesa" class="modal-fechar">✕</button>
+            </div>
+            <div class="modal-corpo">
+                <form id="despesaForm">
+                    <div class="form-grid">
+                        <div class="campo campo-full"><label>Descrição *</label><input id="despDescricao" type="text" placeholder="Ex: Compra de peças" required></div>
+                        <div class="campo">
+                            <label>Categoria</label>
+                            <select id="despCategoria">
+                                <option value="">Selecione</option>
+                                <option>Peças / Estoque</option>
+                                <option>Fornecedor</option>
+                                <option>Aluguel</option>
+                                <option>Energia</option>
+                                <option>Água</option>
+                                <option>Internet</option>
+                                <option>Telefone</option>
+                                <option>Salários</option>
+                                <option>Impostos</option>
+                                <option>Marketing</option>
+                                <option>Transporte</option>
+                                <option>Equipamentos</option>
+                                <option>Outros</option>
+                            </select>
+                        </div>
+                        <div class="campo"><label>Valor (R$) *</label><input id="despValor" type="number" min="0" step="0.01" placeholder="0.00" required></div>
+                        <div class="campo"><label>Data de vencimento</label><input id="despVencimento" type="date"></div>
+                        <div class="campo"><label>Data de pagamento</label><input id="despPagamento" type="date"></div>
+                        <div class="campo">
+                            <label>Status</label>
+                            <select id="despStatus">
+                                <option value="pendente">⏳ Pendente</option>
+                                <option value="pago">✅ Pago</option>
+                                <option value="atrasado">🔴 Atrasado</option>
+                            </select>
+                        </div>
+                        <div class="campo">
+                            <label>Forma de pagamento</label>
+                            <select id="despForma">
+                                <option value="">Selecione</option>
+                                <option>Dinheiro</option>
+                                <option>Pix</option>
+                                <option>Cartão de débito</option>
+                                <option>Cartão de crédito</option>
+                                <option>Boleto</option>
+                                <option>Transferência</option>
+                            </select>
+                        </div>
+                        <div class="campo"><label>Fornecedor</label><input id="despFornecedor" type="text" placeholder="Opcional"></div>
+                        <div class="campo campo-full"><label>Observações</label><textarea id="despObservacoes" rows="2"></textarea></div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancelarDespesa" class="btn-secondary">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar despesa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: NOVA RECEITA -->
+    <div id="modalReceita" class="modal-overlay hidden">
+        <div class="modal-conteudo">
+            <div class="modal-header">
+                <h3>📥 Nova receita</h3>
+                <button type="button" id="fecharModalReceita" class="modal-fechar">✕</button>
+            </div>
+            <div class="modal-corpo">
+                <form id="receitaForm">
+                    <div class="form-grid">
+                        <div class="campo campo-full"><label>Descrição *</label><input id="recDescricao" type="text" placeholder="Ex: Venda de capinha" required></div>
+                        <div class="campo">
+                            <label>Categoria</label>
+                            <select id="recCategoria">
+                                <option value="">Selecione</option>
+                                <option>Venda de peça</option>
+                                <option>Venda de acessório</option>
+                                <option>Serviço extra</option>
+                                <option>Outros</option>
+                            </select>
+                        </div>
+                        <div class="campo"><label>Valor (R$) *</label><input id="recValor" type="number" min="0" step="0.01" placeholder="0.00" required></div>
+                        <div class="campo"><label>Data *</label><input id="recData" type="date" required></div>
+                        <div class="campo">
+                            <label>Status</label>
+                            <select id="recStatus">
+                                <option value="recebido">✅ Recebido</option>
+                                <option value="pendente">⏳ Pendente</option>
+                            </select>
+                        </div>
+                        <div class="campo">
+                            <label>Forma de pagamento</label>
+                            <select id="recForma">
+                                <option value="">Selecione</option>
+                                <option>Dinheiro</option>
+                                <option>Pix</option>
+                                <option>Cartão de débito</option>
+                                <option>Cartão de crédito</option>
+                                <option>Transferência</option>
+                            </select>
+                        </div>
+                        <div class="campo campo-full"><label>Observações</label><textarea id="recObservacoes" rows="2"></textarea></div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="cancelarReceita" class="btn-secondary">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar receita</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
 
-    <!-- ============================================================ -->
-    <!-- SCRIPTS                                                       -->
-    <!-- ============================================================ -->
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/painel/seguranca.js"></script>
     <script src="/painel/script.js"></script>
@@ -1456,6 +939,7 @@ Apple, iPhone 11, Troca de tela, 380, 1 dia, ativo, Especial, Sem aviso de peça
     <script src="/painel/config.js"></script>
     <script src="/painel/backup.js"></script>
     <script src="/painel/importar.js"></script>
+    <script src="/painel/importar-pecas.js"></script>
     <script src="/painel/excluir-servicos.js"></script>
     <script src="/painel/financeiro.js"></script>
     <script src="/painel/bot.js"></script>

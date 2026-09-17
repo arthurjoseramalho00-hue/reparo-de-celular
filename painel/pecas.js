@@ -1,5 +1,5 @@
 // ============================================================
-// MÓDULO PEÇAS E ESTOQUE
+// MÓDULO PEÇAS E ESTOQUE — TABELA + BUSCA + IMPORTAÇÃO
 // ============================================================
 
 const novaPeca = document.getElementById("novaPeca");
@@ -37,7 +37,7 @@ let pecaEditandoId = null;
 
 
 // ============================================================
-// ABRIR / FECHAR
+// ABRIR / FECHAR FORMULÁRIO
 // ============================================================
 
 function abrirFormularioPeca() {
@@ -117,7 +117,7 @@ async function carregarPecas() {
             <div class="lista-vazia">
                 <div style="font-size: 35px;">⚠️</div>
                 <h3>Não foi possível carregar as peças</h3>
-                <p>${escaparHTML(erro.message || "Erro desconhecido.")}</p>
+                <p>${escapar(erro.message || "Erro desconhecido.")}</p>
             </div>
         `;
     }
@@ -156,7 +156,7 @@ function atualizarResumoPecas() {
 
 
 // ============================================================
-// RENDERIZAR
+// RENDERIZAR PEÇAS — TABELA
 // ============================================================
 
 function renderizarPecas() {
@@ -172,7 +172,8 @@ function renderizarPecas() {
                 (p.nome || "") + " " +
                 (p.marca || "") + " " +
                 (p.modelo_compativel || "") + " " +
-                (p.fornecedor || "")
+                (p.fornecedor || "") + " " +
+                (p.categoria || "")
             ).toLowerCase();
             return texto.includes(termoPesquisaPeca);
         });
@@ -197,7 +198,6 @@ function renderizarPecas() {
     }
 
     if (resultado.length === 0) {
-
         listaPecas.innerHTML = `
             <div class="lista-vazia">
                 <div style="font-size: 40px;">🔩</div>
@@ -205,11 +205,28 @@ function renderizarPecas() {
                 <p>${todasPecas.length === 0 ? "Clique em \"+ Nova peça\" para começar." : "Ajuste os filtros e tente novamente."}</p>
             </div>
         `;
-
         return;
     }
 
-    listaPecas.innerHTML = "";
+    // Monta tabela
+    let html = `
+        <div class="tabela-wrapper">
+            <table class="tabela-pecas">
+                <thead>
+                    <tr>
+                        <th>Peça</th>
+                        <th>Categoria</th>
+                        <th>Compatível</th>
+                        <th>Fornecedor</th>
+                        <th style="text-align:center;">Qtd</th>
+                        <th style="text-align:right;">Custo</th>
+                        <th style="text-align:right;">Venda</th>
+                        <th style="text-align:right;">Lucro</th>
+                        <th style="text-align:center;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
 
     resultado.forEach(function (p) {
 
@@ -217,73 +234,96 @@ function renderizarPecas() {
         const min = Number(p.estoque_minimo || 1);
         const custo = Number(p.preco_custo || 0);
         const venda = Number(p.preco_venda || 0);
+        const lucro = venda - custo;
+        const margemLucro = custo > 0 ? ((lucro / custo) * 100).toFixed(0) : "-";
 
         let classeEstoque = "";
-        let classeQtd = "";
+        let statusQtd = "";
 
         if (qtd === 0) {
-            classeEstoque = "sem-estoque";
-            classeQtd = "zerado";
+            classeEstoque = "linha-sem-estoque";
+            statusQtd = "🔴";
         } else if (qtd <= min) {
-            classeEstoque = "estoque-baixo";
-            classeQtd = "baixo";
+            classeEstoque = "linha-estoque-baixo";
+            statusQtd = "🟡";
+        } else {
+            statusQtd = "🟢";
         }
 
-        const item = document.createElement("div");
-        item.className = "peca-item " + classeEstoque;
+        const modeloComp = p.modelo_compativel || "-";
+        const fornecedor = p.fornecedor || "-";
 
-        item.innerHTML = `
-            <div class="peca-info">
-
-                <h3>🔩 ${escaparHTML(p.nome)}</h3>
-
-                <div class="peca-meta">
-                    ${p.categoria ? `<span>📂 ${escaparHTML(p.categoria)}</span>` : ""}
-                    ${p.marca ? `<span>🏷️ ${escaparHTML(p.marca)}</span>` : ""}
-                    ${p.fornecedor ? `<span>🏢 ${escaparHTML(p.fornecedor)}</span>` : ""}
-                </div>
-
-                ${p.modelo_compativel ? `<div style="font-size:12px; color:#718096; margin-top:4px;">📱 Compatível: ${escaparHTML(p.modelo_compativel)}</div>` : ""}
-
-                <div class="peca-precos">
-                    ${custo > 0 ? `<span>Custo: <strong>${custo.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong></span>` : ""}
-                    ${venda > 0 ? `<span>Venda: <strong style="color:#16a34a;">${venda.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong></span>` : ""}
-                </div>
-
-                <div class="peca-acoes">
-                    <button
-                        type="button"
-                        onclick="ajustarEstoque(${p.id})"
-                        style="background:#f0fdf4; color:#16a34a;"
-                    >
-                        ➕ Movimentar
-                    </button>
-                    <button
-                        type="button"
-                        onclick="editarPeca(${p.id})"
-                        style="background:#edf5ff; color:#1677ff;"
-                    >
-                        ✏️ Editar
-                    </button>
-                    <button
-                        type="button"
-                        onclick="excluirPeca(${p.id})"
-                        style="background:#fff0f0; color:#d64545;"
-                    >
-                        🗑️ Excluir
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="peca-qtd ${classeQtd}">
-                <div class="qtd-numero">${qtd}</div>
-                <div class="qtd-label">em estoque</div>
-            </div>
+        html += `
+            <tr class="${classeEstoque}">
+                <td>
+                    <div class="tabela-nome">
+                        <strong>${escapar(p.nome || "")}</strong>
+                        ${p.marca ? `<small>${escapar(p.marca)}</small>` : ""}
+                    </div>
+                </td>
+                <td>
+                    ${p.categoria ? `<span class="tag-categoria">${escapar(p.categoria)}</span>` : '<span class="vazio-texto">—</span>'}
+                </td>
+                <td>
+                    <span class="texto-truncado" title="${escapar(modeloComp)}">${escapar(modeloComp)}</span>
+                </td>
+                <td>
+                    <span class="texto-truncado" title="${escapar(fornecedor)}">${escapar(fornecedor)}</span>
+                </td>
+                <td style="text-align:center;">
+                    <span class="badge-estoque ${classeEstoque ? classeEstoque.replace('linha-', '') : ''}">
+                        ${statusQtd} ${qtd}
+                    </span>
+                </td>
+                <td style="text-align:right;">
+                    ${formatarMoeda(custo)}
+                </td>
+                <td style="text-align:right;">
+                    <strong>${formatarMoeda(venda)}</strong>
+                </td>
+                <td style="text-align:right;">
+                    ${lucro > 0
+                        ? `<span class="valor-lucro">+${formatarMoeda(lucro)}</span>
+                           <small class="margem-info">${margemLucro}%</small>`
+                        : '<span class="vazio-texto">—</span>'}
+                </td>
+                <td style="text-align:center;">
+                    <div class="tabela-acoes">
+                        <button
+                            type="button"
+                            onclick="ajustarEstoque(${p.id})"
+                            title="Movimentar estoque"
+                            class="btn-acao-estoque"
+                        >📦</button>
+                        <button
+                            type="button"
+                            onclick="editarPeca(${p.id})"
+                            title="Editar peça"
+                            class="btn-acao-editar"
+                        >✏️</button>
+                        <button
+                            type="button"
+                            onclick="excluirPeca(${p.id})"
+                            title="Excluir peça"
+                            class="btn-acao-excluir"
+                        >🗑️</button>
+                    </div>
+                </td>
+            </tr>
         `;
-
-        listaPecas.appendChild(item);
     });
+
+    html += `
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tabela-rodape">
+            <span>Mostrando <strong>${resultado.length}</strong> de <strong>${todasPecas.length}</strong> peças</span>
+        </div>
+    `;
+
+    listaPecas.innerHTML = html;
 }
 
 
@@ -292,13 +332,11 @@ function renderizarPecas() {
 // ============================================================
 
 if (pecaForm) {
-
     pecaForm.addEventListener("submit", async function (evento) {
 
         evento.preventDefault();
 
         const botaoSalvar = pecaForm.querySelector('button[type="submit"]');
-
         const nome = pecaNome.value.trim();
 
         if (!nome) {
@@ -321,7 +359,6 @@ if (pecaForm) {
         };
 
         try {
-
             if (botaoSalvar) {
                 botaoSalvar.disabled = true;
                 botaoSalvar.textContent = "Salvando...";
@@ -353,12 +390,9 @@ if (pecaForm) {
             await carregarPecas();
 
         } catch (erro) {
-
             console.error("Erro ao salvar peça:", erro);
             alert("Erro ao salvar peça.\n\n" + (erro.message || ""));
-
         } finally {
-
             if (botaoSalvar) {
                 botaoSalvar.disabled = false;
                 botaoSalvar.textContent = "Salvar peça";
@@ -375,7 +409,6 @@ if (pecaForm) {
 async function editarPeca(id) {
 
     try {
-
         const { data, error } = await supabaseClient
             .from("pecas")
             .select("*")
@@ -419,7 +452,6 @@ async function excluirPeca(id) {
     if (!confirmar) return;
 
     try {
-
         const { error } = await supabaseClient
             .from("pecas")
             .delete()
@@ -438,7 +470,7 @@ async function excluirPeca(id) {
 
 
 // ============================================================
-// MOVIMENTAR ESTOQUE (entrada/saída)
+// MOVIMENTAR ESTOQUE
 // ============================================================
 
 async function ajustarEstoque(id) {
@@ -480,8 +512,6 @@ async function ajustarEstoque(id) {
     if (motivo === null) return;
 
     try {
-
-        // Atualiza a peça
         const { error: erroPeca } = await supabaseClient
             .from("pecas")
             .update({
@@ -492,7 +522,6 @@ async function ajustarEstoque(id) {
 
         if (erroPeca) throw erroPeca;
 
-        // Registra a movimentação
         const { error: erroMov } = await supabaseClient
             .from("movimentacoes_estoque")
             .insert({
@@ -530,7 +559,7 @@ function atualizarContadorPecas() {
 
 
 // ============================================================
-// FILTROS
+// FILTROS E PESQUISA
 // ============================================================
 
 if (pecaPesquisa) {
@@ -556,5 +585,24 @@ if (pecaFiltroEstoque) {
 
 
 // ============================================================
-// FIM DO MÓDULO PEÇAS
+// HELPERS
 // ============================================================
+
+function formatarMoeda(valor) {
+    return Number(valor || 0).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+}
+
+function escapar(v) {
+    if (v === null || v === undefined) return "";
+    return String(v)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+console.log("🔩 Módulo peças (tabela) carregado.");
