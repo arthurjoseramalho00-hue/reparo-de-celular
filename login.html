@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07111f">
+    <title>Login | Painel Reparo de Celular</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(25, 140, 255, .15), transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(37, 211, 102, .08), transparent 40%),
+                #050a12;
+            color: #f4f8ff;
+            padding: 20px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            background: linear-gradient(160deg, #0b1421, #050a12);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 20px;
+            padding: 40px 32px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #198cff, #25d366);
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #198cff, #0a6fe0);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 18px;
+            box-shadow: 0 12px 30px rgba(25, 140, 255, .35);
+        }
+
+        .logo-area h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: -.5px;
+        }
+
+        .logo-area p {
+            color: #8ba0bf;
+            font-size: 13px;
+        }
+
+        .campo {
+            margin-bottom: 16px;
+        }
+
+        .campo label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #8ba0bf;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .campo input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 10px;
+            color: #f4f8ff;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: .2s;
+        }
+
+        .campo input:focus {
+            border-color: #198cff;
+            background: rgba(25, 140, 255, .06);
+            box-shadow: 0 0 0 3px rgba(25, 140, 255, .15);
+        }
+
+        .campo input::placeholder {
+            color: #5d7597;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #198cff, #0a6fe0);
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: .2s;
+            margin-top: 8px;
+            box-shadow: 0 12px 30px rgba(25, 140, 255, .3);
+        }
+
+        .btn-login:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(25, 140, 255, .45);
+        }
+
+        .btn-login:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .erro {
+            background: rgba(239, 68, 68, .1);
+            border: 1px solid rgba(239, 68, 68, .3);
+            color: #fca5a5;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+            animation: shake .3s;
+        }
+
+        .erro.ativo { display: block; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .rodape {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: #5d7597;
+        }
+
+        .rodape a {
+            color: #55b4ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .rodape a:hover {
+            color: #198cff;
+        }
+
+        .link-voltar {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #8ba0bf;
+            font-size: 13px;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .link-voltar:hover {
+            color: #55b4ff;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: girar .8s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        @keyframes girar {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+
+        <div class="logo-area">
+            <div class="logo-icon">🔧</div>
+            <h1>Painel Administrativo</h1>
+            <p>Reparo de Celular</p>
+        </div>
+
+        <div class="erro" id="erro"></div>
+
+        <form id="loginForm">
+
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    required
+                    autocomplete="email"
+                >
+            </div>
+
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input
+                    id="senha"
+                    type="password"
+                    placeholder="••••••••"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button type="submit" class="btn-login" id="btnLogin">
+                Entrar no Painel
+            </button>
+
+        </form>
+
+        <div class="rodape">
+            <a href="../index.html">← Voltar ao site</a>
+        </div>
+
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Auth -->
+    <script src="auth.js"></script>
+
+</body>
+</html>

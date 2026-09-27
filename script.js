@@ -1,13 +1,12 @@
 // ============================================================
-// REPARO DE CELULAR — SITE PÚBLICO
+// REPARO TECH — SITE PÚBLICO
 // ============================================================
 
-// ⚠️ TROQUE AQUI PELO SEU NÚMERO (formato: 55 + DDD + número)
 const WHATSAPP_NUMBER = "5519982826005";
 
 
 // ============================================================
-// WHATSAPP — LINKS AUTOMÁTICOS
+// WHATSAPP
 // ============================================================
 
 function buildWhatsAppUrl(message) {
@@ -17,9 +16,27 @@ function buildWhatsAppUrl(message) {
 document.querySelectorAll(".whatsapp-link").forEach(link => {
     link.addEventListener("click", event => {
         event.preventDefault();
-        const message = link.dataset.message || "Olá! Quero falar com a Reparo de Celular.";
+        const message = link.dataset.message || "Olá! Quero falar com a Reparo Tech.";
         const url = buildWhatsAppUrl(message);
         window.open(url, "_blank", "noopener,noreferrer");
+    });
+});
+
+
+// ============================================================
+// TABS DE CATEGORIA
+// ============================================================
+
+document.querySelectorAll(".cat-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+        const categoria = tab.dataset.categoria;
+
+        document.querySelectorAll(".cat-tab").forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        document.querySelectorAll(".cat-panel").forEach(p => p.classList.remove("active"));
+        const painel = document.querySelector(`.cat-panel[data-categoria="${categoria}"]`);
+        if (painel) painel.classList.add("active");
     });
 });
 
@@ -32,17 +49,9 @@ const menuBtn = document.getElementById("menuBtn");
 const navLinks = document.getElementById("navLinks");
 
 if (menuBtn && navLinks) {
-
     menuBtn.addEventListener("click", () => {
         navLinks.classList.toggle("open");
-
-        if (navLinks.classList.contains("open")) {
-            menuBtn.textContent = "✕";
-            menuBtn.setAttribute("aria-label", "Fechar menu");
-        } else {
-            menuBtn.textContent = "☰";
-            menuBtn.setAttribute("aria-label", "Abrir menu");
-        }
+        menuBtn.textContent = navLinks.classList.contains("open") ? "✕" : "☰";
     });
 
     navLinks.querySelectorAll("a").forEach(link => {
@@ -52,7 +61,6 @@ if (menuBtn && navLinks) {
         });
     });
 
-    // Fecha ao clicar fora
     document.addEventListener("click", (event) => {
         if (
             navLinks.classList.contains("open") &&
@@ -67,11 +75,10 @@ if (menuBtn && navLinks) {
 
 
 // ============================================================
-// HEADER — sombra ao rolar
+// HEADER — SCROLL
 // ============================================================
 
 const header = document.querySelector(".header");
-
 if (header) {
     window.addEventListener("scroll", () => {
         header.classList.toggle("scrolled", window.scrollY > 50);
@@ -80,7 +87,7 @@ if (header) {
 
 
 // ============================================================
-// ANO AUTOMÁTICO NO COPYRIGHT
+// ANO NO COPYRIGHT
 // ============================================================
 
 const copyright = document.querySelector(".copyright");
@@ -89,6 +96,4 @@ if (copyright) {
     copyright.innerHTML = copyright.innerHTML.replace(/\d{4}/, ano);
 }
 
-
-// ============================================================
-console.log("🔧 Site Reparo de Celular carregado.");
+console.log("🔧 Site Reparo Tech carregado.");
