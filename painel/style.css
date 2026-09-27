@@ -1994,3 +1994,91 @@ nav {
 .tabela-rodape strong {
     color: #172033;
 }
+
+
+/* ============================================================
+   REPARO TECH — MULTICATEGORIA (painel)
+   ============================================================ */
+
+/* Logo imagem na sidebar */
+.logo-area img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px rgba(25, 140, 255, .4));
+    flex-shrink: 0;
+}
+
+.logo-area h2 {
+    font-size: 16px;
+    line-height: 1.1;
+}
+
+/* Chips de categoria nos filtros */
+.categoria-chips {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #eef2f7;
+}
+
+.categoria-chip {
+    padding: 9px 16px;
+    border-radius: 20px;
+    background: white;
+    border: 1px solid #dce3ec;
+    color: #4a5568;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+.categoria-chip:hover {
+    border-color: #1677ff;
+    color: #1677ff;
+}
+
+.categoria-chip.active {
+    background: #1677ff;
+    color: white;
+    border-color: #1677ff;
+    box-shadow: 0 6px 15px rgba(22, 119, 255, .25);
+}
+
+/* Badge de categoria nos cards de serviço */
+.cat-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+.cat-badge.celular { background: #dbeafe; color: #1e40af; }
+.cat-badge.computador { background: #ede9fe; color: #5b21b6; }
+.cat-badge.impressora { background: #fef3c7; color: #92400e; }
+.cat-badge.outros { background: #f0f3f8; color: #4a5568; }
+
+/* Grid de filtros de peças — 4 colunas */
+.pecas-filtros {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+}
+
+@media (max-width: 900px) {
+    .pecas-filtros { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+    .pecas-filtros { grid-template-columns: 1fr; }
+}

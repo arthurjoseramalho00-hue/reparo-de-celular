@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#07111f">
-    <title>Painel | Reparo de Celular</title>
+    <title>Painel | Reparo Tech</title>
 
-    <link rel="icon" href="/painel/logo.png" type="image/png">
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,13 +18,13 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="logo-area">
-            <div class="logo-icon">🔧</div>
-            <h2>Reparo de<br>Celular</h2>
+            <img src="logo.svg" alt="Reparo Tech">
+            <h2>Reparo<br>Tech</h2>
         </div>
 
         <nav>
             <button class="menu active" data-page="inicio">🏠 Início</button>
-            <button class="menu" data-page="servicos">📱 Serviços</button>
+            <button class="menu" data-page="servicos">🔧 Serviços</button>
             <button class="menu" data-page="precos">💰 Preços</button>
             <button class="menu" data-page="ordens">📋 Ordens</button>
             <button class="menu" data-page="clientes">👤 Clientes</button>
@@ -51,7 +51,7 @@
             <!-- INÍCIO -->
             <section id="pagina-inicio">
                 <section class="cards">
-                    <div class="card"><div class="card-icon">📱</div><div><p>Serviços cadastrados</p><h2 id="totalServicos">0</h2></div></div>
+                    <div class="card"><div class="card-icon">🔧</div><div><p>Serviços cadastrados</p><h2 id="totalServicos">0</h2></div></div>
                     <div class="card"><div class="card-icon">📋</div><div><p>Ordens abertas</p><h2 id="dashOSAbertas">0</h2></div></div>
                     <div class="card"><div class="card-icon">💰</div><div><p>Faturamento do mês</p><h2 id="dashFaturamento">R$ 0,00</h2></div></div>
                     <div class="card"><div class="card-icon">👤</div><div><p>Clientes</p><h2 id="dashClientes">0</h2></div></div>
@@ -66,8 +66,8 @@
 
                 <section class="welcome">
                     <span class="tag">CONTROLE TOTAL</span>
-                    <h2>Bem-vindo ao seu painel 👋</h2>
-                    <p>Aqui você controla os serviços, preços, peças, ordens de serviço e o assistente automático.</p>
+                    <h2>Bem-vindo ao painel Reparo Tech 👋</h2>
+                    <p>Celulares, computadores e impressoras — tudo em um só lugar. Gerencie serviços, preços, peças, ordens e o assistente automático.</p>
                 </section>
 
                 <section class="lista-card" style="margin-bottom: 25px;">
@@ -81,8 +81,8 @@
                 <section class="quick-actions">
                     <h2>Ações rápidas</h2>
                     <div class="actions">
-                        <button data-page="ordens"><strong>📋</strong><span><b>Nova OS</b><small>Registrar aparelho</small></span></button>
-                        <button data-page="servicos"><strong>📱</strong><span><b>Gerenciar serviços</b><small>Cadastrar e editar</small></span></button>
+                        <button data-page="ordens"><strong>📋</strong><span><b>Nova OS</b><small>Registrar equipamento</small></span></button>
+                        <button data-page="servicos"><strong>🔧</strong><span><b>Gerenciar serviços</b><small>Cadastrar e editar</small></span></button>
                         <button data-page="precos"><strong>💰</strong><span><b>Gerenciar preços</b><small>Alterar valores</small></span></button>
                         <button data-page="pecas"><strong>🔩</strong><span><b>Gerenciar peças</b><small>Controlar estoque</small></span></button>
                         <button data-page="clientes"><strong>👤</strong><span><b>Clientes</b><small>Cadastro e histórico</small></span></button>
@@ -95,8 +95,8 @@
             <section id="pagina-servicos" class="pagina hidden">
                 <div class="pagina-header">
                     <div>
-                        <h2>📱 Serviços</h2>
-                        <p>Cadastre e gerencie os serviços da assistência.</p>
+                        <h2>🔧 Serviços</h2>
+                        <p>Cadastre e gerencie serviços de celular, computador e impressora.</p>
                     </div>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         <button id="novoServico" class="btn-primary">+ Novo serviço</button>
@@ -113,19 +113,48 @@
                     <form id="servicoForm">
                         <div class="form-grid">
                             <div class="campo">
+                                <label>Categoria *</label>
+                                <select id="categoria" required>
+                                    <option value="celular">📱 Celular</option>
+                                    <option value="computador">💻 Computador / Notebook</option>
+                                    <option value="impressora">🖨️ Impressora</option>
+                                    <option value="outros">🔧 Outros</option>
+                                </select>
+                            </div>
+                            <div class="campo">
                                 <label>Marca</label>
                                 <select id="marca" required>
                                     <option value="">Selecione</option>
-                                    <option>Samsung</option>
-                                    <option>Apple</option>
-                                    <option>Motorola</option>
-                                    <option>Xiaomi</option>
-                                    <option>Realme</option>
+                                    <optgroup label="Celulares">
+                                        <option>Samsung</option>
+                                        <option>Apple</option>
+                                        <option>Motorola</option>
+                                        <option>Xiaomi</option>
+                                        <option>Realme</option>
+                                        <option>LG</option>
+                                        <option>Nokia</option>
+                                    </optgroup>
+                                    <optgroup label="Computadores">
+                                        <option>Dell</option>
+                                        <option>HP</option>
+                                        <option>Lenovo</option>
+                                        <option>Acer</option>
+                                        <option>Asus</option>
+                                        <option>Positivo</option>
+                                        <option>Apple (Mac)</option>
+                                    </optgroup>
+                                    <optgroup label="Impressoras">
+                                        <option>Epson</option>
+                                        <option>Brother</option>
+                                        <option>Canon</option>
+                                        <option>HP</option>
+                                        <option>Samsung</option>
+                                    </optgroup>
                                     <option>Outro</option>
                                 </select>
                             </div>
-                            <div class="campo"><label>Modelo</label><input id="modelo" type="text" placeholder="Ex.: Galaxy A03" required></div>
-                            <div class="campo"><label>Serviço</label><input id="tipoServico" type="text" placeholder="Ex.: Troca de tela" required></div>
+                            <div class="campo"><label>Modelo</label><input id="modelo" type="text" placeholder="Ex.: Galaxy A03 / Inspiron 15 / L3150" required></div>
+                            <div class="campo"><label>Serviço</label><input id="tipoServico" type="text" placeholder="Ex.: Troca de tela / Formatação / Recarga" required></div>
                             <div class="campo">
                                 <label>Qualidade da peça</label>
                                 <input id="qualidade" type="text" list="listaQualidades" placeholder="Ex: Premium, Original...">
@@ -137,6 +166,8 @@
                                     <option value="Especial">
                                     <option value="Paralela">
                                     <option value="Recondicionada">
+                                    <option value="Nova">
+                                    <option value="Usada">
                                 </datalist>
                             </div>
                             <div class="campo"><label>Preço (R$)</label><input id="preco" type="number" min="0" step="0.01" placeholder="180.00" required></div>
@@ -242,7 +273,7 @@
             <!-- ORDENS -->
             <section id="pagina-ordens" class="pagina hidden">
                 <div class="pagina-header">
-                    <div><h2>📋 Ordens de Serviço</h2><p>Acompanhe o status de cada aparelho.</p></div>
+                    <div><h2>📋 Ordens de Serviço</h2><p>Acompanhe o status de cada equipamento.</p></div>
                     <button id="novaOS" class="btn-primary">+ Nova OS</button>
                 </div>
 
@@ -274,12 +305,21 @@
                             </div>
                         </div>
 
-                        <h4 class="form-section-title">📱 Aparelho</h4>
+                        <h4 class="form-section-title">📱 Equipamento</h4>
                         <div class="form-grid">
-                            <div class="campo"><label>Marca *</label><input id="osMarca" type="text" placeholder="Ex.: Samsung" required></div>
-                            <div class="campo"><label>Modelo *</label><input id="osModelo" type="text" placeholder="Ex.: Galaxy A03" required></div>
-                            <div class="campo"><label>IMEI</label><input id="osImei" type="text" placeholder="Opcional"></div>
                             <div class="campo">
+                                <label>Categoria *</label>
+                                <select id="osCategoria" required>
+                                    <option value="celular">📱 Celular</option>
+                                    <option value="computador">💻 Computador / Notebook</option>
+                                    <option value="impressora">🖨️ Impressora</option>
+                                    <option value="outros">🔧 Outros</option>
+                                </select>
+                            </div>
+                            <div class="campo"><label>Marca *</label><input id="osMarca" type="text" placeholder="Ex.: Samsung / Dell / Epson" required></div>
+                            <div class="campo"><label>Modelo *</label><input id="osModelo" type="text" placeholder="Ex.: Galaxy A03 / Inspiron 15 / L3150" required></div>
+                            <div class="campo"><label>IMEI / Nº de série</label><input id="osImei" type="text" placeholder="Opcional"></div>
+                            <div class="campo campo-full">
                                 <label>Serviço vinculado</label>
                                 <select id="osServico"><option value="">Nenhum</option></select>
                             </div>
@@ -287,7 +327,7 @@
 
                         <h4 class="form-section-title">🔍 Diagnóstico</h4>
                         <div class="form-grid">
-                            <div class="campo campo-full"><label>Defeito relatado *</label><textarea id="osDefeito" rows="2" placeholder="Ex.: Tela trincada após queda" required></textarea></div>
+                            <div class="campo campo-full"><label>Defeito relatado *</label><textarea id="osDefeito" rows="2" placeholder="Ex.: Tela trincada após queda / Não liga / Não puxa papel" required></textarea></div>
                             <div class="campo campo-full"><label>Diagnóstico técnico</label><textarea id="osDiagnostico" rows="2"></textarea></div>
                         </div>
 
@@ -330,7 +370,7 @@
                         <span id="contadorOS">0 ordens</span>
                     </div>
                     <div class="os-filtros" id="osFiltros">
-                        <input id="osPesquisa" type="search" placeholder="🔎 Buscar por cliente, aparelho ou OS...">
+                        <input id="osPesquisa" type="search" placeholder="🔎 Buscar por cliente, equipamento ou OS...">
                         <select id="osFiltroStatus">
                             <option value="todos">Todos os status</option>
                             <option value="recebido">📥 Recebido</option>
@@ -421,25 +461,58 @@
                         <div class="form-grid">
                             <div class="campo campo-full"><label>Nome da peça *</label><input id="pecaNome" type="text" placeholder="Ex.: Display Samsung Galaxy A03" required></div>
                             <div class="campo">
-                                <label>Categoria</label>
+                                <label>Categoria do equipamento</label>
+                                <select id="pecaCategoriaEquip">
+                                    <option value="celular">📱 Celular</option>
+                                    <option value="computador">💻 Computador / Notebook</option>
+                                    <option value="impressora">🖨️ Impressora</option>
+                                    <option value="outros">🔧 Outros</option>
+                                </select>
+                            </div>
+                            <div class="campo">
+                                <label>Tipo da peça</label>
                                 <select id="pecaCategoria">
                                     <option value="">Selecione</option>
-                                    <option>Display / Tela</option>
-                                    <option>Bateria</option>
-                                    <option>Conector de carga</option>
-                                    <option>Câmera</option>
-                                    <option>Alto-falante</option>
-                                    <option>Microfone</option>
-                                    <option>Tampa traseira</option>
-                                    <option>Aro / Chassi</option>
-                                    <option>Placa</option>
-                                    <option>Botão</option>
-                                    <option>Flex</option>
+                                    <optgroup label="Celular">
+                                        <option>Display / Tela</option>
+                                        <option>Bateria</option>
+                                        <option>Conector de carga</option>
+                                        <option>Câmera</option>
+                                        <option>Alto-falante</option>
+                                        <option>Microfone</option>
+                                        <option>Tampa traseira</option>
+                                        <option>Aro / Chassi</option>
+                                        <option>Placa</option>
+                                        <option>Botão</option>
+                                        <option>Flex</option>
+                                    </optgroup>
+                                    <optgroup label="Computador">
+                                        <option>SSD</option>
+                                        <option>HD</option>
+                                        <option>Memória RAM</option>
+                                        <option>Fonte</option>
+                                        <option>Placa-mãe</option>
+                                        <option>Processador</option>
+                                        <option>Cooler / Ventoinha</option>
+                                        <option>Teclado notebook</option>
+                                        <option>Tela notebook</option>
+                                        <option>Bateria notebook</option>
+                                        <option>Carregador notebook</option>
+                                    </optgroup>
+                                    <optgroup label="Impressora">
+                                        <option>Cartucho</option>
+                                        <option>Toner</option>
+                                        <option>Cabeça de impressão</option>
+                                        <option>Kit tração / Rolos</option>
+                                        <option>Fusor</option>
+                                        <option>Chip</option>
+                                        <option>Fonte</option>
+                                    </optgroup>
                                     <option>Acessório</option>
                                     <option>Outros</option>
                                 </select>
                             </div>
-                            <div class="campo"><label>Marca</label><input id="pecaMarca" type="text" placeholder="Ex.: Samsung"></div>
+                            <div class="campo"><label>Marca</label><input id="pecaMarca" type="text" placeholder="Ex.: Samsung / Dell / Epson"></div>
                             <div class="campo campo-full"><label>Modelos compatíveis</label><input id="pecaModeloCompativel" type="text" placeholder="Ex.: Galaxy A03, A03s, A04"></div>
                             <div class="campo"><label>Quantidade em estoque *</label><input id="pecaQuantidade" type="number" min="0" value="0" required></div>
                             <div class="campo"><label>Estoque mínimo</label><input id="pecaEstoqueMinimo" type="number" min="0" value="1"></div>
@@ -462,7 +535,14 @@
                     </div>
 
                     <div class="pecas-filtros">
-                        <input id="pecaPesquisa" type="search" placeholder="🔎 Buscar peça por nome, marca ou modelo...">
+                        <input id="pecaPesquisa" type="search" placeholder="🔎 Buscar peça...">
+                        <select id="pecaFiltroEquip">
+                            <option value="todos">Todos os equipamentos</option>
+                            <option value="celular">📱 Celular</option>
+                            <option value="computador">💻 Computador</option>
+                            <option value="impressora">🖨️ Impressora</option>
+                            <option value="outros">🔧 Outros</option>
+                        </select>
                         <select id="pecaFiltroCategoria">
                             <option value="todas">Todas as categorias</option>
                             <option>Display / Tela</option>
@@ -476,6 +556,23 @@
                             <option>Placa</option>
                             <option>Botão</option>
                             <option>Flex</option>
+                            <option>SSD</option>
+                            <option>HD</option>
+                            <option>Memória RAM</option>
+                            <option>Fonte</option>
+                            <option>Placa-mãe</option>
+                            <option>Processador</option>
+                            <option>Cooler / Ventoinha</option>
+                            <option>Teclado notebook</option>
+                            <option>Tela notebook</option>
+                            <option>Bateria notebook</option>
+                            <option>Carregador notebook</option>
+                            <option>Cartucho</option>
+                            <option>Toner</option>
+                            <option>Cabeça de impressão</option>
+                            <option>Kit tração / Rolos</option>
+                            <option>Fusor</option>
+                            <option>Chip</option>
                             <option>Acessório</option>
                             <option>Outros</option>
                         </select>
@@ -500,12 +597,12 @@
                     <div class="form-card">
                         <div class="form-header"><h3>⚙️ Configurações do Bot</h3></div>
                         <div class="form-grid" style="grid-template-columns: 1fr;">
-                            <div class="campo"><label>Nome da assistência</label><input id="botNome" type="text" value="Reparo de Celular"></div>
-                            <div class="campo"><label>Mensagem de boas-vindas</label><textarea id="botBoasVindas" rows="2">Olá! 👋 Bem-vindo à nossa assistência técnica. Como posso ajudar?</textarea></div>
+                            <div class="campo"><label>Nome da assistência</label><input id="botNome" type="text" value="Reparo Tech"></div>
+                            <div class="campo"><label>Mensagem de boas-vindas</label><textarea id="botBoasVindas" rows="2">Olá! 👋 Bem-vindo à Reparo Tech. Trabalhamos com celulares, computadores e impressoras. Como posso ajudar?</textarea></div>
                             <div class="campo"><label>Mensagem quando não entender</label><textarea id="botFallback" rows="2">Desculpe, não entendi. 🤔 Você pode perguntar sobre: horário, endereço, orçamento, prazo ou garantia.</textarea></div>
                             <div class="campo"><label>Horário de funcionamento</label><input id="botHorario" type="text" value="Segunda a Sexta, das 9h às 18h"></div>
-                            <div class="campo"><label>Endereço</label><input id="botEndereco" type="text" value="Rua Exemplo, 123 - Centro"></div>
-                            <div class="campo"><label>WhatsApp</label><input id="botWhatsapp" type="text" value="(87) 99999-9999"></div>
+                            <div class="campo"><label>Endereço</label><input id="botEndereco" type="text" value="Custódia - PE"></div>
+                            <div class="campo"><label>WhatsApp</label><input id="botWhatsapp" type="text" value="(19) 98282-6005"></div>
                         </div>
                         <div class="form-actions">
                             <button type="button" id="botSalvarConfig" class="btn-primary">💾 Salvar configurações</button>
@@ -524,10 +621,10 @@
                         <div style="padding: 0 15px 10px; background: white;">
                             <div class="chat-sugestoes">
                                 <button data-sugestao="Qual o horário de funcionamento?">🕐 Horário</button>
-                                <button data-sugestao="Onde vocês ficam?">📍 Endereço</button>
+                                <button data-sugestao="Vocês consertam notebook?">💻 Notebook</button>
+                                <button data-sugestao="Quanto custa recarga de cartucho?">🖨️ Impressora</button>
                                 <button data-sugestao="Vocês dão garantia?">🛡️ Garantia</button>
                                 <button data-sugestao="Como faço um orçamento?">💰 Orçamento</button>
-                                <button data-sugestao="Qual o prazo de reparo?">⏱️ Prazo</button>
                             </div>
                         </div>
                         <form class="chat-input-area" id="chatForm">
@@ -612,7 +709,7 @@
                     <form id="configForm">
                         <h4 class="form-section-title">📋 Identificação</h4>
                         <div class="form-grid">
-                            <div class="campo campo-full"><label>Nome da assistência *</label><input id="cfgNome" type="text" placeholder="Ex.: Reparo de Celular"></div>
+                            <div class="campo campo-full"><label>Nome da assistência *</label><input id="cfgNome" type="text" placeholder="Ex.: Reparo Tech"></div>
                             <div class="campo"><label>CNPJ / CPF</label><input id="cfgCnpj" type="text" placeholder="00.000.000/0000-00"></div>
                             <div class="campo"><label>Inscrição Estadual</label><input id="cfgIE" type="text" placeholder="Opcional"></div>
                         </div>
@@ -620,9 +717,9 @@
                         <h4 class="form-section-title">📞 Contato</h4>
                         <div class="form-grid">
                             <div class="campo"><label>Telefone</label><input id="cfgTelefone" type="text" placeholder="(87) 3333-4444"></div>
-                            <div class="campo"><label>WhatsApp</label><input id="cfgWhatsapp" type="text" placeholder="(87) 99999-9999"></div>
-                            <div class="campo"><label>E-mail</label><input id="cfgEmail" type="email" placeholder="contato@assistencia.com"></div>
-                            <div class="campo"><label>Site</label><input id="cfgSite" type="text" placeholder="www.assistencia.com"></div>
+                            <div class="campo"><label>WhatsApp</label><input id="cfgWhatsapp" type="text" placeholder="(19) 98282-6005"></div>
+                            <div class="campo"><label>E-mail</label><input id="cfgEmail" type="email" placeholder="contato@reparotech.com"></div>
+                            <div class="campo"><label>Site</label><input id="cfgSite" type="text" placeholder="www.reparotech.com"></div>
                         </div>
 
                         <h4 class="form-section-title">📍 Endereço</h4>
@@ -636,7 +733,7 @@
 
                         <h4 class="form-section-title">🎨 Personalização</h4>
                         <div class="form-grid">
-                            <div class="campo campo-full"><label>Slogan</label><input id="cfgSlogan" type="text" placeholder="Ex.: Consertamos com qualidade"></div>
+                            <div class="campo campo-full"><label>Slogan</label><input id="cfgSlogan" type="text" placeholder="Ex.: Celulares, Computadores e Impressoras"></div>
                             <div class="campo campo-full"><label>Texto de garantia</label><textarea id="cfgGarantia" rows="2"></textarea></div>
                             <div class="campo campo-full"><label>Termos e condições</label><textarea id="cfgTermos" rows="3"></textarea></div>
                         </div>
@@ -678,9 +775,7 @@
     </main>
 
 
-    <!-- ============================================================ -->
-    <!-- MODAIS                                                        -->
-    <!-- ============================================================ -->
+    <!-- MODAIS -->
 
     <!-- MODAL: IMPORTAÇÃO DE SERVIÇOS -->
     <div id="modalImportacao" class="modal-overlay hidden">
@@ -692,12 +787,14 @@
             <div class="modal-corpo">
                 <div class="modal-info">
                     <p><strong>Como usar:</strong> Cole os dados abaixo, uma linha por serviço, separados por vírgula (,) ou Tab do Excel.</p>
-                    <p style="margin-top: 8px; color: #718096;"><strong>Ordem:</strong> Marca, Modelo, Serviço, Preço, Prazo, Status, Qualidade, Observação</p>
+                    <p style="margin-top: 8px; color: #718096;"><strong>Ordem:</strong> Marca, Modelo, Serviço, Preço, Prazo, Status, Qualidade, Observação, Categoria</p>
+                    <p style="margin-top: 4px; color: #718096; font-size: 11px;"><em>Categoria (opcional): celular, computador, impressora. Se omitir, o sistema detecta automaticamente.</em></p>
                 </div>
                 <div class="modal-exemplo">
                     <strong>Exemplo:</strong>
-                    <pre>Samsung, Galaxy A03, Troca de tela, 180, No mesmo dia, ativo, Premium (Incell)
-Samsung, Galaxy A03, Troca de tela, 140, No mesmo dia, ativo, Comum</pre>
+                    <pre>Samsung, Galaxy A03, Troca de tela, 180, No mesmo dia, ativo, Premium (Incell), , celular
+Dell, Inspiron 15, Formatação, 120, No mesmo dia, ativo, , , computador
+Epson, L3150, Recarga de cartucho, 40, Até 2 horas, ativo, , , impressora</pre>
                 </div>
                 <div class="campo">
                     <label>Cole os dados aqui:</label>
@@ -756,12 +853,14 @@ Samsung, Galaxy A03, Troca de tela, 140, No mesmo dia, ativo, Comum</pre>
             <div class="modal-corpo">
                 <div class="modal-info">
                     <p><strong>Como usar:</strong> Cole os dados abaixo, uma linha por peça, separados por vírgula (,) ou Tab do Excel.</p>
-                    <p style="margin-top: 8px; color: #718096;"><strong>Ordem:</strong> Nome, Categoria, Marca, Modelos Compatíveis, Quantidade, Estoque Mínimo, Preço Custo, Preço Venda, Fornecedor, Observações</p>
+                    <p style="margin-top: 8px; color: #718096;"><strong>Ordem:</strong> Nome, Tipo, Marca, Modelos Compatíveis, Quantidade, Estoque Mínimo, Preço Custo, Preço Venda, Fornecedor, Observações, Categoria do Equipamento</p>
+                    <p style="margin-top: 4px; color: #718096; font-size: 11px;"><em>Categoria do Equipamento (opcional): celular, computador, impressora. Se omitir, o sistema detecta automaticamente.</em></p>
                 </div>
                 <div class="modal-exemplo">
                     <strong>Exemplo:</strong>
-                    <pre>Display Galaxy A03, Display / Tela, Samsung, Galaxy A03, 5, 2, 80, 180, Distribuidora XYZ, Peça original
-Bateria iPhone 11, Bateria, Apple, iPhone 11, 3, 1, 90, 250, Apple Store, Bateria original</pre>
+                    <pre>Display Galaxy A03, Display / Tela, Samsung, Galaxy A03, 5, 2, 80, 180, Distribuidora XYZ, Peça original, celular
+SSD Kingston 240GB, SSD, Kingston, Universal, 10, 3, 120, 220, Distribuidora ABC, , computador
+Toner HP 105A, Toner, HP, LaserJet MFP, 8, 2, 90, 180, Distribuidora XYZ, , impressora</pre>
                 </div>
                 <div class="campo">
                     <label>Cole os dados aqui:</label>

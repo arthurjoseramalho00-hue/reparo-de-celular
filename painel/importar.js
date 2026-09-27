@@ -36,7 +36,6 @@ if (fecharModalImportacao) {
     });
 }
 
-// Fechar clicando fora
 if (modalImportacao) {
     modalImportacao.addEventListener("click", function (e) {
         if (e.target === modalImportacao) {
@@ -47,40 +46,23 @@ if (modalImportacao) {
 
 
 // ============================================================
-// PARSEAR TEXTO COLADO
+// PARSEAR TEXTO
 // ============================================================
 
 function parsearLinhas(texto) {
 
-    const linhas = texto
-        .split("\n")
-        .map(l => l.trim())
-        .filter(l => l.length > 0);
-
+    const linhas = texto.split("\n").map(l => l.trim()).filter(l => l.length > 0);
     const resultado = [];
 
     linhas.forEach(function (linha, index) {
 
-        // Ignora cabeçalho
         const linhaLower = linha.toLowerCase();
-        if (
-            linhaLower.startsWith("marca") ||
-            linhaLower.startsWith("marca,") ||
-            linhaLower.startsWith("marca\t")
-        ) {
-            return;
-        }
+        if (linhaLower.startsWith("marca") || linhaLower.startsWith("marca,") || linhaLower.startsWith("marca\t")) return;
 
-        // Detecta separador (vírgula ou tab)
         let partes;
-
-        if (linha.includes("\t")) {
-            partes = linha.split("\t");
-        } else if (linha.includes(";")) {
-            partes = linha.split(";");
-        } else {
-            partes = linha.split(",");
-        }
+        if (linha.includes("\t")) partes = linha.split("\t");
+        else if (linha.includes(";")) partes = linha.split(";");
+        else partes = linha.split(",");
 
         partes = partes.map(p => p.trim());
 
@@ -98,33 +80,36 @@ function parsearLinhas(texto) {
         const tipoServico = partes[2] || "";
         const precoTexto = (partes[3] || "").replace(",", ".").replace(/[^\d.]/g, "");
         const prazo = partes[4] || "A definir";
+        const status = (partes[5] || "ativo").toLowerCase();
         const qualidade = partes[6] || "";
         const observacaoTecnica = partes[7] || "";
-        const status = (partes[5] || "ativo").toLowerCase();
+
+        // Categoria (posição 8, opcional — detecta automaticamente)
+        let categoria = (partes[8] || "").trim().toLowerCase();
+        const catsValidas = ["celular", "computador", "impressora", "outros"];
+        if (!catsValidas.includes(categoria)) {
+            const txt = (marca + " " + tipoServico).toLowerCase();
+            if (/epson|brother|canon|impressora|cartucho|toner|laser/.test(txt)) categoria = "impressora";
+            else if (/dell|lenovo|acer|asus|positivo|notebook|computador|ssd|hd|formatar|windows|pc|macbook/.test(txt)) categoria = "computador";
+            else categoria = "celular";
+        }
 
         const preco = parseFloat(precoTexto);
 
         if (!marca || !modelo || !tipoServico) {
-            resultado.push({
-                linha: index + 1,
-                erro: "Marca, modelo e serviço são obrigatórios",
-                dados: partes
-            });
+            resultado.push({ linha: index + 1, erro: "Marca, modelo e serviço são obrigatórios", dados: partes });
             return;
         }
 
         if (isNaN(preco) || preco < 0) {
-            resultado.push({
-                linha: index + 1,
-                erro: "Preço inválido: " + partes[3],
-                dados: partes
-            });
+            resultado.push({ linha: index + 1, erro: "Preço inválido: " + partes[3], dados: partes });
             return;
         }
 
         resultado.push({
             linha: index + 1,
             ok: true,
+            categoria,
             marca,
             modelo,
             tipo_servico: tipoServico,
@@ -165,10 +150,10 @@ if (btnPreviewImportacao) {
             return;
         }
 
-        // Monta tabela preview
         let html = `<div class="preview-tabela"><table>`;
         html += `<thead><tr>
             <th>#</th>
+            <th>Cat.</th>
             <th>Marca</th>
             <th>Modelo</th>
             <th>Serviço</th>
@@ -179,8 +164,10 @@ if (btnPreviewImportacao) {
 
         parsed.forEach(function (p) {
             if (p.ok) {
+                const icone = p.categoria === "computador" ? "💻" : p.categoria === "impressora" ? "🖨️" : "📱";
                 html += `<tr>
                     <td>${p.linha}</td>
+                    <td>${icone}</td>
                     <td>${escapar(p.marca)}</td>
                     <td>${escapar(p.modelo)}</td>
                     <td>${escapar(p.tipo_servico)}</td>
@@ -191,20 +178,18 @@ if (btnPreviewImportacao) {
             } else {
                 html += `<tr class="linha-erro">
                     <td>${p.linha}</td>
-                    <td colspan="6">❌ ${escapar(p.erro)}: ${escapar(p.dados.join(" | "))}</td>
+                    <td colspan="7">❌ ${escapar(p.erro)}: ${escapar(p.dados.join(" | "))}</td>
                 </tr>`;
             }
         });
 
         html += `</tbody></table></div>`;
-
         html += `<div class="preview-resumo">
             <span class="preview-resumo-item ok">✅ ${dadosPreview.length} válidos</span>
             ${erros.length > 0 ? `<span class="preview-resumo-item erro">❌ ${erros.length} com erro</span>` : ""}
         </div>`;
 
         previewImportacao.innerHTML = html;
-
         statusImportacao.innerHTML = "";
 
         if (dadosPreview.length > 0) {
@@ -226,11 +211,7 @@ if (btnImportarTudo) {
 
         if (dadosPreview.length === 0) return;
 
-        const confirmar = confirm(
-            `Vai cadastrar ${dadosPreview.length} serviços.\n\n` +
-            `Deseja continuar?`
-        );
-
+        const confirmar = confirm(`Vai cadastrar ${dadosPreview.length} serviços.\n\nDeseja continuar?`);
         if (!confirmar) return;
 
         btnImportarTudo.disabled = true;
@@ -239,9 +220,9 @@ if (btnImportarTudo) {
 
         try {
 
-            // Monta array para o Supabase
-const registros = dadosPreview.map(function (d) {
+            const registros = dadosPreview.map(function (d) {
                 return {
+                    categoria: d.categoria || "celular",
                     marca: d.marca,
                     modelo: d.modelo,
                     tipo_servico: d.tipo_servico,
@@ -253,54 +234,34 @@ const registros = dadosPreview.map(function (d) {
                 };
             });
 
-            // Insere em lotes de 100 (evita erro com muitas linhas)
             const TAMANHO_LOTE = 100;
             let totalInserido = 0;
 
             for (let i = 0; i < registros.length; i += TAMANHO_LOTE) {
-
                 const lote = registros.slice(i, i + TAMANHO_LOTE);
-
                 statusImportacao.innerHTML = `<span style="color: #198cff;">Importando lote ${Math.floor(i / TAMANHO_LOTE) + 1}... (${i}/${registros.length})</span>`;
 
-                const { data, error } = await supabaseClient
-                    .from("servicos")
-                    .insert(lote)
-                    .select();
-
-                if (error) {
-                    console.error("Erro no lote:", error);
-                    throw error;
-                }
-
+                const { data, error } = await supabaseClient.from("servicos").insert(lote).select();
+                if (error) throw error;
                 totalInserido += (data || []).length;
             }
 
             statusImportacao.innerHTML = `<span style="color: #16a34a;">✅ ${totalInserido} serviços importados com sucesso!</span>`;
-
             btnImportarTudo.textContent = `✅ Importados`;
 
-            // Recarrega a lista de serviços
             setTimeout(function () {
-                if (typeof carregarServicos === "function") {
-                    carregarServicos();
-                }
-                if (typeof carregarServicosParaPrecos === "function") {
-                    carregarServicosParaPrecos();
-                }
+                if (typeof carregarServicos === "function") carregarServicos();
+                if (typeof carregarServicosParaPrecos === "function") carregarServicosParaPrecos();
             }, 500);
 
-            // Fecha o modal após 2 segundos
             setTimeout(function () {
                 modalImportacao.classList.add("hidden");
                 alert(`✅ ${totalInserido} serviços cadastrados com sucesso!`);
             }, 1500);
 
         } catch (erro) {
-
             console.error("Erro na importação:", erro);
             statusImportacao.innerHTML = `<span style="color: #c53030;">❌ Erro: ${erro.message || "Falha ao importar"}</span>`;
-
             btnImportarTudo.disabled = false;
             btnImportarTudo.textContent = `📥 Tentar novamente`;
         }
@@ -324,7 +285,7 @@ if (btnLimparImportacao) {
 
 
 // ============================================================
-// PROTEÇÃO
+// HELPERS
 // ============================================================
 
 function escapar(valor) {
@@ -337,4 +298,4 @@ function escapar(valor) {
         .replace(/'/g, "&#039;");
 }
 
-console.log("📥 Módulo de importação em massa carregado.");
+console.log("📥 Módulo Importar carregado.");

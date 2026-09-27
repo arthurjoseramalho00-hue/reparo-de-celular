@@ -194,7 +194,7 @@ const campoObservacaoTecnica =
 let todosServicos = [];
 let termoPesquisa = "";
 let filtroMarca = "todas";
-
+let filtroCategoria = "todas";
 
 // ============================================================
 // 8. ABRIR / FECHAR FORMULÁRIO
@@ -310,38 +310,35 @@ function criarFiltros() {
     if (!listaCard) return;
 
     let filtros = document.getElementById("filtrosServicos");
-
-    if (filtros) {
-        atualizarOpcoesMarca();
-        return;
-    }
+    if (filtros) { atualizarOpcoesMarca(); return; }
 
     const listaHeader = listaCard.querySelector(".lista-header");
     if (!listaHeader) return;
 
+    // Chips de categoria
+    const chips = document.createElement("div");
+    chips.className = "categoria-chips";
+    chips.id = "catChipsServicos";
+    chips.innerHTML = `
+        <button type="button" class="categoria-chip active" data-categoria="todas">📦 Todos</button>
+        <button type="button" class="categoria-chip" data-categoria="celular">📱 Celulares</button>
+        <button type="button" class="categoria-chip" data-categoria="computador">💻 Computadores</button>
+        <button type="button" class="categoria-chip" data-categoria="impressora">🖨️ Impressoras</button>
+    `;
+    listaHeader.after(chips);
+
+    // Pesquisa + filtro de marca
     filtros = document.createElement("div");
     filtros.id = "filtrosServicos";
-    filtros.style.display = "flex";
-    filtros.style.gap = "10px";
-    filtros.style.marginBottom = "15px";
-    filtros.style.flexWrap = "wrap";
-
+    filtros.style.cssText = "display:flex;gap:10px;margin:15px 0;flex-wrap:wrap;";
     filtros.innerHTML = `
-        <input
-            id="pesquisaServico"
-            type="search"
-            placeholder="🔎 Pesquisar serviço..."
-            style="flex: 1; min-width: 220px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;"
-        >
-        <select
-            id="filtroMarca"
-            style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;"
-        >
+        <input id="pesquisaServico" type="search" placeholder="🔎 Pesquisar serviço..."
+            style="flex:1;min-width:220px;padding:10px;border:1px solid #ddd;border-radius:8px;font-family:inherit;">
+        <select id="filtroMarca" style="padding:10px;border:1px solid #ddd;border-radius:8px;font-family:inherit;">
             <option value="todas">Todas as marcas</option>
         </select>
     `;
-
-    listaHeader.after(filtros);
+    chips.after(filtros);
 
     const pesquisa = document.getElementById("pesquisaServico");
     const selectMarca = document.getElementById("filtroMarca");
@@ -356,9 +353,17 @@ function criarFiltros() {
         aplicarFiltros();
     });
 
+    chips.querySelectorAll(".categoria-chip").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+            chips.querySelectorAll(".categoria-chip").forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
+            filtroCategoria = chip.dataset.categoria;
+            aplicarFiltros();
+        });
+    });
+
     atualizarOpcoesMarca();
 }
-
 
 // ============================================================
 // 12. ATUALIZAR MARCAS
@@ -411,21 +416,23 @@ function aplicarFiltros() {
                 (servico.modelo || "") + " " +
                 (servico.tipo_servico || "")
             ).toLowerCase();
-
             return texto.includes(termoPesquisa);
         });
     }
 
     if (filtroMarca !== "todas") {
-        resultado = resultado.filter(function (servico) {
-            return servico.marca === filtroMarca;
-        });
+        resultado = resultado.filter(s => s.marca === filtroMarca);
+    }
+
+    if (filtroCategoria !== "todas") {
+        resultado = resultado.filter(s => (s.categoria || "celular") === filtroCategoria);
     }
 
     renderizarServicos(resultado);
 }
 
 // ============================================================
+// // ============================================================
 // 14. RENDERIZAR SERVIÇOS
 // ============================================================
 
@@ -439,7 +446,7 @@ function renderizarServicos(servicos) {
 
         listaServicos.innerHTML = `
             <div class="lista-vazia">
-                <div style="font-size: 40px;">📱</div>
+                <div style="font-size: 40px;">🔧</div>
                 <h3>Nenhum serviço encontrado</h3>
                 <p>Tente alterar a pesquisa ou cadastrar um novo serviço.</p>
             </div>
@@ -464,24 +471,37 @@ function renderizarServicos(servicos) {
         const statusNormalizado = String(servico.status || "").toLowerCase();
         const statusAtivo = statusNormalizado === "ativo";
 
+        const iconeCategoria = servico.categoria === "computador" ? "💻"
+            : servico.categoria === "impressora" ? "🖨️"
+            : servico.categoria === "outros" ? "🔧"
+            : "📱";
+
+        const labelCategoria = {
+            celular: "Celular",
+            computador: "Computador",
+            impressora: "Impressora",
+            outros: "Outros"
+        }[servico.categoria] || "Celular";
+
         item.innerHTML = `
             <div class="servico-info">
 
                 <div class="servico-titulo">
-                    📱
+                    ${iconeCategoria}
                     <strong>
                         ${escaparHTML(servico.marca)}
                         ${escaparHTML(servico.modelo)}
                     </strong>
+                    <span class="cat-badge ${servico.categoria || 'celular'}">${labelCategoria}</span>
                 </div>
 
                 <div class="servico-detalhes">
-    <span>🔧 ${escaparHTML(servico.tipo_servico)}</span>
-    ${servico.qualidade ? `<span>⭐ ${escaparHTML(servico.qualidade)}</span>` : ""}
-    <span>💰 ${preco}</span>
-    <span>⏱️ ${escaparHTML(servico.prazo || "-")}</span>
-</div>
-                   
+                    <span>🔧 ${escaparHTML(servico.tipo_servico)}</span>
+                    ${servico.qualidade ? `<span>⭐ ${escaparHTML(servico.qualidade)}</span>` : ""}
+                    <span>💰 ${preco}</span>
+                    <span>⏱️ ${escaparHTML(servico.prazo || "-")}</span>
+                </div>
+
                 <div>
                     <span class="status-servico">
                         ${statusAtivo ? "🟢 Ativo" : "🔴 Inativo"}
@@ -515,7 +535,6 @@ function renderizarServicos(servicos) {
     listaServicos.appendChild(grid);
 }
 
-
 // ============================================================
 // 15. CADASTRAR / EDITAR SERVIÇO
 // ============================================================
@@ -528,7 +547,9 @@ if (formulario) {
 
         const botaoSalvar = formulario.querySelector('button[type="submit"]');
 
-        const marca = campoMarca.value.trim();
+        const campoCategoria = document.getElementById("categoria");
+const categoria = campoCategoria ? campoCategoria.value : "celular";
+const marca = campoMarca.value.trim();
         const modelo = campoModelo.value.trim();
         const tipoServico = campoTipoServico.value.trim();
         const preco = Number(campoPreco.value);
@@ -548,6 +569,7 @@ if (formulario) {
 
         const dados = {
 
+              categoria,
                 marca,
                 modelo,
                 tipo_servico:
@@ -629,7 +651,9 @@ async function editarServico(id) {
 
         const servico = resultado.data;
 
-        campoMarca.value = servico.marca || "";
+       const campoCategoria = document.getElementById("categoria");
+if (campoCategoria) campoCategoria.value = servico.categoria || "celular";
+campoMarca.value = servico.marca || "";
         campoModelo.value = servico.modelo || "";
         campoTipoServico.value = servico.tipo_servico || "";
         campoPreco.value = servico.preco || 0;
@@ -864,7 +888,7 @@ async function carregarServicosParaPrecos() {
 
     const { data, error } = await supabaseClient
         .from("servicos")
-        .select("id, marca, modelo, tipo_servico, status")
+        .select("id, categoria, marca, modelo, tipo_servico, status")
         .order("marca", { ascending: true });
 
     if (error) {
@@ -887,7 +911,9 @@ async function carregarServicosParaPrecos() {
         const option = document.createElement("option");
 
         option.value = servico.id;
-        option.textContent = `${servico.marca} ${servico.modelo} - ${servico.tipo_servico}`;
+       const iconeCat = servico.categoria === "computador" ? "💻" : servico.categoria === "impressora" ? "🖨️" : "📱";
+option.textContent = `${iconeCat} ${servico.marca} ${servico.modelo} - ${servico.tipo_servico}`;const osCategoria = document.getElementById("osCategoria");  // ← NOVO
+const osMarca = document.getElementById("osMarca");
 
         servicoPreco.appendChild(option);
     });

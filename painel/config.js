@@ -6,7 +6,6 @@ const configForm = document.getElementById("configForm");
 const cfgCancelar = document.getElementById("cfgCancelar");
 const cfgPreview = document.getElementById("cfgPreview");
 
-// Campos
 const cfgNome = document.getElementById("cfgNome");
 const cfgCnpj = document.getElementById("cfgCnpj");
 const cfgIE = document.getElementById("cfgIE");
@@ -22,30 +21,25 @@ const cfgEstado = document.getElementById("cfgEstado");
 const cfgSlogan = document.getElementById("cfgSlogan");
 const cfgGarantia = document.getElementById("cfgGarantia");
 const cfgTermos = document.getElementById("cfgTermos");
+const cfgCategorias = document.getElementById("cfgCategorias");
 
 let configCarregada = false;
 
 
 // ============================================================
-// CARREGAR CONFIGURAÇÕES DO SUPABASE
+// CARREGAR
 // ============================================================
 
 async function carregarConfiguracoes() {
 
     try {
 
-        const { data, error } = await supabaseClient
-            .from("configuracoes")
-            .select("*");
-
+        const { data, error } = await supabaseClient.from("configuracoes").select("*");
         if (error) throw error;
 
         const mapa = {};
-        (data || []).forEach(function (item) {
-            mapa[item.chave] = item.valor || "";
-        });
+        (data || []).forEach(function (item) { mapa[item.chave] = item.valor || ""; });
 
-        // Preenche campos
         if (cfgNome) cfgNome.value = mapa.empresa_nome || "";
         if (cfgCnpj) cfgCnpj.value = mapa.empresa_cnpj || "";
         if (cfgIE) cfgIE.value = mapa.empresa_ie || "";
@@ -61,12 +55,11 @@ async function carregarConfiguracoes() {
         if (cfgSlogan) cfgSlogan.value = mapa.empresa_slogan || "";
         if (cfgGarantia) cfgGarantia.value = mapa.empresa_garantia || "";
         if (cfgTermos) cfgTermos.value = mapa.empresa_termos || "";
+        if (cfgCategorias) cfgCategorias.value = mapa.site_categorias_ativas || "celular,computador,impressora";
 
         configCarregada = true;
-
         atualizarPreview();
 
-        // Atualiza o bot do chat com o nome da empresa
         if (typeof botConfig !== "undefined" && mapa.empresa_nome) {
             botConfig.nome = mapa.empresa_nome;
         }
@@ -78,25 +71,19 @@ async function carregarConfiguracoes() {
 
 
 // ============================================================
-// SALVAR CONFIGURAÇÕES
+// SALVAR
 // ============================================================
 
 if (configForm) {
-
     configForm.addEventListener("submit", async function (evento) {
 
         evento.preventDefault();
 
         const botaoSalvar = configForm.querySelector('button[type="submit"]');
-
         const nome = cfgNome.value.trim();
 
-        if (!nome) {
-            alert("Informe o nome da assistência.");
-            return;
-        }
+        if (!nome) { alert("Informe o nome da assistência."); return; }
 
-        // Monta lista de {chave, valor}
         const itens = [
             { chave: "empresa_nome", valor: nome },
             { chave: "empresa_cnpj", valor: cfgCnpj.value.trim() },
@@ -112,7 +99,8 @@ if (configForm) {
             { chave: "empresa_estado", valor: cfgEstado.value.trim() },
             { chave: "empresa_slogan", valor: cfgSlogan.value.trim() },
             { chave: "empresa_garantia", valor: cfgGarantia.value.trim() },
-            { chave: "empresa_termos", valor: cfgTermos.value.trim() }
+            { chave: "empresa_termos", valor: cfgTermos.value.trim() },
+            { chave: "site_categorias_ativas", valor: cfgCategorias ? cfgCategorias.value.trim() : "celular,computador,impressora" }
         ];
 
         try {
@@ -122,44 +110,30 @@ if (configForm) {
                 botaoSalvar.textContent = "Salvando...";
             }
 
-            // Upsert (insere ou atualiza)
             for (const item of itens) {
                 const { error } = await supabaseClient
                     .from("configuracoes")
-                    .upsert(
-                        {
-                            chave: item.chave,
-                            valor: item.valor,
-                            atualizado_em: new Date().toISOString()
-                        },
-                        { onConflict: "chave" }
-                    );
+                    .upsert({
+                        chave: item.chave,
+                        valor: item.valor,
+                        atualizado_em: new Date().toISOString()
+                    }, { onConflict: "chave" });
 
-                if (error) {
-                    console.error("Erro ao salvar", item.chave, error);
-                }
+                if (error) console.error("Erro ao salvar", item.chave, error);
             }
 
             alert("Configurações salvas com sucesso! ✅");
-
             atualizarPreview();
 
-            // Atualiza o bot também
             if (typeof botConfig !== "undefined") {
                 botConfig.nome = nome;
-                botConfig.horario = botConfig.horario || "";
-                if (typeof botTitulo !== "undefined" && botTitulo) {
-                    botTitulo.textContent = nome;
-                }
+                if (typeof botTitulo !== "undefined" && botTitulo) botTitulo.textContent = nome;
             }
 
         } catch (erro) {
-
             console.error("Erro ao salvar configurações:", erro);
             alert("Erro ao salvar.\n\n" + (erro.message || ""));
-
         } finally {
-
             if (botaoSalvar) {
                 botaoSalvar.disabled = false;
                 botaoSalvar.textContent = "💾 Salvar configurações";
@@ -176,11 +150,9 @@ if (configForm) {
 if (cfgCancelar) {
     cfgCancelar.addEventListener("click", function () {
 
-        if (!confirm("Restaurar os campos para o padrão? Os dados não salvos serão perdidos.")) {
-            return;
-        }
+        if (!confirm("Restaurar os campos para o padrão? Os dados não salvos serão perdidos.")) return;
 
-        if (cfgNome) cfgNome.value = "Reparo de Celular";
+        if (cfgNome) cfgNome.value = "Reparo Tech";
         if (cfgCnpj) cfgCnpj.value = "";
         if (cfgIE) cfgIE.value = "";
         if (cfgTelefone) cfgTelefone.value = "";
@@ -192,9 +164,9 @@ if (cfgCancelar) {
         if (cfgCep) cfgCep.value = "";
         if (cfgCidade) cfgCidade.value = "";
         if (cfgEstado) cfgEstado.value = "";
-        if (cfgSlogan) cfgSlogan.value = "";
+        if (cfgSlogan) cfgSlogan.value = "Celulares, Computadores e Impressoras";
         if (cfgGarantia) cfgGarantia.value = "Garantia de 90 dias sobre os serviços executados.";
-        if (cfgTermos) cfgTermos.value = "O cliente declara estar ciente de que o aparelho foi entregue para análise técnica. A assistência não se responsabiliza por dados não salvos.";
+        if (cfgTermos) cfgTermos.value = "O cliente declara estar ciente de que o equipamento foi entregue para análise técnica. A assistência não se responsabiliza por dados não salvos.";
 
         atualizarPreview();
     });
@@ -216,7 +188,6 @@ function atualizarPreview() {
     const email = cfgEmail?.value.trim();
     const site = cfgSite?.value.trim();
 
-    // Endereço completo
     const partesEnd = [
         cfgEndereco?.value.trim(),
         cfgBairro?.value.trim(),
@@ -236,7 +207,6 @@ function atualizarPreview() {
             ${cnpj ? `<p>CNPJ: ${escaparHTML(cnpj)}</p>` : ""}
             ${slogan ? `<div class="preview-slogan">"${escaparHTML(slogan)}"</div>` : ""}
         </div>
-
         <div class="preview-info">
             ${enderecoCompleto ? `<div>📍 ${escaparHTML(enderecoCompleto)}</div>` : ""}
             ${telefone ? `<div>📞 ${escaparHTML(telefone)}</div>` : ""}
@@ -244,22 +214,15 @@ function atualizarPreview() {
             ${email ? `<div>✉️ ${escaparHTML(email)}</div>` : ""}
             ${site ? `<div>🌐 ${escaparHTML(site)}</div>` : ""}
         </div>
-
         ${garantia ? `<div class="preview-termos"><strong>Garantia:</strong> ${escaparHTML(garantia)}</div>` : ""}
         ${termos ? `<div class="preview-termos">${escaparHTML(termos)}</div>` : ""}
     `;
 }
 
-// Atualiza o preview conforme digita
 [cfgNome, cfgCnpj, cfgIE, cfgTelefone, cfgWhatsapp, cfgEmail, cfgSite,
  cfgEndereco, cfgBairro, cfgCep, cfgCidade, cfgEstado, cfgSlogan,
  cfgGarantia, cfgTermos].forEach(function (campo) {
-    if (campo) {
-        campo.addEventListener("input", atualizarPreview);
-    }
+    if (campo) campo.addEventListener("input", atualizarPreview);
 });
 
-
-// ============================================================
-// FIM DO MÓDULO CONFIGURAÇÕES
-// ============================================================
+console.log("⚙️ Módulo Config carregado.");

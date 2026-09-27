@@ -51,28 +51,18 @@ if (modalImportacaoPecas) {
 
 function parsearLinhasPecas(texto) {
 
-    const linhas = texto
-        .split("\n")
-        .map(l => l.trim())
-        .filter(l => l.length > 0);
-
+    const linhas = texto.split("\n").map(l => l.trim()).filter(l => l.length > 0);
     const resultado = [];
 
     linhas.forEach(function (linha, index) {
 
         const linhaLower = linha.toLowerCase();
-        if (linhaLower.startsWith("nome") || linhaLower.startsWith("peça") || linhaLower.startsWith("peca")) {
-            return;
-        }
+        if (linhaLower.startsWith("nome") || linhaLower.startsWith("peça") || linhaLower.startsWith("peca")) return;
 
         let partes;
-        if (linha.includes("\t")) {
-            partes = linha.split("\t");
-        } else if (linha.includes(";")) {
-            partes = linha.split(";");
-        } else {
-            partes = linha.split(",");
-        }
+        if (linha.includes("\t")) partes = linha.split("\t");
+        else if (linha.includes(";")) partes = linha.split(";");
+        else partes = linha.split(",");
 
         partes = partes.map(p => p.trim());
 
@@ -96,18 +86,25 @@ function parsearLinhasPecas(texto) {
         const fornecedor = partes[8] || "";
         const observacoes = partes[9] || "";
 
+        // Categoria do equipamento (posição 10, opcional)
+        let categoriaEquip = (partes[10] || "").trim().toLowerCase();
+        const catsValidasP = ["celular", "computador", "impressora", "outros"];
+        if (!catsValidasP.includes(categoriaEquip)) {
+            const txt = (nome + " " + categoria + " " + marca).toLowerCase();
+            if (/epson|brother|canon|cartucho|toner|impressora|fusor/.test(txt)) categoriaEquip = "impressora";
+            else if (/ssd|hd|ram|memoria|teclado|notebook|placa.?mae|fonte|processador|desktop|pc/.test(txt)) categoriaEquip = "computador";
+            else categoriaEquip = "celular";
+        }
+
         if (!nome) {
-            resultado.push({
-                linha: index + 1,
-                erro: "Nome da peça é obrigatório",
-                dados: partes
-            });
+            resultado.push({ linha: index + 1, erro: "Nome da peça é obrigatório", dados: partes });
             return;
         }
 
         resultado.push({
             linha: index + 1,
             ok: true,
+            categoria_equipamento: categoriaEquip,
             nome,
             categoria: categoria || null,
             marca: marca || null,
@@ -153,6 +150,7 @@ if (btnPreviewImportacaoPecas) {
         let html = `<div class="preview-tabela"><table>`;
         html += `<thead><tr>
             <th>#</th>
+            <th>Eq.</th>
             <th>Nome</th>
             <th>Categoria</th>
             <th>Marca</th>
@@ -163,8 +161,10 @@ if (btnPreviewImportacaoPecas) {
 
         parsed.forEach(function (p) {
             if (p.ok) {
+                const icone = p.categoria_equipamento === "computador" ? "💻" : p.categoria_equipamento === "impressora" ? "🖨️" : "📱";
                 html += `<tr>
                     <td>${p.linha}</td>
+                    <td>${icone}</td>
                     <td>${escaparPeca(p.nome)}</td>
                     <td>${escaparPeca(p.categoria || "-")}</td>
                     <td>${escaparPeca(p.marca || "-")}</td>
@@ -175,13 +175,12 @@ if (btnPreviewImportacaoPecas) {
             } else {
                 html += `<tr class="linha-erro">
                     <td>${p.linha}</td>
-                    <td colspan="6">❌ ${escaparPeca(p.erro)}: ${escaparPeca(p.dados.join(" | "))}</td>
+                    <td colspan="7">❌ ${escaparPeca(p.erro)}: ${escaparPeca(p.dados.join(" | "))}</td>
                 </tr>`;
             }
         });
 
         html += `</tbody></table></div>`;
-
         html += `<div class="preview-resumo">
             <span class="preview-resumo-item ok">✅ ${dadosPreviewPecas.length} válidos</span>
             ${erros.length > 0 ? `<span class="preview-resumo-item erro">❌ ${erros.length} com erro</span>` : ""}
@@ -209,10 +208,7 @@ if (btnImportarTudoPecas) {
 
         if (dadosPreviewPecas.length === 0) return;
 
-        const confirmar = confirm(
-            `Vai cadastrar ${dadosPreviewPecas.length} peças.\n\nDeseja continuar?`
-        );
-
+        const confirmar = confirm(`Vai cadastrar ${dadosPreviewPecas.length} peças.\n\nDeseja continuar?`);
         if (!confirmar) return;
 
         btnImportarTudoPecas.disabled = true;
@@ -222,6 +218,7 @@ if (btnImportarTudoPecas) {
         try {
             const registros = dadosPreviewPecas.map(function (d) {
                 return {
+                    categoria_equipamento: d.categoria_equipamento || "celular",
                     nome: d.nome,
                     categoria: d.categoria,
                     marca: d.marca,
@@ -240,14 +237,9 @@ if (btnImportarTudoPecas) {
 
             for (let i = 0; i < registros.length; i += TAMANHO_LOTE) {
                 const lote = registros.slice(i, i + TAMANHO_LOTE);
-
                 statusImportacaoPecas.innerHTML = `<span style="color: #198cff;">Importando lote ${Math.floor(i / TAMANHO_LOTE) + 1}...</span>`;
 
-                const { data, error } = await supabaseClient
-                    .from("pecas")
-                    .insert(lote)
-                    .select();
-
+                const { data, error } = await supabaseClient.from("pecas").insert(lote).select();
                 if (error) throw error;
                 totalInserido += (data || []).length;
             }
@@ -271,10 +263,6 @@ if (btnImportarTudoPecas) {
 }
 
 
-// ============================================================
-// LIMPAR
-// ============================================================
-
 if (btnLimparImportacaoPecas) {
     btnLimparImportacaoPecas.addEventListener("click", function () {
         importarTextoPecas.value = "";
@@ -296,10 +284,7 @@ window.abrirModalExclusaoPecas = function () {
 
     const pecas = (typeof todasPecas !== "undefined" && Array.isArray(todasPecas)) ? todasPecas : [];
 
-    if (pecas.length === 0) {
-        alert("Não há peças cadastradas para excluir.");
-        return;
-    }
+    if (pecas.length === 0) { alert("Não há peças cadastradas para excluir."); return; }
 
     document.getElementById("confirmarExclusaoPecas").value = "";
     document.getElementById("btnConfirmarExclusaoPecas").disabled = true;
@@ -392,11 +377,7 @@ window.confirmarExclusaoPecas = async function () {
     if (status) status.innerHTML = `<span style="color: #dc2626;">Excluindo ${total} peças...</span>`;
 
     try {
-        const { error } = await supabaseClient
-            .from("pecas")
-            .delete()
-            .neq("id", 0);
-
+        const { error } = await supabaseClient.from("pecas").delete().neq("id", 0);
         if (error) throw error;
 
         if (status) status.innerHTML = `<span style="color: #16a34a;">✅ ${total} peças excluídas!</span>`;
@@ -432,10 +413,7 @@ function escaparPeca(v) {
 }
 
 function formatarMoedaPeca(v) {
-    return Number(v || 0).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
+    return Number(v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
-console.log("📥 Módulo importação de peças carregado.");
+console.log("📥 Módulo Importar Peças carregado.");

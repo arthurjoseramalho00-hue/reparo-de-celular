@@ -2,25 +2,21 @@
 // BOT HÍBRIDO — Palavras-chave + Consulta ao Supabase
 // ============================================================
 
-// ============================================================
-// 1. ESTADO DO BOT
-// ============================================================
-
 let botIniciado = false;
 let botConfig = {
-    nome: "Reparo de Celular",
-    boasVindas: "Olá! 👋 Bem-vindo à nossa assistência técnica. Como posso ajudar?",
+    nome: "Reparo Tech",
+    boasVindas: "Olá! 👋 Bem-vindo à Reparo Tech. Trabalhamos com celulares, computadores e impressoras. Como posso ajudar?",
     fallback: "Desculpe, não entendi. 🤔 Você pode perguntar sobre: horário, endereço, orçamento, prazo ou garantia.",
     horario: "Segunda a Sexta, das 9h às 18h",
-    endereco: "Rua Exemplo, 123 - Centro",
-    whatsapp: "(11) 99999-9999"
+    endereco: "Custódia - PE",
+    whatsapp: "(19) 98282-6005"
 };
 
 const CHAVE_STORAGE = "bot_config_v1";
 
 
 // ============================================================
-// 2. ELEMENTOS
+// ELEMENTOS
 // ============================================================
 
 const chatMensagens = document.getElementById("chatMensagens");
@@ -38,7 +34,7 @@ const botSalvarConfig = document.getElementById("botSalvarConfig");
 
 
 // ============================================================
-// 3. CONFIGURAÇÕES — carregar e salvar
+// CONFIGURAÇÕES
 // ============================================================
 
 function carregarConfigBot() {
@@ -59,15 +55,13 @@ function carregarConfigBot() {
     if (botEndereco) botEndereco.value = botConfig.endereco;
     if (botWhatsapp) botWhatsapp.value = botConfig.whatsapp;
 
-    if (botTitulo) {
-        botTitulo.textContent = botConfig.nome || "Assistente Virtual";
-    }
+    if (botTitulo) botTitulo.textContent = botConfig.nome || "Assistente Virtual";
 }
 
 function salvarConfigBot() {
 
     botConfig = {
-        nome: (botNome?.value || "").trim() || "Reparo de Celular",
+        nome: (botNome?.value || "").trim() || "Reparo Tech",
         boasVindas: (botBoasVindas?.value || "").trim() || botConfig.boasVindas,
         fallback: (botFallback?.value || "").trim() || botConfig.fallback,
         horario: (botHorario?.value || "").trim(),
@@ -81,20 +75,16 @@ function salvarConfigBot() {
         console.warn("Não foi possível salvar config:", e);
     }
 
-    if (botTitulo) {
-        botTitulo.textContent = botConfig.nome;
-    }
+    if (botTitulo) botTitulo.textContent = botConfig.nome;
 
     alert("Configurações salvas com sucesso! ✅");
 }
 
-if (botSalvarConfig) {
-    botSalvarConfig.addEventListener("click", salvarConfigBot);
-}
+if (botSalvarConfig) botSalvarConfig.addEventListener("click", salvarConfigBot);
 
 
 // ============================================================
-// 4. ADICIONAR MENSAGEM AO CHAT
+// MENSAGENS
 // ============================================================
 
 function adicionarMensagem(texto, tipo) {
@@ -111,17 +101,13 @@ function adicionarMensagem(texto, tipo) {
 
 function formatarMensagem(texto) {
 
-    // Escapa HTML
     let html = String(texto)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
 
-    // Quebras de linha
     html = html.replace(/\n/g, "<br>");
-
-    // **negrito** → <strong>
     html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
 
     return html;
@@ -149,14 +135,14 @@ function removerDigitando() {
 
 
 // ============================================================
-// 5. UTILITÁRIOS DE TEXTO
+// UTILITÁRIOS
 // ============================================================
 
 function normalizar(texto) {
     return String(texto || "")
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")  // remove acentos
+        .replace(/[\u0300-\u036f]/g, "")
         .trim();
 }
 
@@ -166,7 +152,7 @@ function contemAlguma(texto, palavras) {
 
 
 // ============================================================
-// 6. RESPOSTAS BASEADAS EM PALAVRAS-CHAVE
+// RESPOSTAS
 // ============================================================
 
 function responderSaudacao() {
@@ -195,15 +181,15 @@ function responderGarantia() {
 }
 
 function responderPrazo() {
-    return `⏱️ O prazo varia conforme o serviço:\n\n• **Até 2 horas** — Serviços simples\n• **No mesmo dia** — Reparos comuns\n• **1 a 3 dias** — Serviços mais complexos\n\nPara saber o prazo exato do seu caso, me diga o **modelo do celular** e o **serviço desejado**. 📱`;
+    return `⏱️ O prazo varia conforme o serviço:\n\n• **Até 2 horas** — Serviços simples\n• **No mesmo dia** — Reparos comuns\n• **1 a 3 dias** — Serviços mais complexos\n\nPara saber o prazo exato do seu caso, me diga o **modelo do equipamento** e o **serviço desejado**. 🔧`;
 }
 
 function responderPreco() {
-    return `💰 Para eu te passar o preço exato, me diga:\n\n• **Marca e modelo** do celular\n• **Qual serviço** você precisa\n\nExemplo: _"Quanto custa trocar a tela de um Galaxy A03?"_`;
+    return `💰 Para eu te passar o preço exato, me diga:\n\n• **Marca e modelo** do equipamento\n• **Qual serviço** você precisa\n\nExemplos:\n_"Quanto custa trocar a tela de um Galaxy A03?"_\n_"Quanto custa formatar um notebook Dell?"_\n_"Quanto custa recarga de cartucho Epson?"_`;
 }
 
 function responderOrcamento() {
-    return `📋 Para fazer um orçamento, é só me passar:\n\n• **Marca e modelo** do aparelho\n• **O que está acontecendo** (tela quebrada, não carrega, etc.)\n\nOu se preferir, fale direto com nossa equipe:\n💬 **${botConfig.whatsapp}**`;
+    return `📋 Para fazer um orçamento, é só me passar:\n\n• **Marca e modelo** do equipamento\n• **O que está acontecendo** (tela quebrada, não liga, não puxa papel, etc.)\n\nOu se preferir, fale direto com nossa equipe:\n💬 **${botConfig.whatsapp}**`;
 }
 
 function responderObrigado() {
@@ -221,7 +207,7 @@ function responderDespedida() {
 
 
 // ============================================================
-// 7. CONSULTA AO BANCO (Serviços e Preços)
+// CONSULTA AO BANCO
 // ============================================================
 
 async function buscarServicoNoBanco(mensagemOriginal) {
@@ -230,29 +216,35 @@ async function buscarServicoNoBanco(mensagemOriginal) {
 
     try {
 
-        // Busca todos os serviços
-        const { data: servicos, error } = await supabaseClient
-            .from("servicos")
-            .select("*");
-
+        const { data: servicos, error } = await supabaseClient.from("servicos").select("*");
         if (error) throw error;
         if (!servicos || servicos.length === 0) return null;
 
-        // Palavras-chave de "serviço" que o usuário pode usar
         const palavrasServico = {
+            // Celular
             "tela": ["tela", "display", "ecra", "vidro"],
-            "bateria": ["bateria", "bateria", "carrega", "carregamento"],
+            "bateria": ["bateria", "carrega", "carregamento"],
             "placa": ["placa", "curto", "queimou"],
             "conector": ["conector", "carga", "carregador", "usb"],
             "camera": ["camera", "câmera", "foto"],
             "alto-falante": ["alto", "falante", "som", "audio", "áudio"],
             "microfone": ["microfone", "mic", "falar"],
             "botao": ["botao", "botão", "power", "volume"],
-            "software": ["software", "sistema", "travou", "lento", "atualizacao"],
-            "formatacao": ["formata", "formatacao", "reset"]
+            // Computador
+            "formatacao": ["formata", "formatacao", "reset", "sistema", "windows", "lento", "travando", "virus", "vírus"],
+            "upgrade ssd": ["ssd", "hd", "disco", "armazenamento", "upgrade"],
+            "memoria ram": ["ram", "memoria", "memória"],
+            "teclado": ["teclado", "tecla"],
+            "limpeza": ["limpeza", "limpar", "poeira", "superaquec", "esquentando"],
+            "montagem": ["montagem", "montar", "pc gamer", "setup"],
+            // Impressora
+            "recarga cartucho": ["cartucho", "recarga", "tinta", "jato"],
+            "recarga toner": ["toner", "laser"],
+            "cabeca impressao": ["cabeca", "cabeça", "entupid", "nao imprime", "não imprime"],
+            "tracao papel": ["papel", "atolando", "puxando", "tracao", "tração"],
+            "manutencao impressora": ["manutencao", "manutenção", "impressora"]
         };
 
-        // Detecta tipo de serviço pedido
         let tipoServicoDetectado = null;
         for (const [tipo, chaves] of Object.entries(palavrasServico)) {
             if (contemAlguma(mensagem, chaves)) {
@@ -261,17 +253,17 @@ async function buscarServicoNoBanco(mensagemOriginal) {
             }
         }
 
-        // Detecta marca
-        const marcas = ["samsung", "apple", "iphone", "motorola", "xiaomi", "redmi", "realme", "lg", "nokia", "asus"];
+        const marcas = [
+            "samsung", "apple", "iphone", "motorola", "xiaomi", "redmi", "realme", "lg", "nokia", "asus",
+            "dell", "hp", "lenovo", "acer", "positivo", "macbook",
+            "epson", "brother", "canon"
+        ];
+
         let marcaDetectada = null;
         for (const m of marcas) {
-            if (mensagem.includes(m)) {
-                marcaDetectada = m;
-                break;
-            }
+            if (mensagem.includes(m)) { marcaDetectada = m; break; }
         }
 
-        // Detecta modelo (procura por padrões tipo "a03", "j7", "iphone 11")
         const modelosServicos = servicos.map(s => normalizar(s.modelo || ""));
         let modeloDetectado = null;
         for (const modelo of modelosServicos) {
@@ -285,86 +277,51 @@ async function buscarServicoNoBanco(mensagemOriginal) {
             if (modeloDetectado) break;
         }
 
-        // Filtra serviços
         let encontrados = servicos.filter(function (s) {
-
-            const marcaOk = !marcaDetectada ||
-                normalizar(s.marca || "").includes(marcaDetectada);
-
-            const modeloOk = !modeloDetectado ||
-                normalizar(s.modelo || "").includes(modeloDetectado);
-
-            const tipoOk = !tipoServicoDetectado ||
-                normalizar(s.tipo_servico || "").includes(tipoServicoDetectado);
-
+            const marcaOk = !marcaDetectada || normalizar(s.marca || "").includes(marcaDetectada);
+            const modeloOk = !modeloDetectado || normalizar(s.modelo || "").includes(modeloDetectado);
+            const tipoOk = !tipoServicoDetectado || normalizar(s.tipo_servico || "").includes(tipoServicoDetectado);
             return marcaOk && modeloOk && tipoOk;
         });
 
-        // Se filtrou demais e nada encontrou, tenta só por tipo
         if (encontrados.length === 0 && tipoServicoDetectado) {
-            encontrados = servicos.filter(s =>
-                normalizar(s.tipo_servico || "").includes(tipoServicoDetectado)
-            );
+            encontrados = servicos.filter(s => normalizar(s.tipo_servico || "").includes(tipoServicoDetectado));
         }
 
-        // Se ainda nada, tenta só por marca
         if (encontrados.length === 0 && marcaDetectada) {
-            encontrados = servicos.filter(s =>
-                normalizar(s.marca || "").includes(marcaDetectada)
-            );
+            encontrados = servicos.filter(s => normalizar(s.marca || "").includes(marcaDetectada));
         }
 
         if (encontrados.length === 0) return null;
 
-        // Limita a 5 resultados
         encontrados = encontrados.slice(0, 5);
 
-        // Busca preços
         const idsEncontrados = encontrados.map(s => s.id);
 
-        const { data: precos } = await supabaseClient
-            .from("precos")
-            .select("*")
-            .in("servico_id", idsEncontrados);
+        const { data: precos } = await supabaseClient.from("precos").select("*").in("servico_id", idsEncontrados);
 
         const mapaPrecos = {};
-        (precos || []).forEach(p => {
-            mapaPrecos[p.servico_id] = p;
-        });
+        (precos || []).forEach(p => { mapaPrecos[p.servico_id] = p; });
 
-        // Monta resposta
-        let resposta = "";
-
-        if (encontrados.length === 1) {
-            resposta = "🔍 Encontrei este serviço:\n\n";
-        } else {
-            resposta = "🔍 Encontrei estes serviços:\n\n";
-        }
+        let resposta = encontrados.length === 1 ? "🔍 Encontrei este serviço:\n\n" : "🔍 Encontrei estes serviços:\n\n";
 
         encontrados.forEach(function (s) {
 
             const preco = mapaPrecos[s.id];
             const valor = preco
-                ? Number(preco.preco_final || 0).toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
-                  })
+                ? Number(preco.preco_final || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
                 : (s.preco && Number(s.preco) > 0
-                    ? Number(s.preco).toLocaleString("pt-BR", {
-                        style: "currency",
-                        currency: "BRL"
-                      })
+                    ? Number(s.preco).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
                     : "Sob consulta");
 
-            resposta += `📱 **${s.marca} ${s.modelo}**\n`;
+            const icone = s.categoria === "computador" ? "💻" : s.categoria === "impressora" ? "🖨️" : "📱";
+
+            resposta += `${icone} **${s.marca} ${s.modelo}**\n`;
             resposta += `🔧 ${s.tipo_servico}\n`;
             resposta += `💰 ${valor}\n`;
             resposta += `⏱️ ${s.prazo || "A definir"}\n`;
 
-            if (s.status && normalizar(s.status) !== "ativo") {
-                resposta += `⚠️ _Indisponível no momento_\n`;
-            }
-
+            if (s.status && normalizar(s.status) !== "ativo") resposta += `⚠️ _Indisponível no momento_\n`;
             resposta += "\n";
         });
 
@@ -380,111 +337,52 @@ async function buscarServicoNoBanco(mensagemOriginal) {
 
 
 // ============================================================
-// 8. PROCESSAR MENSAGEM (motor principal)
+// PROCESSAR MENSAGEM
 // ============================================================
 
 async function processarMensagem(textoOriginal) {
 
     const texto = normalizar(textoOriginal);
-
     if (!texto) return botConfig.fallback;
 
-    // ------------------------------------------------
-    // 1) SAUDAÇÕES
-    // ------------------------------------------------
-    if (contemAlguma(texto, ["oi", "ola", "eae", "e ai", "bom dia", "boa tarde", "boa noite", "hey", "opa"])) {
-        return responderSaudacao();
-    }
+    if (contemAlguma(texto, ["oi", "ola", "eae", "e ai", "bom dia", "boa tarde", "boa noite", "hey", "opa"])) return responderSaudacao();
+    if (contemAlguma(texto, ["obrigado", "obrigada", "valeu", "vlw", "thanks", "agradeco"])) return responderObrigado();
+    if (contemAlguma(texto, ["tchau", "ate logo", "ate mais", "flw", "falou", "bye"])) return responderDespedida();
+    if (contemAlguma(texto, ["horario", "aberto", "fecha", "abre", "funcionamento", "que horas"])) return responderHorario();
+    if (contemAlguma(texto, ["endereco", "onde fica", "onde voces", "localizacao", "como chegar", "loja"])) return responderEndereco();
+    if (contemAlguma(texto, ["whatsapp", "whats", "telefone", "contato", "numero", "zap"])) return responderWhatsapp();
+    if (contemAlguma(texto, ["garantia", "garante", "defeito"])) return responderGarantia();
+    if (contemAlguma(texto, ["prazo", "demora", "quanto tempo", "rapido"])) return responderPrazo();
 
-    // ------------------------------------------------
-    // 2) AGRADECIMENTO
-    // ------------------------------------------------
-    if (contemAlguma(texto, ["obrigado", "obrigada", "valeu", "vlw", "thanks", "agradeco"])) {
-        return responderObrigado();
-    }
-
-    // ------------------------------------------------
-    // 3) DESPEDIDA
-    // ------------------------------------------------
-    if (contemAlguma(texto, ["tchau", "ate logo", "ate mais", "flw", "falou", "bye"])) {
-        return responderDespedida();
-    }
-
-    // ------------------------------------------------
-    // 4) HORÁRIO
-    // ------------------------------------------------
-    if (contemAlguma(texto, ["horario", "aberto", "fecha", "abre", "funcionamento", "que horas"])) {
-        return responderHorario();
-    }
-
-    // ------------------------------------------------
-    // 5) ENDEREÇO
-    // ------------------------------------------------
-    if (contemAlguma(texto, ["endereco", "onde fica", "onde voces", "localizacao", "como chegar", "loja"])) {
-        return responderEndereco();
-    }
-
-    // ------------------------------------------------
-    // 6) WHATSAPP / CONTATO
-    // ------------------------------------------------
-    if (contemAlguma(texto, ["whatsapp", "whats", "telefone", "contato", "numero", "zap"])) {
-        return responderWhatsapp();
-    }
-
-    // ------------------------------------------------
-    // 7) GARANTIA
-    // ------------------------------------------------
-    if (contemAlguma(texto, ["garantia", "garante", "defeito"])) {
-        return responderGarantia();
-    }
-
-    // ------------------------------------------------
-    // 8) PRAZO
-    // ------------------------------------------------
-    if (contemAlguma(texto, ["prazo", "demora", "quanto tempo", "rapido"])) {
-        return responderPrazo();
-    }
-
-    // ------------------------------------------------
-    // 9) CONSULTA AO BANCO (antes de preço/orçamento)
-    // ------------------------------------------------
     const palavrasDeBusca = [
         "tela", "bateria", "placa", "conector", "camera",
-        "falante", "microfone", "botao", "software",
+        "falante", "microfone", "botao",
         "samsung", "apple", "iphone", "motorola", "xiaomi",
-        "redmi", "realme", "quanto custa", "quanto fica",
-        "preco", "orçamento", "orcamento", "valor", "quanto"
+        "redmi", "realme", "dell", "hp", "lenovo", "acer",
+        "epson", "brother", "canon", "positivo", "asus",
+        "notebook", "computador", "pc", "desktop", "ssd", "hd",
+        "ram", "memoria", "teclado", "formatar", "formatacao",
+        "windows", "virus", "limpeza",
+        "impressora", "cartucho", "toner", "recarga", "tinta",
+        "papel", "atolando", "cabeça",
+        "quanto custa", "quanto fica", "preco", "orçamento",
+        "orcamento", "valor", "quanto"
     ];
 
     if (contemAlguma(texto, palavrasDeBusca)) {
-
         const resultadoBanco = await buscarServicoNoBanco(textoOriginal);
-
-        if (resultadoBanco) {
-            return resultadoBanco;
-        }
+        if (resultadoBanco) return resultadoBanco;
     }
 
-    // ------------------------------------------------
-    // 10) PREÇO / ORÇAMENTO (sem resultado do banco)
-    // ------------------------------------------------
-    if (contemAlguma(texto, ["preco", "valor", "quanto custa", "quanto fica"])) {
-        return responderPreco();
-    }
+    if (contemAlguma(texto, ["preco", "valor", "quanto custa", "quanto fica"])) return responderPreco();
+    if (contemAlguma(texto, ["orcamento", "orcamento", "cotacao", "cotacao"])) return responderOrcamento();
 
-    if (contemAlguma(texto, ["orcamento", "orcamento", "cotacao", "cotacao"])) {
-        return responderOrcamento();
-    }
-
-    // ------------------------------------------------
-    // 11) FALLBACK
-    // ------------------------------------------------
     return botConfig.fallback;
 }
 
 
 // ============================================================
-// 9. ENVIAR MENSAGEM DO USUÁRIO
+// ENVIAR MENSAGEM
 // ============================================================
 
 async function enviarMensagemUsuario(texto) {
@@ -492,13 +390,9 @@ async function enviarMensagemUsuario(texto) {
     if (!texto || !texto.trim()) return;
 
     adicionarMensagem(texto, "user");
-
     if (chatInput) chatInput.value = "";
 
-    // Mostra "digitando..."
     mostrarDigitando();
-
-    // Pequeno delay para parecer natural
     await new Promise(resolve => setTimeout(resolve, 500));
 
     let resposta;
@@ -511,24 +405,21 @@ async function enviarMensagemUsuario(texto) {
     }
 
     removerDigitando();
-
     adicionarMensagem(resposta, "bot");
 }
 
 
 // ============================================================
-// 10. EVENTOS DO CHAT
+// EVENTOS DO CHAT
 // ============================================================
 
 if (chatForm) {
     chatForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        const texto = chatInput.value;
-        enviarMensagemUsuario(texto);
+        enviarMensagemUsuario(chatInput.value);
     });
 }
 
-// Botões de sugestão
 document.querySelectorAll("[data-sugestao]").forEach(function (botao) {
     botao.addEventListener("click", function () {
         enviarMensagemUsuario(botao.dataset.sugestao);
@@ -537,7 +428,7 @@ document.querySelectorAll("[data-sugestao]").forEach(function (botao) {
 
 
 // ============================================================
-// 11. INICIALIZAR BOT
+// INICIALIZAR
 // ============================================================
 
 function iniciarBot() {
@@ -547,16 +438,11 @@ function iniciarBot() {
     if (botIniciado) return;
     botIniciado = true;
 
-    // Limpa mensagens antigas
     if (chatMensagens) chatMensagens.innerHTML = "";
 
-    // Mensagem de boas-vindas
     setTimeout(function () {
         adicionarMensagem(botConfig.boasVindas, "bot");
     }, 300);
 }
 
-
-// ============================================================
-// FIM DO BOT
-// ============================================================
+console.log("🤖 Módulo Bot carregado.");
