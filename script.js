@@ -34,8 +34,8 @@ document.querySelectorAll(".cat-tab").forEach(function (tab) {
         document.querySelectorAll(".cat-tab").forEach(t => t.classList.remove("active"));
         tab.classList.add("active");
 
-        document.querySelectorAll(".cat-panel").forEach(p => p.classList.remove("active"));
-        const painel = document.querySelector(`.cat-panel[data-categoria="${categoria}"]`);
+        document.querySelectorAll(".rt-panel").forEach(p => p.classList.remove("active"));
+       const painel = document.querySelector(`.rt-panel[data-categoria="${categoria}"]`);
         if (painel) painel.classList.add("active");
     });
 });
